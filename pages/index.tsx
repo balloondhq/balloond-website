@@ -1,3 +1,4 @@
+// pages/index.tsx
 import type { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Header from '../components/Header';
@@ -8,7 +9,7 @@ const Home: NextPage = () => {
     <>
       <NextSeo
         title="Balloon'd - Pop into Something Real"
-        description="A playful way to meet real matches. Voice pops, video intros, and smart matching for genuine connections."
+        description="Break through the noise of modern dating. Pop the balloon of small talk and endless swiping with authentic, fun connections."
         canonical="https://balloond.com/"
         openGraph={{
           type: 'website',
@@ -24,11 +25,6 @@ const Home: NextPage = () => {
             },
           ],
         }}
-        twitter={{
-          handle: '@balloond',
-          site: '@balloond',
-          cardType: 'summary_large_image',
-        }}
       />
       
       <Header />
@@ -39,10 +35,10 @@ const Home: NextPage = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 text-stone-900">
-                Pop into <span className="text-rose-500">Something Real</span>
+                Pop the <span className="text-rose-500">Balloon</span> of Awkward Dating
               </h1>
               <p className="text-xl md:text-2xl text-stone-600 mb-10 max-w-2xl mx-auto">
-                A playful way to meet real matches. Voice pops, video intros, and smart matching for genuine connections.
+                Break through small talk and endless swiping. Make real connections with fun, authentic dating.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <button className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors shadow-lg">
@@ -62,19 +58,19 @@ const Home: NextPage = () => {
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
-                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">1M+</div>
-                  <div className="text-stone-600">Matches Made</div>
+                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">500K+</div>
+                  <div className="text-stone-600">Connections Made</div>
                 </div>
                 <div>
                   <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">4.9</div>
                   <div className="text-stone-600">App Store Rating</div>
                 </div>
                 <div>
-                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">86%</div>
+                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">78%</div>
                   <div className="text-stone-600">Real Conversations</div>
                 </div>
                 <div>
-                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">24</div>
+                  <div className="text-3xl md:text-4xl font-bold text-rose-500 mb-2">18</div>
                   <div className="text-stone-600">Countries</div>
                 </div>
               </div>
@@ -82,87 +78,99 @@ const Home: NextPage = () => {
           </div>
         </section>
 
-        {/* How It Works */}
+        {/* Mission Section */}
         <section className="py-20 bg-stone-50">
           <div className="container mx-auto px-6">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 text-stone-900">How Balloon'd Works</h2>
-              <p className="text-xl text-stone-600">
-                We're designed to be deleted. Meet someone special and delete the app because you no longer need it.
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 text-stone-900">Our Mission</h2>
+              <p className="text-xl text-stone-600 max-w-3xl mx-auto">
+                Balloon'd's mission is to break through the noise of modern dating by helping people "pop the balloon" of small talk, uncertainty, and endless swiping. We create authentic, fun, and meaningful connections where people can quickly discover if sparks truly fly.
               </p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">🎤</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-stone-900">Voice Pops</h3>
-                <p className="text-stone-600">
-                  Hear someone's voice before seeing their photos. Personality comes first.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">📹</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-stone-900">Video Intros</h3>
-                <p className="text-stone-600">
-                  Short videos that show who you really are. No filters, just authenticity.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
+            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+              <div className="bg-white p-8 rounded-2xl shadow-sm">
+                <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-6">
                   <span className="text-3xl">🎯</span>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-stone-900">Smart Matching</h3>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Make Dating Fun Again</h3>
                 <p className="text-stone-600">
-                  Our algorithm prioritizes compatibility over superficial swiping.
+                  Turn the awkwardness of dating into an exciting, light-hearted experience with our unique icebreakers and challenges.
+                </p>
+              </div>
+              
+              <div className="bg-white p-8 rounded-2xl shadow-sm">
+                <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                  <span className="text-3xl">💬</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Cut Through the Games</h3>
+                <p className="text-stone-600">
+                  Our tools encourage direct, transparent, and genuine interactions so you can focus on real connections.
+                </p>
+              </div>
+              
+              <div className="bg-white p-8 rounded-2xl shadow-sm">
+                <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                  <span className="text-3xl">✨</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Prioritise Authenticity</h3>
+                <p className="text-stone-600">
+                  We focus on profile quality, vibe, and personality rather than endless swipes to help you find genuine matches.
+                </p>
+              </div>
+              
+              <div className="bg-white p-8 rounded-2xl shadow-sm">
+                <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                  <span className="text-3xl">🛡️</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Safe & Inclusive Space</h3>
+                <p className="text-stone-600">
+                  We ensure users feel comfortable, respected, and supported in exploring connections with our safety-first approach.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* How It Works */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row items-center gap-16 max-w-6xl mx-auto">
-              <div className="flex-1">
-                <h2 className="text-4xl font-bold mb-6 text-stone-900">
-                  Designed to <span className="text-rose-500">Delete</span>
-                </h2>
-                <p className="text-lg text-stone-600 mb-6">
-                  Unlike other dating apps that want you to stay forever, we're built with one goal in mind: 
-                  helping you find someone special so you can delete the app.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <span className="text-rose-500 mr-3 mt-1">✓</span>
-                    <span className="text-stone-700">No endless swiping - just meaningful connections</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-rose-500 mr-3 mt-1">✓</span>
-                    <span className="text-stone-700">Voice-first approach reduces superficial judgments</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-rose-500 mr-3 mt-1">✓</span>
-                    <span className="text-stone-700">Video intros showcase your authentic self</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-rose-500 mr-3 mt-1">✓</span>
-                    <span className="text-stone-700">Smart matching based on compatibility, not looks</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex-1 flex justify-center">
-                <div className="relative">
-                  <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-rose-400 to-orange-400 rounded-3xl rotate-6"></div>
-                  <div className="absolute top-0 w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-rose-500 to-orange-500 rounded-3xl -rotate-6 shadow-xl"></div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-6xl">🎈</div>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 text-stone-900">How Balloon'd Works</h2>
+              <p className="text-xl text-stone-600">
+                Our unique approach helps you break the ice and form real connections quickly.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
+                  <span className="text-3xl">🎈</span>
                 </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Pop Challenges</h3>
+                <p className="text-stone-600">
+                  Start conversations with fun, unique icebreakers that reveal personality beyond photos.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
+                  <span className="text-3xl">🎤</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Voice First</h3>
+                <p className="text-stone-600">
+                  Hear someone's voice before seeing photos to connect on a deeper level from the start.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-6">
+                  <span className="text-3xl">❤️</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-stone-900">Smart Matching</h3>
+                <p className="text-stone-600">
+                  Our algorithm prioritizes compatibility over superficial swiping for meaningful connections.
+                </p>
               </div>
             </div>
           </div>
@@ -182,14 +190,13 @@ const Home: NextPage = () => {
               <div className="bg-white p-8 rounded-2xl shadow-sm">
                 <div className="text-rose-500 text-4xl mb-4">❝</div>
                 <p className="text-stone-700 text-lg mb-6">
-                  I matched with Sarah through her voice pop and we've been inseparable for 8 months! 
-                  The voice-first approach really helped us connect on a deeper level from the start.
+                  The pop challenges were so fun! They immediately broke the ice and helped me connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full bg-stone-300 mr-4"></div>
                   <div>
                     <div className="font-bold text-stone-900">Michael T.</div>
-                    <div className="text-stone-600">Matched 8 months ago</div>
+                    <div className="text-stone-600">Matched 6 months ago</div>
                   </div>
                 </div>
               </div>
@@ -197,8 +204,7 @@ const Home: NextPage = () => {
               <div className="bg-white p-8 rounded-2xl shadow-sm">
                 <div className="text-rose-500 text-4xl mb-4">❝</div>
                 <p className="text-stone-700 text-lg mb-6">
-                  After years of disappointing dating app experiences, Balloon'd helped me find 
-                  someone who truly gets me. We connected over our shared love of hiking and travel.
+                  After years of disappointing dating app experiences, Balloon'd helped me find someone who truly gets me. The voice-first approach really made a difference in forming a real connection.
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full bg-stone-300 mr-4"></div>
@@ -217,7 +223,7 @@ const Home: NextPage = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-4xl font-bold mb-6 text-white">
-                Ready to Pop into Something Real?
+                Ready to Pop the Balloon?
               </h2>
               <p className="text-xl text-rose-100 mb-10">
                 Join thousands of people finding meaningful connections every day.
