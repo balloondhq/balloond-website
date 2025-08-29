@@ -23,7 +23,7 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <img 
-              src="/components/balloond-logo.svg" 
+              src="/public/balloond-logo.svg" 
               alt="Balloon'd Logo" 
               className="h-8 w-auto"
             />
