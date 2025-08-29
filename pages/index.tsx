@@ -35,6 +35,61 @@ const Home: NextPage = () => {
           {/* Background gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-rose-900/20 via-black to-orange-900/20"></div>
           
+          {/* Animated floating balloons */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Balloon 1 - Large floating */}
+            <div className="absolute top-1/4 left-1/6 animate-bounce" style={{ animationDuration: '3s', animationDelay: '0s' }}>
+              <div className="relative">
+                <div className="w-8 h-10 bg-gradient-to-b from-rose-400 to-rose-500 rounded-full opacity-60"></div>
+                <div className="w-px h-6 bg-gray-400 mx-auto"></div>
+              </div>
+            </div>
+            
+            {/* Balloon 2 - Medium floating */}
+            <div className="absolute top-1/3 right-1/4 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+              <div className="relative">
+                <div className="w-6 h-8 bg-gradient-to-b from-orange-400 to-orange-500 rounded-full opacity-50"></div>
+                <div className="w-px h-4 bg-gray-400 mx-auto"></div>
+              </div>
+            </div>
+            
+            {/* Balloon 3 - Small floating */}
+            <div className="absolute top-1/2 left-1/12 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '2s' }}>
+              <div className="relative">
+                <div className="w-4 h-6 bg-gradient-to-b from-pink-400 to-pink-500 rounded-full opacity-40"></div>
+                <div className="w-px h-3 bg-gray-400 mx-auto"></div>
+              </div>
+            </div>
+            
+            {/* Balloon 4 - Right side */}
+            <div className="absolute top-2/3 right-1/6 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+              <div className="relative">
+                <div className="w-7 h-9 bg-gradient-to-b from-yellow-400 to-yellow-500 rounded-full opacity-45"></div>
+                <div className="w-px h-5 bg-gray-400 mx-auto"></div>
+              </div>
+            </div>
+            
+            {/* Pop effect elements - small bursts */}
+            <div className="absolute top-1/5 right-1/3 animate-pulse" style={{ animationDuration: '2s' }}>
+              <div className="relative">
+                <div className="w-2 h-2 bg-rose-400 rounded-full opacity-70"></div>
+                <div className="absolute -top-1 -left-1 w-4 h-4 border border-rose-400 rounded-full animate-ping opacity-30"></div>
+              </div>
+            </div>
+            
+            <div className="absolute top-3/5 left-1/3 animate-pulse" style={{ animationDuration: '1.5s', animationDelay: '1s' }}>
+              <div className="relative">
+                <div className="w-1 h-1 bg-orange-400 rounded-full opacity-60"></div>
+                <div className="absolute -top-1 -left-1 w-3 h-3 border border-orange-400 rounded-full animate-ping opacity-25"></div>
+              </div>
+            </div>
+            
+            {/* Floating particles */}
+            <div className="absolute top-1/4 left-1/2 w-1 h-1 bg-white rounded-full opacity-30 animate-pulse"></div>
+            <div className="absolute top-3/4 left-1/4 w-1 h-1 bg-rose-300 rounded-full opacity-40 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+            <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-orange-300 rounded-full opacity-35 animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+          </div>
+          
           {/* Content */}
           <div className="relative z-10 flex items-center justify-center min-h-screen">
             <div className="container mx-auto px-6">
