@@ -53,10 +53,10 @@ const Home: NextPage = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-lg font-semibold transition-all duration-300 border border-transparent hover:border-gray-200">
+                  <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 border border-transparent hover:border-gray-200">
                     Download the app
                   </button>
-                  <button className="border border-white text-white hover:bg-white hover:text-black px-12 py-4 text-lg font-semibold transition-all duration-300">
+                  <button className="border border-white text-white hover:bg-white hover:text-black px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300">
                     Learn more
                   </button>
                 </div>
@@ -101,15 +101,37 @@ const Home: NextPage = () => {
         {/* Mission Section */}
         <section className="bg-gray-50 py-32">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-20">
-              <h2 className="text-4xl md:text-6xl font-light mb-8 text-black leading-tight">
-                Our mission
-              </h2>
-              <p className="text-xl md:text-2xl font-light text-gray-700 leading-relaxed">
-                Break through the noise of modern dating by helping people "pop the balloon" 
-                of small talk, uncertainty, and endless swiping. We create authentic, fun, 
-                and meaningful connections where people can quickly discover if sparks truly fly.
-              </p>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-16 items-start">
+                <div className="relative">
+                  <p className="text-gray-500 text-sm font-light mb-8 tracking-wide uppercase">Our Approach</p>
+                  <h2 className="text-4xl md:text-6xl font-light text-black leading-tight mb-8">
+                    Pop the <span className="relative inline-block">
+                      <span className="relative z-10">balloon</span>
+                      <svg className="absolute -top-2 -right-4 w-16 h-12" viewBox="0 0 64 48" fill="none">
+                        <ellipse cx="32" cy="24" rx="30" ry="20" stroke="#e11d48" strokeWidth="1.5" fill="none" transform="rotate(-15 32 24)" />
+                      </svg>
+                    </span> of
+                    <br />
+                    awkward dating.
+                  </h2>
+                </div>
+                
+                <div className="relative pt-16">
+                  <svg className="absolute -top-8 left-0 w-24 h-24 text-rose-500" viewBox="0 0 96 96" fill="none">
+                    <path d="M20 40 L60 40 L55 35 M60 40 L55 45" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <p className="text-lg md:text-xl font-light text-gray-600 leading-relaxed mb-8">
+                    Balloon'd is built on the belief that anyone looking for love should 
+                    be able to find it. We break through the noise of modern dating by helping people 
+                    "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, 
+                    fun, and meaningful connections where people can quickly discover if sparks truly fly.
+                  </p>
+                  <button className="bg-black text-white hover:bg-gray-800 px-8 py-3 rounded-full font-light transition-all duration-300">
+                    How we do it
+                  </button>
+                </div>
+              </div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-16 max-w-5xl mx-auto">
@@ -265,7 +287,7 @@ const Home: NextPage = () => {
               <p className="text-xl md:text-2xl font-light mb-12 opacity-80 leading-relaxed">
                 Join thousands of people finding meaningful connections every day.
               </p>
-              <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-lg font-semibold transition-all duration-300">
+              <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300">
                 Download Balloon'd free
               </button>
               <div className="mt-8 text-gray-400 font-light">
