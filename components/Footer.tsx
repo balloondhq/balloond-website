@@ -5,22 +5,22 @@ const Footer: React.FC = () => {
 
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press', href: '#' },
-      { name: 'Blog', href: '#' }
+      { name: 'About Us', href: '/about' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'Press', href: '/press' },
+      { name: 'Blog', href: '/blog' }
     ],
     support: [
-      { name: 'Help Center', href: '#' },
-      { name: 'Safety Tips', href: '#' },
-      { name: 'Community Guidelines', href: '#' },
-      { name: 'Contact Us', href: '#' }
+      { name: 'Help Center', href: '/help' },
+      { name: 'Safety Tips', href: '/safety' },
+      { name: 'Community Guidelines', href: '/community-guidelines' },
+      { name: 'Contact Us', href: '/contact' }
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
       { name: 'Terms of Service', href: '/terms' },
-      { name: 'Cookie Policy', href: '#' },
-      { name: 'License', href: '#' }
+      { name: 'Cookie Policy', href: '/cookies' },
+      { name: 'License', href: '/license' }
     ]
   };
 
@@ -132,13 +132,13 @@ const Footer: React.FC = () => {
             </p>
             
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="/accessibility" className="text-gray-400 hover:text-white transition-colors">
                 Accessibility
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="/sitemap" className="text-gray-400 hover:text-white transition-colors">
                 Sitemap
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="/cookies" className="text-gray-400 hover:text-white transition-colors">
                 Cookie Settings
               </a>
             </div>
