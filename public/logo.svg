@@ -1,0 +1,10 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ruby balloon icon -->
+  <circle cx="20" cy="20" r="12" fill="#8A1C32" opacity="0.9"/>
+  <ellipse cx="20" cy="16" rx="8" ry="10" fill="#8A1C32"/>
+  <path d="M20 28 Q18 32 20 34 Q22 32 20 28" fill="#8A1C32"/>
+  <circle cx="18" cy="14" r="2" fill="#FFD700" opacity="0.6"/>
+  
+  <!-- Text -->
+  <text x="38" y="25" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#8A1C32">Balloon'd</text>
+</svg>
