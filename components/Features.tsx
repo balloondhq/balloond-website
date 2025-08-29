@@ -42,9 +42,7 @@ const Features: React.FC = () => {
                 {feature.icon}
               </div>
               
-              <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent" 
-                  style={{backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))`}}
-                  className={`bg-gradient-to-r ${feature.gradient} bg-clip-text text-transparent text-2xl font-bold mb-4`}>
+              <h3 className={`text-2xl font-bold mb-4 bg-gradient-to-r ${feature.gradient} bg-clip-text text-transparent`}>
                 {feature.title}
               </h3>
               
