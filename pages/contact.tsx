@@ -1,1 +1,184 @@
-import type { NextPage } from 'next';\nimport Meta from '../components/Meta';\nimport Footer from '../components/Footer';\n\nconst Contact: NextPage = () => {\n  return (\n    <>\n      <Meta \n        title=\"Contact Us - Balloon'd | Get Help & Support\"\n        description=\"Contact Balloon'd support team for help, feedback, or questions about our dating app. Multiple ways to reach us with quick response times.\"\n      />\n      \n      <main className=\"overflow-hidden\">\n        {/* Hero Section */}\n        <section className=\"py-20 bg-gradient-to-br from-cream to-white\">\n          <div className=\"container mx-auto px-6\">\n            <div className=\"max-w-4xl mx-auto text-center\">\n              <h1 className=\"text-4xl md:text-5xl font-bold mb-6\">\n                <span className=\"gradient-text\">Contact Us</span>\n              </h1>\n              \n              <div className=\"text-6xl mb-8\">💬</div>\n              \n              <p className=\"text-xl text-gray-600 mb-8 leading-relaxed\">\n                We're here to help! Whether you have questions, need support, or want to share feedback, \n                our team is ready to assist you.\n              </p>\n            </div>\n          </div>\n        </section>\n\n        {/* Contact Options */}\n        <section className=\"py-20 bg-white\">\n          <div className=\"container mx-auto px-6\">\n            <div className=\"max-w-6xl mx-auto\">\n              <div className=\"grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16\">\n                \n                {/* General Support */}\n                <div className=\"bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300\">\n                  <div className=\"text-4xl mb-6\">🎧</div>\n                  <h3 className=\"text-2xl font-bold mb-4\">General Support</h3>\n                  <p className=\"text-gray-600 mb-6 leading-relaxed\">\n                    Questions about your account, app features, or general inquiries.\n                  </p>\n                  <div className=\"space-y-3\">\n                    <p><strong>Email:</strong> <a href=\"mailto:support@balloond.com\" className=\"text-ruby hover:underline\">support@balloond.com</a></p>\n                    <p><strong>Response:</strong> Within 24 hours</p>\n                  </div>\n                </div>\n\n                {/* Technical Issues */}\n                <div className=\"bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300\">\n                  <div className=\"text-4xl mb-6\">🔧</div>\n                  <h3 className=\"text-2xl font-bold mb-4\">Technical Issues</h3>\n                  <p className=\"text-gray-600 mb-6 leading-relaxed\">\n                    App crashes, bugs, payment problems, or technical difficulties.\n                  </p>\n                  <div className=\"space-y-3\">\n                    <p><strong>Email:</strong> <a href=\"mailto:tech@balloond.com\" className=\"text-ruby hover:underline\">tech@balloond.com</a></p>\n                    <p><strong>Response:</strong> Within 12 hours</p>\n                  </div>\n                </div>\n\n                {/* Safety & Security */}\n                <div className=\"bg-gradient-to-br from-red-50 to-red-100 rounded-3xl p-8 hover:shadow-lg transition-all duration-300 border border-red-200\">\n                  <div className=\"text-4xl mb-6\">🚨</div>\n                  <h3 className=\"text-2xl font-bold mb-4 text-red-900\">Safety & Security</h3>\n                  <p className=\"text-red-700 mb-6 leading-relaxed\">\n                    Report harassment, inappropriate behavior, or safety concerns.\n                  </p>\n                  <div className=\"space-y-3 text-red-800\">\n                    <p><strong>Email:</strong> <a href=\"mailto:safety@balloond.com\" className=\"text-red-600 hover:underline\">safety@balloond.com</a></p>\n                    <p><strong>Response:</strong> Within 2 hours</p>\n                  </div>\n                </div>\n\n                {/* Business Inquiries */}\n                <div className=\"bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300\">\n                  <div className=\"text-4xl mb-6\">💼</div>\n                  <h3 className=\"text-2xl font-bold mb-4\">Business Inquiries</h3>\n                  <p className=\"text-gray-600 mb-6 leading-relaxed\">\n                    Partnerships, press inquiries, or business-related questions.\n                  </p>\n                  <div className=\"space-y-3\">\n                    <p><strong>Email:</strong> <a href=\"mailto:business@balloond.com\" className=\"text-ruby hover:underline\">business@balloond.com</a></p>\n                    <p><strong>Response:</strong> Within 3 business days</p>\n                  </div>\n                </div>\n\n                {/* Privacy & Legal */}\n                <div className=\"bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300\">\n                  <div className=\"text-4xl mb-6\">⚖️</div>\n                  <h3 className=\"text-2xl font-bold mb-4\">Privacy & Legal</h3>\n                  <p className=\"text-gray-600 mb-6 leading-relaxed\">\n                    Data requests, privacy concerns, or legal matters.\n                  </p>\n                  <div className=\"space-y-3\">\n                    <p><strong>Email:</strong> <a href=\"mailto:legal@balloond.com\" className=\"text-ruby hover:underline\">legal@balloond.com</a></p>\n                    <p><strong>Response:</strong> Within 5 business days</p>\n                  </div>\n                </div>\n\n                {/* Feedback */}\n                <div className=\"bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-8 hover:shadow-lg transition-all duration-300 border border-green-200\">\n                  <div className=\"text-4xl mb-6\">💡</div>\n                  <h3 className=\"text-2xl font-bold mb-4 text-green-900\">Feedback & Ideas</h3>\n                  <p className=\"text-green-700 mb-6 leading-relaxed\">\n                    Feature suggestions, app improvements, or general feedback.\n                  </p>\n                  <div className=\"space-y-3 text-green-800\">\n                    <p><strong>Email:</strong> <a href=\"mailto:feedback@balloond.com\" className=\"text-green-600 hover:underline\">feedback@balloond.com</a></p>\n                    <p><strong>Response:</strong> We read every message!</p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </section>\n\n        {/* Contact Form */}\n        <section className=\"py-20 bg-gradient-to-br from-cream to-bone\">\n          <div className=\"container mx-auto px-6\">\n            <div className=\"max-w-4xl mx-auto\">\n              <div className=\"text-center mb-12\">\n                <h2 className=\"text-4xl font-bold mb-6\">\n                  <span className=\"gradient-text\">Send Us a Message</span>\n                </h2>\n                <p className=\"text-xl text-gray-600\">\n                  Prefer to use a form? Fill out the details below and we'll get back to you soon.\n                </p>\n              </div>\n              \n              <div className=\"bg-white rounded-3xl p-12 shadow-xl\">\n                <form className=\"space-y-6\">\n                  <div className=\"grid md:grid-cols-2 gap-6\">\n                    <div>\n                      <label className=\"block text-sm font-semibold text-gray-700 mb-2\">Name *</label>\n                      <input \n                        type=\"text\" \n                        className=\"w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-ruby focus:border-transparent transition-all\"\n                        placeholder=\"Your full name\"\n                      />\n                    </div>\n                    \n                    <div>\n                      <label className=\"block text-sm font-semibold text-gray-700 mb-2\">Email *</label>\n                      <input \n                        type=\"email\" \n                        className=\"w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-ruby focus:border-transparent transition-all\"\n                        placeholder=\"your.email@example.com\"\n                      />\n                    </div>\n                  </div>\n                  \n                  <div>\n                    <label className=\"block text-sm font-semibold text-gray-700 mb-2\">Subject *</label>\n                    <select className=\"w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-ruby focus:border-transparent transition-all\">\n                      <option>General Support</option>\n                      <option>Technical Issue</option>\n                      <option>Safety Concern</option>\n                      <option>Feature Request</option>\n                      <option>Business Inquiry</option>\n                      <option>Privacy Question</option>\n                      <option>Other</option>\n                    </select>\n                  </div>\n                  \n                  <div>\n                    <label className=\"block text-sm font-semibold text-gray-700 mb-2\">Message *</label>\n                    <textarea \n                      rows={6}\n                      className=\"w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-ruby focus:border-transparent transition-all resize-none\"\n                      placeholder=\"Please describe your question or concern in detail...\"\n                    ></textarea>\n                  </div>\n                  \n                  <div className=\"flex items-center gap-3\">\n                    <input type=\"checkbox\" id=\"terms\" className=\"w-4 h-4 text-ruby\" />\n                    <label htmlFor=\"terms\" className=\"text-sm text-gray-600\">\n                      I agree to the <a href=\"/privacy\" className=\"text-ruby hover:underline\">Privacy Policy</a> and understand my data will be processed to respond to this inquiry.\n                    </label>\n                  </div>\n                  \n                  <div className=\"text-center\">\n                    <button \n                      type=\"submit\"\n                      className=\"bg-ruby text-white px-8 py-4 rounded-full font-semibold hover:bg-ruby-dark transition-colors inline-flex items-center gap-2\"\n                    >\n                      Send Message\n                      <svg className=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M12 19l9 2-9-18-9 18 9-2zm0 0v-8\" />\n                      </svg>\n                    </button>\n                  </div>\n                </form>\n              </div>\n            </div>\n          </div>\n        </section>\n\n        {/* Emergency Contact */}\n        <section className=\"py-20 bg-red-600\">\n          <div className=\"container mx-auto px-6\">\n            <div className=\"max-w-3xl mx-auto text-center text-white\">\n              <div className=\"text-6xl mb-6\">🚨</div>\n              <h2 className=\"text-4xl font-bold mb-6\">Emergency Contact</h2>\n              <p className=\"text-xl text-red-100 mb-8\">\n                If you're in immediate danger or experiencing threats, contact local emergency services first. \n                For urgent safety issues on our platform, reach our 24/7 emergency line.\n              </p>\n              <div className=\"flex flex-wrap justify-center gap-4\">\n                <a \n                  href=\"tel:911\" \n                  className=\"bg-white text-red-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors\"\n                >\n                  Emergency: 911\n                </a>\n                <a \n                  href=\"mailto:emergency@balloond.com\" \n                  className=\"border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-red-600 transition-colors\"\n                >\n                  24/7 Safety Line\n                </a>\n              </div>\n            </div>\n          </div>\n        </section>\n\n        {/* Office Information */}\n        <section className=\"py-20 bg-white\">\n          <div className=\"container mx-auto px-6\">\n            <div className=\"max-w-4xl mx-auto\">\n              <div className=\"text-center mb-12\">\n                <h2 className=\"text-4xl font-bold mb-6\">\n                  <span className=\"gradient-text\">Our Office</span>\n                </h2>\n                <p className=\"text-xl text-gray-600\">\n                  While we work remotely across the globe, our headquarters are located in London.\n                </p>\n              </div>\n              \n              <div className=\"bg-gradient-to-br from-cream to-bone rounded-3xl p-12\">\n                <div className=\"grid md:grid-cols-2 gap-12 items-center\">\n                  <div>\n                    <h3 className=\"text-2xl font-bold mb-6\">Balloon'd Technologies Ltd.</h3>\n                    <div className=\"space-y-4 text-gray-700\">\n                      <div className=\"flex items-start gap-3\">\n                        <div className=\"text-ruby mt-1\">📍</div>\n                        <div>\n                          <p className=\"font-semibold\">Address:</p>\n                          <p>123 Tech District, Suite 456<br/>\n                          London, England SW1A 1AA<br/>\n                          United Kingdom</p>\n                        </div>\n                      </div>\n                      \n                      <div className=\"flex items-start gap-3\">\n                        <div className=\"text-ruby mt-1\">🕒</div>\n                        <div>\n                          <p className=\"font-semibold\">Business Hours:</p>\n                          <p>Monday - Friday: 9:00 AM - 6:00 PM GMT<br/>\n                          Weekend: Emergency support only</p>\n                        </div>\n                      </div>\n                      \n                      <div className=\"flex items-start gap-3\">\n                        <div className=\"text-ruby mt-1\">🌍</div>\n                        <div>\n                          <p className=\"font-semibold\">Global Support:</p>\n                          <p>24/7 safety and technical support<br/>\n                          Multiple languages available</p>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                  \n                  <div className=\"bg-white rounded-2xl p-8 shadow-lg\">\n                    <h4 className=\"font-bold text-lg mb-4\">Quick Response Times</h4>\n                    <div className=\"space-y-3\">\n                      <div className=\"flex justify-between items-center py-2 border-b border-gray-100\">\n                        <span className=\"text-gray-600\">Safety Issues</span>\n                        <span className=\"font-semibold text-red-600\">< 2 hours</span>\n                      </div>\n                      <div className=\"flex justify-between items-center py-2 border-b border-gray-100\">\n                        <span className=\"text-gray-600\">Technical Support</span>\n                        <span className=\"font-semibold text-blue-600\">< 12 hours</span>\n                      </div>\n                      <div className=\"flex justify-between items-center py-2 border-b border-gray-100\">\n                        <span className=\"text-gray-600\">General Questions</span>\n                        <span className=\"font-semibold text-green-600\">< 24 hours</span>\n                      </div>\n                      <div className=\"flex justify-between items-center py-2\">\n                        <span className=\"text-gray-600\">Business Inquiries</span>\n                        <span className=\"font-semibold text-gray-600\">< 3 days</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </section>\n      </main>\n      \n      <Footer />\n    </>\n  );\n};\n\nexport default Contact;\n
+import type { NextPage } from 'next';
+import Meta from '../components/Meta';
+import Footer from '../components/Footer';
+
+const Contact: NextPage = () => {
+  return (
+    <>
+      <Meta 
+        title="Contact Us - Balloon'd | Get Help & Support"
+        description="Contact Balloon'd support team for help, feedback, or questions about our dating app. Multiple ways to reach us with quick response times."
+      />
+      
+      <main className="overflow-hidden">
+        {/* Hero Section */}
+        <section className="py-20 bg-gradient-to-br from-cream to-white">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="gradient-text">Contact Us</span>
+              </h1>
+              
+              <div className="text-6xl mb-8">💬</div>
+              
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                We're here to help! Whether you have questions, need support, or want to share feedback, 
+                our team is ready to assist you.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Options */}
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                
+                {/* General Support */}
+                <div className="bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+                  <div className="text-4xl mb-6">🎧</div>
+                  <h3 className="text-2xl font-bold mb-4">General Support</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    Questions about your account, app features, or general inquiries.
+                  </p>
+                  <div className="space-y-3">
+                    <p><strong>Email:</strong> <a href="mailto:support@balloond.com" className="text-ruby hover:underline">support@balloond.com</a></p>
+                    <p><strong>Response:</strong> Within 24 hours</p>
+                  </div>
+                </div>
+
+                {/* Technical Issues */}
+                <div className="bg-gradient-to-br from-cream to-bone rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+                  <div className="text-4xl mb-6">🔧</div>
+                  <h3 className="text-2xl font-bold mb-4">Technical Issues</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    App crashes, bugs, payment problems, or technical difficulties.
+                  </p>
+                  <div className="space-y-3">
+                    <p><strong>Email:</strong> <a href="mailto:tech@balloond.com" className="text-ruby hover:underline">tech@balloond.com</a></p>
+                    <p><strong>Response:</strong> Within 12 hours</p>
+                  </div>
+                </div>
+
+                {/* Safety & Security */}
+                <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-3xl p-8 hover:shadow-lg transition-all duration-300 border border-red-200">
+                  <div className="text-4xl mb-6">🚨</div>
+                  <h3 className="text-2xl font-bold mb-4 text-red-900">Safety & Security</h3>
+                  <p className="text-red-800 mb-6 leading-relaxed">
+                    Report suspicious behavior, safety concerns, or security issues.
+                  </p>
+                  <div className="space-y-3">
+                    <p><strong>Email:</strong> <a href="mailto:safety@balloond.com" className="text-red-700 hover:underline">safety@balloond.com</a></p>
+                    <p><strong>Response:</strong> Within 2 hours (urgent)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Form */}
+              <div className="bg-gradient-to-br from-ruby/5 to-ruby/10 rounded-3xl p-8 md:p-12 border border-ruby/20">
+                <div className="max-w-2xl mx-auto">
+                  <h2 className="text-3xl font-bold text-center mb-8">Send us a Message</h2>
+                  <form className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruby focus:border-ruby"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input
+                          type="email"
+                          id="email"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruby focus:border-ruby"
+                          placeholder="your.email@example.com"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                      <select
+                        id="subject"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruby focus:border-ruby"
+                      >
+                        <option value="">Select a subject</option>
+                        <option value="support">General Support</option>
+                        <option value="technical">Technical Issue</option>
+                        <option value="safety">Safety Concern</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                      <textarea
+                        id="message"
+                        rows={5}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruby focus:border-ruby"
+                        placeholder="How can we help you?"
+                      ></textarea>
+                    </div>
+                    <div className="text-center">
+                      <button
+                        type="submit"
+                        className="bg-ruby hover:bg-ruby-dark text-white px-8 py-3 rounded-full font-semibold transition-colors"
+                      >
+                        Send Message
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-20 bg-stone-50">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold mb-6">
+                  <span className="gradient-text">Frequently Asked Questions</span>
+                </h2>
+                <p className="text-xl text-gray-600">
+                  Quick answers to common questions
+                </p>
+              </div>
+              
+              <div className="space-y-6">
+                {[
+                  {
+                    question: "How quickly can I expect a response?",
+                    answer: "General inquiries: within 24 hours. Technical issues: within 12 hours. Safety concerns: within 2 hours."
+                  },
+                  {
+                    question: "Can I contact you through the app?",
+                    answer: "Yes, you can use the in-app help center to report issues or get support directly from your profile."
+                  },
+                  {
+                    question: "Do you have a phone number?",
+                    answer: "We primarily respond to emails for better documentation and follow-up. For urgent safety issues, call emergency services first."
+                  }
+                ].map((faq, index) => (
+                  <div key={index} className="bg-white rounded-2xl p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-stone-900 mb-2">{faq.question}</h3>
+                    <p className="text-gray-600">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+export default Contact;
