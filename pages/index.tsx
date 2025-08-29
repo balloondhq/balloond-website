@@ -72,40 +72,16 @@ const Home: NextPage = () => {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="bg-white py-24">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-                <div>
-                  <div className="text-4xl md:text-5xl font-light mb-4 text-black">500K+</div>
-                  <div className="text-gray-600 font-light">Real connections made</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-light mb-4 text-black">4.9</div>
-                  <div className="text-gray-600 font-light">App Store rating</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-light mb-4 text-black">78%</div>
-                  <div className="text-gray-600 font-light">Skip the small talk</div>
-                </div>
-                <div>
-                  <div className="text-4xl md:text-5xl font-light mb-4 text-black">18</div>
-                  <div className="text-gray-600 font-light">Countries and growing</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* Mission Section */}
         <section className="bg-gray-50 py-32">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-16 items-start">
+              <div className="grid md:grid-cols-2 gap-20 items-start">
                 <div className="relative">
                   <p className="text-gray-500 text-sm font-light mb-8 tracking-wide uppercase">Our Approach</p>
-                  <h2 className="text-4xl md:text-6xl font-light text-black leading-tight mb-8">
+                  <h2 className="text-4xl md:text-6xl font-light text-black leading-tight">
                     Pop the <span className="relative inline-block">
                       <span className="relative z-10">balloon</span>
                       <svg className="absolute -top-2 -right-4 w-16 h-12" viewBox="0 0 64 48" fill="none">
@@ -117,11 +93,11 @@ const Home: NextPage = () => {
                   </h2>
                 </div>
                 
-                <div className="relative pt-16">
-                  <svg className="absolute -top-8 left-0 w-24 h-24 text-rose-500" viewBox="0 0 96 96" fill="none">
-                    <path d="M20 40 L60 40 L55 35 M60 40 L55 45" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <p className="text-lg md:text-xl font-light text-gray-600 leading-relaxed mb-8">
+                <div className="relative pt-8">
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-8">
+                    <div className="w-2 h-2 bg-rose-500 rounded-full"></div>
+                  </div>
+                  <p className="text-lg font-light text-gray-600 leading-relaxed mb-8">
                     Balloon'd is built on the belief that anyone looking for love should 
                     be able to find it. We break through the noise of modern dating by helping people 
                     "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, 
@@ -132,51 +108,51 @@ const Home: NextPage = () => {
                   </button>
                 </div>
               </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-16 max-w-5xl mx-auto">
-              <div className="text-center md:text-left">
-                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0">
-                  <span className="text-3xl">🎯</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Make dating fun again</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  Turn the awkwardness of dating into an exciting, light-hearted experience 
-                  with our unique icebreakers and challenges.
-                </p>
-              </div>
               
-              <div className="text-center md:text-left">
-                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0">
-                  <span className="text-3xl">💬</span>
+              <div className="grid md:grid-cols-2 gap-x-20 gap-y-16 mt-24 max-w-5xl">
+                <div>
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                    <span className="text-xl">🎯</span>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4 text-black">Make dating fun again</h3>
+                  <p className="text-gray-600 font-light leading-relaxed">
+                    Turn the awkwardness of dating into an exciting, light-hearted experience 
+                    with our unique icebreakers and challenges.
+                  </p>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Cut through the games</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  Our tools encourage direct, transparent, and genuine interactions 
-                  so you can focus on real connections.
-                </p>
-              </div>
-              
-              <div className="text-center md:text-left">
-                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0">
-                  <span className="text-3xl">✨</span>
+                
+                <div>
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                    <span className="text-xl">💬</span>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4 text-black">Cut through the games</h3>
+                  <p className="text-gray-600 font-light leading-relaxed">
+                    Our tools encourage direct, transparent, and genuine interactions 
+                    so you can focus on real connections.
+                  </p>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Prioritize authenticity</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  We focus on profile quality, vibe, and personality rather than 
-                  endless swipes to help you find genuine matches.
-                </p>
-              </div>
-              
-              <div className="text-center md:text-left">
-                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0">
-                  <span className="text-3xl">🛡️</span>
+                
+                <div>
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                    <span className="text-xl">✨</span>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4 text-black">Prioritize authenticity</h3>
+                  <p className="text-gray-600 font-light leading-relaxed">
+                    We focus on profile quality, vibe, and personality rather than 
+                    endless swipes to help you find genuine matches.
+                  </p>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Safe & inclusive space</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  We ensure users feel comfortable, respected, and supported in 
-                  exploring connections with our safety-first approach.
-                </p>
+                
+                <div>
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
+                    <span className="text-xl">🛡️</span>
+                  </div>
+                  <h3 className="text-2xl font-light mb-4 text-black">Safe & inclusive space</h3>
+                  <p className="text-gray-600 font-light leading-relaxed">
+                    We ensure users feel comfortable, respected, and supported in 
+                    exploring connections with our safety-first approach.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
