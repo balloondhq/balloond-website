@@ -137,11 +137,8 @@ const Home: NextPage = () => {
                 <div className="relative">
                   <p className="text-gray-500 text-sm font-light mb-8 tracking-wide uppercase">Our Approach</p>
                   <h2 className="text-4xl md:text-6xl font-light text-black leading-tight">
-                    Pop the <span className="relative inline-block">
-                      <span className="relative z-10">balloon</span>
-                      <svg className="absolute -top-2 -right-4 w-16 h-12" viewBox="0 0 64 48" fill="none">
-                        <ellipse cx="32" cy="24" rx="30" ry="20" stroke="#e11d48" strokeWidth="1.5" fill="none" transform="rotate(-15 32 24)" />
-                      </svg>
+                    <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
+                      Pop the balloon
                     </span> of
                     <br />
                     awkward dating.
@@ -218,7 +215,7 @@ const Home: NextPage = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-20">
               <h2 className="text-4xl md:text-6xl font-light mb-8 text-black leading-tight">
-                How Balloon'd works
+                How <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">Balloon'd works</span>
               </h2>
               <p className="text-xl md:text-2xl font-light text-gray-700 leading-relaxed">
                 Our unique approach helps you break the ice and form real connections quickly.
@@ -267,7 +264,7 @@ const Home: NextPage = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-20">
               <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
-                Real stories, real connections
+                Real stories, <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">real connections</span>
               </h2>
               <p className="text-xl md:text-2xl font-light opacity-80 leading-relaxed">
                 Hear from people who found love through Balloon'd
@@ -313,7 +310,7 @@ const Home: NextPage = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
-                Ready to pop the balloon?
+                Ready to <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">pop the balloon?</span>
               </h2>
               <p className="text-xl md:text-2xl font-light mb-12 opacity-80 leading-relaxed">
                 Join thousands of people finding meaningful connections every day.
