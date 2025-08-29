@@ -35,71 +35,16 @@ const Home: NextPage = () => {
           {/* Background gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-rose-900/20 via-black to-orange-900/20"></div>
           
-          {/* Animated floating balloons */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Balloon 1 - Large floating */}
-            <div className="absolute top-1/4 left-1/6 animate-bounce" style={{ animationDuration: '3s', animationDelay: '0s' }}>
-              <div className="relative">
-                <div className="w-8 h-10 bg-gradient-to-b from-rose-400 to-rose-500 rounded-full opacity-60"></div>
-                <div className="w-px h-6 bg-gray-400 mx-auto"></div>
-              </div>
-            </div>
-            
-            {/* Balloon 2 - Medium floating */}
-            <div className="absolute top-1/3 right-1/4 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-              <div className="relative">
-                <div className="w-6 h-8 bg-gradient-to-b from-orange-400 to-orange-500 rounded-full opacity-50"></div>
-                <div className="w-px h-4 bg-gray-400 mx-auto"></div>
-              </div>
-            </div>
-            
-            {/* Balloon 3 - Small floating */}
-            <div className="absolute top-1/2 left-1/12 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '2s' }}>
-              <div className="relative">
-                <div className="w-4 h-6 bg-gradient-to-b from-pink-400 to-pink-500 rounded-full opacity-40"></div>
-                <div className="w-px h-3 bg-gray-400 mx-auto"></div>
-              </div>
-            </div>
-            
-            {/* Balloon 4 - Right side */}
-            <div className="absolute top-2/3 right-1/6 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
-              <div className="relative">
-                <div className="w-7 h-9 bg-gradient-to-b from-yellow-400 to-yellow-500 rounded-full opacity-45"></div>
-                <div className="w-px h-5 bg-gray-400 mx-auto"></div>
-              </div>
-            </div>
-            
-            {/* Pop effect elements - small bursts */}
-            <div className="absolute top-1/5 right-1/3 animate-pulse" style={{ animationDuration: '2s' }}>
-              <div className="relative">
-                <div className="w-2 h-2 bg-rose-400 rounded-full opacity-70"></div>
-                <div className="absolute -top-1 -left-1 w-4 h-4 border border-rose-400 rounded-full animate-ping opacity-30"></div>
-              </div>
-            </div>
-            
-            <div className="absolute top-3/5 left-1/3 animate-pulse" style={{ animationDuration: '1.5s', animationDelay: '1s' }}>
-              <div className="relative">
-                <div className="w-1 h-1 bg-orange-400 rounded-full opacity-60"></div>
-                <div className="absolute -top-1 -left-1 w-3 h-3 border border-orange-400 rounded-full animate-ping opacity-25"></div>
-              </div>
-            </div>
-            
-            {/* Floating particles */}
-            <div className="absolute top-1/4 left-1/2 w-1 h-1 bg-white rounded-full opacity-30 animate-pulse"></div>
-            <div className="absolute top-3/4 left-1/4 w-1 h-1 bg-rose-300 rounded-full opacity-40 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-            <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-orange-300 rounded-full opacity-35 animate-pulse" style={{ animationDelay: '0.8s' }}></div>
-          </div>
-          
           {/* Content */}
           <div className="relative z-10 flex items-center justify-center min-h-screen">
             <div className="container mx-auto px-6">
               <div className="max-w-6xl mx-auto text-center">
                 <h1 className="text-6xl md:text-8xl font-light mb-8 leading-tight">
-                  Pop the balloon of
-                  <br />
                   <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
-                    awkward dating
+                    One pop away
                   </span>
+                  <br />
+                  from what you've been waiting for
                 </h1>
                 
                 <p className="text-xl md:text-2xl font-light mb-12 max-w-3xl mx-auto opacity-90 leading-relaxed">
@@ -130,13 +75,15 @@ const Home: NextPage = () => {
 
 
         {/* Mission Section */}
-        <section className="bg-gray-50 py-32">
+        <section className="bg-gradient-to-b from-gray-50 to-white py-32">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-20 items-start">
+              <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
                 <div className="relative">
-                  <p className="text-gray-500 text-sm font-light mb-8 tracking-wide uppercase">Our Approach</p>
-                  <h2 className="text-4xl md:text-6xl font-light text-black leading-tight">
+                  <div className="inline-flex items-center bg-gradient-to-r from-rose-100 to-orange-100 px-4 py-2 rounded-full mb-8">
+                    <span className="text-rose-600 font-medium text-sm">✨ OUR APPROACH</span>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl font-light text-black leading-tight">
                     <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
                       Pop the balloon
                     </span> of
@@ -145,65 +92,89 @@ const Home: NextPage = () => {
                   </h2>
                 </div>
                 
-                <div className="relative pt-8">
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-8">
-                    <div className="w-2 h-2 bg-rose-500 rounded-full"></div>
+                <div className="relative">
+                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-rose-200 to-orange-200 rounded-full opacity-60 animate-pulse"></div>
+                  <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 relative z-10">
+                    <p className="text-lg font-light text-gray-600 leading-relaxed mb-8">
+                      Balloon'd is built on the belief that anyone looking for love should 
+                      be able to find it. We break through the noise of modern dating by helping people 
+                      "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, 
+                      fun, and meaningful connections where people can quickly discover if sparks truly fly.
+                    </p>
+                    <button className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium transition-all duration-300 group">
+                      <span className="flex items-center gap-2">
+                        How we do it
+                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      </span>
+                    </button>
                   </div>
-                  <p className="text-lg font-light text-gray-600 leading-relaxed mb-8">
-                    Balloon'd is built on the belief that anyone looking for love should 
-                    be able to find it. We break through the noise of modern dating by helping people 
-                    "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, 
-                    fun, and meaningful connections where people can quickly discover if sparks truly fly.
-                  </p>
-                  <button className="bg-black text-white hover:bg-gray-800 px-8 py-3 rounded-full font-light transition-all duration-300">
-                    How we do it
-                  </button>
                 </div>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-x-20 gap-y-16 mt-24 max-w-5xl">
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
-                    <span className="text-xl">🎯</span>
+              {/* Fun features grid */}
+              <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-rose-300 to-orange-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-rose-400 to-pink-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        🎯
+                      </div>
+                      <h3 className="text-2xl font-semibold text-black">Make dating fun again</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      Say goodbye to boring "hey" messages! Our balloon-pop icebreakers and playful challenges 
+                      turn every conversation starter into an adventure. ✨
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-light mb-4 text-black">Make dating fun again</h3>
-                  <p className="text-gray-600 font-light leading-relaxed">
-                    Turn the awkwardness of dating into an exciting, light-hearted experience 
-                    with our unique icebreakers and challenges.
-                  </p>
                 </div>
                 
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
-                    <span className="text-xl">💬</span>
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-300 to-blue-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        💬
+                      </div>
+                      <h3 className="text-2xl font-semibold text-black">Cut through the games</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      No more guessing games or mixed signals! Our tools encourage honest, direct conversations 
+                      so you can focus on building real connections that matter. 🎪
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-light mb-4 text-black">Cut through the games</h3>
-                  <p className="text-gray-600 font-light leading-relaxed">
-                    Our tools encourage direct, transparent, and genuine interactions 
-                    so you can focus on real connections.
-                  </p>
                 </div>
                 
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
-                    <span className="text-xl">✨</span>
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        ✨
+                      </div>
+                      <h3 className="text-2xl font-semibold text-black">Prioritize authenticity</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      Your personality shines brighter than your filtered photos! We celebrate genuine vibes, 
+                      quirky interests, and real moments that make you uniquely you. 🌟
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-light mb-4 text-black">Prioritize authenticity</h3>
-                  <p className="text-gray-600 font-light leading-relaxed">
-                    We focus on profile quality, vibe, and personality rather than 
-                    endless swipes to help you find genuine matches.
-                  </p>
                 </div>
                 
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-6">
-                    <span className="text-xl">🛡️</span>
+                <div className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-300 to-teal-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        🛡️
+                      </div>
+                      <h3 className="text-2xl font-semibold text-black">Safe & inclusive space</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      Everyone deserves to feel respected and valued! Our community prioritizes kindness, 
+                      safety, and creating a welcoming environment for all love stories. 💖
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-light mb-4 text-black">Safe & inclusive space</h3>
-                  <p className="text-gray-600 font-light leading-relaxed">
-                    We ensure users feel comfortable, respected, and supported in 
-                    exploring connections with our safety-first approach.
-                  </p>
                 </div>
               </div>
             </div>
