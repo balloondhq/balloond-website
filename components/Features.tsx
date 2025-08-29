@@ -25,7 +25,7 @@ const Features: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="gradient-text">Dating Reimagined</fascinating features>
+            <span className="gradient-text">Dating Reimagined</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Balloon&apos;d brings authenticity back to online dating with innovative features that help you connect on a deeper level.
