@@ -155,7 +155,7 @@ const Home: NextPage = () => {
               <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
                 <div className="relative">
                   <div className="inline-flex items-center bg-gradient-to-r from-rose-100 to-orange-100 px-4 py-2 rounded-full mb-8">
-                    <span className="text-rose-600 font-medium text-sm">âœ¨ OUR APPROACH</span>
+                    <span className="text-rose-600 font-medium text-sm">✨ OUR APPROACH</span>
                   </div>
                   <h2 className="text-5xl md:text-6xl font-light text-black leading-tight">
                     <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
@@ -178,7 +178,7 @@ const Home: NextPage = () => {
                     <button className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium transition-all duration-300 group">
                       <span className="flex items-center gap-2">
                         How we do it
-                        <span className="group-hover:translate-x-1 transition-transform">â†'</span>
+                        <span className="group-hover:translate-x-1 transition-transform">→</span>
                       </span>
                     </button>
                   </div>
@@ -192,13 +192,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-rose-400 to-pink-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        ðŸŽ¯
+                        🎯
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Make dating fun again</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Say goodbye to boring "hey" messages! Our balloon-pop icebreakers and playful challenges 
-                      turn every conversation starter into an adventure. âœ¨
+                      turn every conversation starter into an adventure. ✨
                     </p>
                   </div>
                 </div>
@@ -208,13 +208,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        ðŸ'¬
+                        💬
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Cut through the games</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       No more guessing games or mixed signals! Our tools encourage honest, direct conversations 
-                      so you can focus on building real connections that matter. ðŸŽª
+                      so you can focus on building real connections that matter. 🎪
                     </p>
                   </div>
                 </div>
@@ -224,13 +224,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        âœ¨
+                        ✨
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Prioritize authenticity</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Your personality shines brighter than your filtered photos! We celebrate genuine vibes, 
-                      quirky interests, and real moments that make you uniquely you. ðŸŒŸ
+                      quirky interests, and real moments that make you uniquely you. 🌟
                     </p>
                   </div>
                 </div>
@@ -240,13 +240,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        ðŸ›¡ï¸
+                        🛡️
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Safe & inclusive space</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Everyone deserves to feel respected and valued! Our community prioritizes kindness, 
-                      safety, and creating a welcoming environment for all love stories. ðŸ'–
+                      safety, and creating a welcoming environment for all love stories. 💖
                     </p>
                   </div>
                 </div>
@@ -270,7 +270,7 @@ const Home: NextPage = () => {
             <div className="grid md:grid-cols-3 gap-16 max-w-6xl mx-auto">
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">ðŸŽˆ</span>
+                  <span className="text-3xl">🎈</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Pop challenges</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -281,7 +281,7 @@ const Home: NextPage = () => {
               
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">ðŸŽ¤</span>
+                  <span className="text-3xl">🎤</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Voice first</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -292,7 +292,7 @@ const Home: NextPage = () => {
               
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">â¤ï¸</span>
+                  <span className="text-3xl">❤️</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Smart matching</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -324,11 +324,10 @@ const Home: NextPage = () => {
                     <div className="text-rose-400 mb-6 flex justify-center">
                       <QuoteIcon />
                     </div>
-                    <p className="text-lg font-light mb-8 leading-relaxed opacity-90 max-w-4xl mx-auto transition-all duration-500">
+                    <p className="text-xl md:text-2xl font-light mb-8 leading-relaxed opacity-90 max-w-4xl mx-auto transition-all duration-500">
                       {testimonials[currentTestimonial].quote}
                     </p>
                     <div className="flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-gray-700 mr-4"></div>
                       <div>
                         <div className="font-light text-white">{testimonials[currentTestimonial].author}</div>
                         <div className="text-gray-400 text-sm font-light">
