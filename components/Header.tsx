@@ -20,21 +20,9 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo - scaled with specific values and centered */}
-          <Link href="/" className="flex-shrink-0 flex items-center justify-center w-full">
-            <img 
-              src="/logo.svg" 
-              alt="Balloon'd Logo" 
-              className="h-10 w-auto transform scale-[4.25] origin-center" 
-              style={{ 
-                transform: 'scale(4.25)', 
-                transformOrigin: 'center' 
-              }}
-            />
-          </Link>
-
-          {/* Desktop Navigation */}
+        {/* Adjusted padding as requested */}
+        <div className="flex justify-between items-center py-4" style={{ paddingTop: '1rem', paddingBottom: '0.5rem' }}>
+          {/* Left side - Navigation links */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
@@ -47,10 +35,27 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+          </nav>
+
+          {/* Center - Logo */}
+          <Link href="/" className="flex-shrink-0 flex items-center absolute left-1/2 transform -translate-x-1/2">
+            <img 
+              src="/logo.svg" 
+              alt="Balloon'd Logo" 
+              className="h-10 w-auto transform scale-[4.25] origin-center" 
+              style={{ 
+                transform: 'scale(4.25)', 
+                transformOrigin: 'center' 
+              }}
+            />
+          </Link>
+
+          {/* Right side - Download button */}
+          <div className="hidden md:flex items-center">
             <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
               Download App
             </button>
-          </nav>
+          </div>
 
           {/* Mobile menu button */}
           <button
