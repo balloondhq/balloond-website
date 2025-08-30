@@ -62,10 +62,10 @@ const About: NextPage = () => {
                   At the same time, I noticed how much people loved the new "pop the balloon" trend. There's something exciting about the anticipation, the release, and the fun of it. That gave me an idea: what if dating could feel less like an interview and more like popping a balloon—breaking the tension, cutting through the awkwardness, and sparking something real?
                 </p>
                 
-                <blockquote className="text-3xl font-light leading-relaxed py-8 my-7 text-black">
-                  That's why I created <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
+                <blockquote className="text-3xl font-light leading-relaxed py-8 my-7 text-black italic">
+                  "That's why I created <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
                     Balloon'd
-                  </span>. It's not about gamification, it's about creating a fresh, fun, and meaningful way to connect.
+                  </span>. It's not about gamification, it's about creating a fresh, fun, and meaningful way to connect."
                 </blockquote>
                 
                 <p className="text-xl font-light leading-relaxed mb-7 text-gray-800">
