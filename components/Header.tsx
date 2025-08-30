@@ -23,8 +23,8 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Adjusted padding as requested */}
-        <div className="flex justify-between items-center py-4" style={{ paddingTop: '1rem', paddingBottom: '0.5rem' }}>
+        {/* Adjusted padding to 1.5rem as requested */}
+        <div className="flex justify-between items-center py-6">
           {/* Left side - Navigation links */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
@@ -53,7 +53,7 @@ const Header = () => {
             />
           </Link>
 
-          {/* Right side - Help Center and Contact links */}
+          {/* Right side - Help Center, Contact links and Download button */}
           <div className="hidden md:flex items-center space-x-8">
             {rightNavigation.map((item) => (
               <Link
@@ -66,6 +66,10 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            {/* Download button now visible on the far right */}
+            <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
+              Download App
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -126,6 +130,9 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+              <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
+                Download App
+              </button>
             </div>
           </div>
         )}
