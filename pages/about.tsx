@@ -89,13 +89,14 @@ const About: NextPage = () => {
                     </div>
                   </div>
                   <cite className="font-medium text-base leading-4 tracking-wider not-italic">
-                    Dishaun Thompson
+                    Dishaun Codjoe
                     <span className="text-rose-600 ml-2">CEO & Founder</span>
                   </cite>
                 </div>
               </div>
             </div>
           </div>
+        </section>
 
         {/* Mission & Values Section */}
         <section className="bg-white py-20">
@@ -145,32 +146,43 @@ const About: NextPage = () => {
           </div>
         </section>
 
-        {/* Stats Section */}
+        {/* Timeline Section */}
         <section className="bg-gray-50 py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-gradient-to-br from-rose-500 to-orange-500 rounded-3xl p-12 text-white shadow-2xl">
-                <h3 className="text-3xl font-light mb-12 text-center">Making Real Connections</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                  <div>
-                    <div className="text-2xl mb-2">🎈</div>
-                    <div className="text-3xl font-bold mb-2">50K+</div>
-                    <div className="text-white/80 text-sm">Balloons Popped</div>
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="flex gap-16 items-start">
+              {/* Left side - Title */}
+              <div className="flex-shrink-0 w-96">
+                <div className="sticky top-32">
+                  <p className="text-rose-600 font-medium text-lg mb-7 tracking-wide">
+                    📅 Balloon'd Timeline
+                  </p>
+                  <h2 className="text-6xl font-light leading-tight text-black">
+                    How we got here
+                  </h2>
+                </div>
+              </div>
+              
+              {/* Right side - Timeline */}
+              <div className="flex-1 pt-12">
+                <div className="space-y-16">
+                  <div className="opacity-100">
+                    <div className="text-5xl font-light text-rose-600 mb-6 tracking-wide">2025</div>
+                    <h3 className="text-3xl font-normal mb-4 text-black leading-relaxed">
+                      <em>The Idea is Born</em>
+                    </h3>
+                    <p className="text-xl font-light text-gray-800 leading-relaxed">
+                      Dishaun Codjoe creates <strong>Balloon'd</strong>, inspired by the need to break free from repetitive small talk in modern dating and spark real connections.
+                    </p>
                   </div>
-                  <div>
-                    <div className="text-2xl mb-2">💕</div>
-                    <div className="text-3xl font-bold mb-2">5K+</div>
-                    <div className="text-white/80 text-sm">Real Connections</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl mb-2">🚀</div>
-                    <div className="text-3xl font-bold mb-2">2024</div>
-                    <div className="text-white/80 text-sm">Founded</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl mb-2">⭐</div>
-                    <div className="text-3xl font-bold mb-2">4.8/5</div>
-                    <div className="text-white/80 text-sm">App Rating</div>
+                  
+                  <div className="opacity-75">
+                    <div className="text-5xl font-light text-rose-600 mb-6 tracking-wide">2026</div>
+                    <h3 className="text-3xl font-normal mb-4 text-black leading-relaxed">
+                      <em>The Official Launch</em>
+                    </h3>
+                    <p className="text-xl font-light text-gray-800 leading-relaxed">
+                      Balloon'd goes live, bringing a fresh, fun, and meaningful way for people to meet and connect—one pop away from something real.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -179,16 +191,16 @@ const About: NextPage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-black text-white py-20">
+        <section className="bg-white py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight text-black">
                 Ready to <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">pop into love?</span>
               </h2>
-              <p className="text-xl font-light mb-8 opacity-80 leading-relaxed">
+              <p className="text-xl font-light mb-8 text-gray-700 leading-relaxed">
                 Join the dating revolution and discover what's waiting just one pop away.
               </p>
-              <button className="bg-white text-black hover:bg-gray-100 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300">
+              <button className="bg-gradient-to-r from-rose-500 to-orange-500 text-white hover:from-rose-600 hover:to-orange-600 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg">
                 Download Balloon'd
               </button>
             </div>
