@@ -1,6 +1,7 @@
 // pages/index.tsx
 import type { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -35,6 +36,45 @@ const Home: NextPage = () => {
           {/* Background gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-rose-900/20 via-black to-orange-900/20"></div>
           
+          {/* Lottie Animations */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* First balloon animation - top left area */}
+            <div className="absolute top-10 left-10 md:top-20 md:left-20 w-32 h-32 md:w-48 md:h-48 opacity-70">
+              <DotLottieReact
+                src="https://lottie.host/ff0edf7f-b569-47c8-afad-4375cb158d77/UrB5B0VwbT.lottie"
+                loop
+                autoplay
+              />
+            </div>
+            
+            {/* Second balloon animation - bottom right area */}
+            <div className="absolute bottom-10 right-10 md:bottom-20 md:right-20 w-40 h-40 md:w-56 md:h-56 opacity-60">
+              <DotLottieReact
+                src="https://lottie.host/fd4b8bf2-dc11-47f5-b041-5b20a4f13816/rKEAnri6dL.lottie"
+                loop
+                autoplay
+              />
+            </div>
+            
+            {/* Additional smaller balloon for mobile - center right */}
+            <div className="hidden sm:block absolute top-1/3 right-1/4 w-24 h-24 md:w-32 md:h-32 opacity-40 animate-pulse">
+              <DotLottieReact
+                src="https://lottie.host/ff0edf7f-b569-47c8-afad-4375cb158d77/UrB5B0VwbT.lottie"
+                loop
+                autoplay
+              />
+            </div>
+            
+            {/* Additional balloon for desktop - top right */}
+            <div className="hidden lg:block absolute top-1/4 right-1/3 w-20 h-20 opacity-50 animate-bounce">
+              <DotLottieReact
+                src="https://lottie.host/fd4b8bf2-dc11-47f5-b041-5b20a4f13816/rKEAnri6dL.lottie"
+                loop
+                autoplay
+              />
+            </div>
+          </div>
+          
           {/* Content */}
           <div className="relative z-10 flex items-center justify-center min-h-screen">
             <div className="container mx-auto px-6">
@@ -65,14 +105,12 @@ const Home: NextPage = () => {
           </div>
           
           {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
             <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
               <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
             </div>
           </div>
         </section>
-
-
 
         {/* Mission Section */}
         <section className="bg-gradient-to-b from-gray-50 to-white py-32">
@@ -244,7 +282,7 @@ const Home: NextPage = () => {
             
             <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
               <div className="bg-gray-800 p-10 rounded-lg">
-                <div className="text-rose-400 text-4xl mb-6">❝</div>
+                <div className="text-rose-400 text-4xl mb-6">"</div>
                 <p className="text-lg font-light mb-8 leading-relaxed opacity-90">
                   The pop challenges were so fun! They immediately broke the ice and helped me 
                   connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.
@@ -259,7 +297,7 @@ const Home: NextPage = () => {
               </div>
               
               <div className="bg-gray-800 p-10 rounded-lg">
-                <div className="text-rose-400 text-4xl mb-6">❝</div>
+                <div className="text-rose-400 text-4xl mb-6">"</div>
                 <p className="text-lg font-light mb-8 leading-relaxed opacity-90">
                   After years of disappointing dating app experiences, Balloon'd helped me find someone 
                   who truly gets me. The voice-first approach really made a difference in forming a real connection.
