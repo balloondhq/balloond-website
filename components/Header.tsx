@@ -26,7 +26,7 @@ const Header = () => {
             <img 
               src="/logo.svg" 
               alt="Balloon'd Logo" 
-              className="h-8 w-auto" 
+              className="h-12 w-auto" 
             />
           </Link>
 
