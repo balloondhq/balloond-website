@@ -120,7 +120,6 @@ const Home: NextPage = () => {
                     One pop away
                   </span>
                   <br />
-                  from what you've been waiting for
                 </h1>
                 
                 <p className="text-xl md:text-2xl font-light mb-12 max-w-3xl mx-auto opacity-90 leading-relaxed">
