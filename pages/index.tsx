@@ -19,10 +19,6 @@ const Home: NextPage = () => {
     {
       quote: "After years of disappointing dating app experiences, Balloon'd helped me find someone who truly gets me. The voice-first approach really made a difference in forming a real connection.",
       author: "Jessica L."
-    },
-    {
-      quote: "Balloon'd's unique approach to breaking the ice made all the difference. I met my fiancé through one of the pop challenges, and we're getting married next spring!",
-      author: "Emma R."
     }
   ];
 
@@ -312,7 +308,6 @@ const Home: NextPage = () => {
         <section className="bg-gray-900 text-white py-32">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-20">
-              <p className="text-rose-400 font-medium text-lg mb-5">What Our Users Say</p>
               <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
                 Real stories, <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">real connections</span>
               </h2>
@@ -321,47 +316,54 @@ const Home: NextPage = () => {
               </p>
             </div>
             
-            <div className="max-w-4xl mx-auto">
-              <div className="relative" style={{height: '512px'}}>
+            <div className="max-w-5xl mx-auto">
+              <div className="relative" style={{height: '400px'}}>
                 {/* Testimonial Content */}
-                <div className="flex flex-col justify-between h-full max-w-3xl">
-                  <div className="flex items-center"></div>
-                  <blockquote className="pt-30 pb-14">
-                    <div className="text-rose-400 mb-6">
+                <div className="flex flex-col justify-center h-full">
+                  <div className="text-center">
+                    <div className="text-rose-400 mb-6 flex justify-center">
                       <QuoteIcon />
                     </div>
-                    <p className="text-3xl md:text-4xl font-light leading-tight mb-9 transition-all duration-500">
+                    <p className="text-lg font-light mb-8 leading-relaxed opacity-90 max-w-4xl mx-auto transition-all duration-500">
                       {testimonials[currentTestimonial].quote}
                     </p>
-                    <span className="text-lg font-medium block transition-all duration-500">
-                      {testimonials[currentTestimonial].author}
-                    </span>
-                  </blockquote>
+                    <div className="flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gray-700 mr-4"></div>
+                      <div>
+                        <div className="font-light text-white">{testimonials[currentTestimonial].author}</div>
+                        <div className="text-gray-400 text-sm font-light">
+                          {currentTestimonial === 0 ? 'Matched 6 months ago' : 'Matched 1 year ago'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Progress indicators */}
-                <div className="absolute bottom-0 left-0 w-full flex">
-                  {testimonials.map((_, index) => (
-                    <button 
-                      key={index}
-                      className={`flex-1 px-4 py-4 -mb-4 cursor-pointer appearance-none bg-transparent border-0 text-white ${index > 0 ? 'ml-2' : ''}`}
-                      role="tab"
-                      aria-label={`Testimonial ${index + 1}`}
-                      onClick={() => {
-                        setCurrentTestimonial(index);
-                        setProgress(0);
-                      }}
-                    >
-                      <span className="relative block h-0.5 overflow-hidden rounded-full bg-gray-600">
-                        <span 
-                          className="absolute left-0 top-0 h-0.5 rounded bg-white transition-all duration-100"
-                          style={{
-                            width: index === currentTestimonial ? `${progress}%` : index < currentTestimonial ? '100%' : '0%'
-                          }}
-                        ></span>
-                      </span>
-                    </button>
-                  ))}
+                <div className="absolute bottom-0 left-0 w-full flex justify-center">
+                  <div className="flex max-w-xs w-full">
+                    {testimonials.map((_, index) => (
+                      <button 
+                        key={index}
+                        className={`flex-1 px-2 py-4 cursor-pointer appearance-none bg-transparent border-0 text-white ${index > 0 ? 'ml-2' : ''}`}
+                        role="tab"
+                        aria-label={`Testimonial ${index + 1}`}
+                        onClick={() => {
+                          setCurrentTestimonial(index);
+                          setProgress(0);
+                        }}
+                      >
+                        <span className="relative block h-0.5 overflow-hidden rounded-full bg-gray-600">
+                          <span 
+                            className="absolute left-0 top-0 h-0.5 rounded bg-white transition-all duration-100"
+                            style={{
+                              width: index === currentTestimonial ? `${progress}%` : index < currentTestimonial ? '100%' : '0%'
+                            }}
+                          ></span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
