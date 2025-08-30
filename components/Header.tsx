@@ -8,15 +8,23 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
-  // Handle scroll effect
+  // Check if we're on the home page
+  const isHomePage = router.pathname === '/';
+
+  // Handle scroll effect (only on home page)
   useEffect(() => {
+    if (!isHomePage) {
+      setIsScrolled(true); // Always show solid background on non-home pages
+      return;
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const navigation = [
     { name: 'Home', href: '/' },
