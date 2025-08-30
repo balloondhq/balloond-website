@@ -1,9 +1,5 @@
 // components/Footer.tsx
 import Link from 'next/link';
-import TwitterIcon from './twitter.svg';
-import InstagramIcon from './instagram.svg';
-import TikTokIcon from './tiktok.svg';
-import LinkedInIcon from './linkedin.svg';
 
 const Footer = () => {
   const navigation = {
@@ -50,16 +46,16 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <TwitterIcon className="h-6 w-6" />
+                <img src="/twitter.svg" alt="Twitter" className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <InstagramIcon className="h-6 w-6" />
+                <img src="/instagram.svg" alt="Instagram" className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <TikTokIcon className="h-6 w-6" />
+                <img src="/tiktok.svg" alt="TikTok" className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <LinkedInIcon className="h-6 w-6" />
+                <img src="/linkedin.svg" alt="LinkedIn" className="h-6 w-6" />
               </a>
             </div>
           </div>
