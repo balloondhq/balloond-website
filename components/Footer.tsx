@@ -1,5 +1,9 @@
 // components/Footer.tsx
 import Link from 'next/link';
+import TwitterIcon from './twitter.svg';
+import InstagramIcon from './instagram.svg';
+import TikTokIcon from './tiktok.svg';
+import LinkedInIcon from './linkedin.svg';
 
 const Footer = () => {
   const navigation = {
@@ -35,27 +39,27 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Logo and Description */}
           <div className="lg:col-span-1">
-            {/* Logo - now correctly pointing to public/logo.svg */}
+            {/* Logo - now correctly pointing to public/logo.svg with increased size */}
             <img 
               src="/logo.svg" 
               alt="Balloon'd Logo" 
-              className="h-8 w-auto mb-6" 
+              className="h-12 w-auto mb-6" 
             />
             <p className="text-stone-300 mb-6">
               A playful way to meet real matches. Voice pops, video intros, and smart matching for genuine connections.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <img src="/twitter.svg" alt="Twitter" className="h-6 w-6" />
+                <TwitterIcon className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <img src="/instagram.svg" alt="Instagram" className="h-6 w-6" />
+                <InstagramIcon className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <img src="/tiktok.svg" alt="TikTok" className="h-6 w-6" />
+                <TikTokIcon className="h-6 w-6" />
               </a>
               <a href="#" className="text-stone-400 hover:text-white transition-colors">
-                <img src="/linkedin.svg" alt="LinkedIn" className="h-6 w-6" />
+                <LinkedInIcon className="h-6 w-6" />
               </a>
             </div>
           </div>
