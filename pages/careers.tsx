@@ -1,39 +1,14 @@
+// pages/careers.tsx
 import type { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { usePublicContent } from '../lib/use-content';
 
 const Careers: NextPage = () => {
-  const openPositions = [
-    {
-      title: 'Senior Full-Stack Developer',
-      department: 'Engineering',
-      location: 'Remote / London',
-      type: 'Full-time',
-      description: 'Help us build the future of dating with cutting-edge technology.'
-    },
-    {
-      title: 'Product Designer',
-      department: 'Design',
-      location: 'London / Remote',
-      type: 'Full-time',
-      description: 'Create beautiful, intuitive experiences for our users.'
-    },
-    {
-      title: 'Marketing Manager',
-      department: 'Marketing',
-      location: 'London',
-      type: 'Full-time',
-      description: 'Drive user acquisition and brand awareness globally.'
-    },
-    {
-      title: 'Data Scientist',
-      department: 'Product',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Use AI and ML to improve our matching algorithms.'
-    }
-  ];
+  const { jobPositions, siteContent, getContentById, loading } = usePublicContent();
+  const [expandedPosition, setExpandedPosition] = useState<number | null>(null);
 
   const benefits = [
     'Competitive salary and equity package',
@@ -45,6 +20,23 @@ const Careers: NextPage = () => {
     'Latest tech equipment',
     'Unlimited PTO policy'
   ];
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center pt-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
+            <p className="text-stone-600">Loading careers page...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  const careersIntro = getContentById('careers-intro') || 'Help us create a world where authentic connections flourish. We\'re building the future of dating, one meaningful match at a time.';
 
   return (
     <>
@@ -64,7 +56,7 @@ const Careers: NextPage = () => {
               Join Our Mission
             </h1>
             <p className="text-xl text-stone-600 mb-8">
-              Help us create a world where authentic connections flourish. We're building the future of dating, one meaningful match at a time.
+              {careersIntro}
             </p>
             <div className="inline-flex items-center space-x-2 text-rose-600 font-medium">
               <span>🎈</span>
@@ -146,39 +138,113 @@ const Careers: NextPage = () => {
               <p className="text-lg text-stone-600">
                 Ready to make an impact? Check out our current openings.
               </p>
+              {jobPositions.length === 0 && (
+                <div className="mt-8">
+                  <div className="text-4xl mb-4">💼</div>
+                  <p className="text-stone-600">
+                    No open positions at the moment. Check back soon or send us your resume!
+                  </p>
+                </div>
+              )}
             </div>
             
             <div className="space-y-6">
-              {openPositions.map((position, index) => (
-                <div key={index} className="border border-stone-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-stone-900 mb-2">{position.title}</h3>
-                      <div className="flex items-center space-x-4 text-sm text-stone-600 mb-2">
-                        <span>{position.department}</span>
-                        <span>•</span>
-                        <span>{position.location}</span>
-                        <span>•</span>
-                        <span>{position.type}</span>
+              {jobPositions.map((position) => (
+                <div key={position.id} className="border border-stone-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                  <div 
+                    className="p-6 cursor-pointer"
+                    onClick={() => setExpandedPosition(expandedPosition === position.id ? null : position.id)}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h3 className="text-xl font-semibold text-stone-900">{position.title}</h3>
+                          <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">
+                            {position.status}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-4 text-sm text-stone-600 mb-2">
+                          <span>{position.department}</span>
+                          <span>•</span>
+                          <span>{position.location}</span>
+                          <span>•</span>
+                          <span>{position.type}</span>
+                        </div>
+                        <p className="text-stone-600">{position.description}</p>
                       </div>
-                      <p className="text-stone-600">{position.description}</p>
+                      <div className="flex items-center space-x-4 ml-4">
+                        <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors whitespace-nowrap">
+                          Apply Now
+                        </button>
+                        <button className="text-stone-400 hover:text-stone-600">
+                          <svg 
+                            className={`w-6 h-6 transition-transform ${expandedPosition === position.id ? 'rotate-180' : ''}`}
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                    <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors whitespace-nowrap ml-4">
-                      Apply Now
-                    </button>
                   </div>
+                  
+                  {/* Expanded Details */}
+                  {expandedPosition === position.id && (
+                    <div className="px-6 pb-6 border-t border-stone-100">
+                      <div className="pt-6 space-y-6">
+                        {position.requirements && position.requirements.length > 0 && (
+                          <div>
+                            <h4 className="font-semibold text-stone-900 mb-3">Requirements</h4>
+                            <ul className="space-y-2">
+                              {position.requirements.map((requirement, index) => (
+                                <li key={index} className="flex items-start space-x-2">
+                                  <span className="text-rose-500 mt-1.5">•</span>
+                                  <span className="text-stone-600">{requirement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {position.responsibilities && position.responsibilities.length > 0 && (
+                          <div>
+                            <h4 className="font-semibold text-stone-900 mb-3">Responsibilities</h4>
+                            <ul className="space-y-2">
+                              {position.responsibilities.map((responsibility, index) => (
+                                <li key={index} className="flex items-start space-x-2">
+                                  <span className="text-rose-500 mt-1.5">•</span>
+                                  <span className="text-stone-600">{responsibility}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        <div className="flex justify-between items-center pt-4 border-t border-stone-100">
+                          <span className="text-sm text-stone-500">Posted on {position.datePosted}</span>
+                          <button className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-3 rounded-full font-medium transition-colors">
+                            Apply for this position
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
             
-            <div className="text-center mt-12">
-              <p className="text-stone-600 mb-4">
-                Don't see a perfect fit? We're always interested in hearing from talented people.
-              </p>
-              <button className="text-rose-600 hover:text-rose-700 font-medium">
-                Send us your resume →
-              </button>
-            </div>
+            {jobPositions.length > 0 && (
+              <div className="text-center mt-12">
+                <p className="text-stone-600 mb-4">
+                  Don't see a perfect fit? We're always interested in hearing from talented people.
+                </p>
+                <button className="text-rose-600 hover:text-rose-700 font-medium">
+                  Send us your resume →
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -192,7 +258,7 @@ const Careers: NextPage = () => {
               Let's build something amazing together.
             </p>
             <button className="bg-white text-rose-600 hover:bg-stone-50 px-8 py-3 rounded-full font-semibold transition-colors">
-              View All Positions
+              {jobPositions.length > 0 ? 'View All Positions' : 'Get in Touch'}
             </button>
           </div>
         </section>

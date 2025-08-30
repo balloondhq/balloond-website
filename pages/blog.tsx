@@ -1,88 +1,39 @@
+// pages/blog.tsx
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { usePublicContent } from '../lib/use-content';
 
 const Blog: NextPage = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      slug: 'psychology-behind-voice-first-dating',
-      title: 'The Psychology Behind Voice-First Dating',
-      excerpt: 'Discover why hearing someone\'s voice before seeing their photo creates deeper, more authentic connections.',
-      author: 'Dr. Sarah Chen',
-      date: 'December 18, 2024',
-      readTime: '5 min read',
-      category: 'Research',
-      image: '/blog/voice-dating.jpg',
-      featured: true
-    },
-    {
-      id: 2,
-      slug: 'creative-ice-breakers-that-work',
-      title: '10 Creative Ice Breakers That Actually Work',
-      excerpt: 'Move beyond "Hey, what\'s up?" with these conversation starters that spark real dialogue.',
-      author: 'Emma Rodriguez',
-      date: 'December 15, 2024',
-      readTime: '4 min read',
-      category: 'Dating Tips',
-      image: '/blog/ice-breakers.jpg',
-      featured: false
-    },
-    {
-      id: 3,
-      slug: 'building-confidence-digital-dating-world',
-      title: 'Building Confidence in the Digital Dating World',
-      excerpt: 'Expert tips for overcoming dating app anxiety and presenting your authentic self online.',
-      author: 'Marcus Thompson',
-      date: 'December 12, 2024',
-      readTime: '6 min read',
-      category: 'Wellness',
-      image: '/blog/confidence.jpg',
-      featured: false
-    },
-    {
-      id: 4,
-      slug: 'science-of-meaningful-matches',
-      title: 'The Science of Meaningful Matches',
-      excerpt: 'How our algorithm prioritizes compatibility factors that lead to lasting relationships.',
-      author: 'Tech Team',
-      date: 'December 8, 2024',
-      readTime: '7 min read',
-      category: 'Technology',
-      image: '/blog/algorithm.jpg',
-      featured: false
-    },
-    {
-      id: 5,
-      slug: 'success-stories-real-love-found-balloond',
-      title: 'Success Stories: Real Love Found on Balloon\'d',
-      excerpt: 'Meet couples who found lasting love through our platform and learn from their journeys.',
-      author: 'Community Team',
-      date: 'December 5, 2024',
-      readTime: '8 min read',
-      category: 'Success Stories',
-      image: '/blog/success-stories.jpg',
-      featured: false
-    },
-    {
-      id: 6,
-      slug: 'red-flags-vs-deal-breakers',
-      title: 'Red Flags vs. Deal Breakers: Know the Difference',
-      excerpt: 'Learn to identify warning signs and distinguish between minor concerns and serious issues.',
-      author: 'Dr. Michael Park',
-      date: 'December 1, 2024',
-      readTime: '5 min read',
-      category: 'Dating Safety',
-      image: '/blog/red-flags.jpg',
-      featured: false
-    }
-  ];
-
+  const { blogPosts, loading } = usePublicContent();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  
   const categories = ['All', 'Dating Tips', 'Research', 'Technology', 'Success Stories', 'Wellness', 'Dating Safety'];
-  const featuredPost = blogPosts.find(post => post.featured);
-  const regularPosts = blogPosts.filter(post => !post.featured);
+  
+  const filteredPosts = selectedCategory === 'All' 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
+  
+  const featuredPost = filteredPosts.find(post => post.featured);
+  const regularPosts = filteredPosts.filter(post => !post.featured);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center pt-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
+            <p className="text-stone-600">Loading blog posts...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -155,8 +106,9 @@ const Blog: NextPage = () => {
               {categories.map((category, index) => (
                 <button
                   key={index}
+                  onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    index === 0 
+                    selectedCategory === category
                       ? 'bg-rose-500 text-white' 
                       : 'bg-white text-stone-600 hover:bg-stone-100'
                   }`}
@@ -171,40 +123,54 @@ const Blog: NextPage = () => {
         {/* Blog Posts Grid */}
         <section className="py-20 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {regularPosts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`}>
-                  <article className="group cursor-pointer">
-                  <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center group-hover:bg-stone-300 transition-colors">
-                    <span className="text-4xl">📖</span>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-rose-600 font-medium bg-rose-50 px-2 py-1 rounded">
-                        {post.category}
-                      </span>
-                      <span className="text-xs text-stone-500">{post.readTime}</span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-stone-900 group-hover:text-rose-600 transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-stone-600 line-clamp-3">{post.excerpt}</p>
-                    <div className="flex items-center justify-between pt-2 border-t border-stone-100">
-                      <span className="text-sm text-stone-500">{post.author}</span>
-                      <span className="text-sm text-stone-500">{post.date}</span>
-                    </div>
-                  </div>
-                  </article>
-                </Link>
-              ))}
-            </div>
+            {regularPosts.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">📝</div>
+                <h3 className="text-xl font-semibold text-stone-900 mb-2">No posts found</h3>
+                <p className="text-stone-600">
+                  {selectedCategory === 'All' 
+                    ? 'No blog posts have been published yet.' 
+                    : `No posts found in the "${selectedCategory}" category.`}
+                </p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {regularPosts.map((post) => (
+                  <Link key={post.id} href={`/blog/${post.slug}`}>
+                    <article className="group cursor-pointer">
+                      <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center group-hover:bg-stone-300 transition-colors">
+                        <span className="text-4xl">📖</span>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-rose-600 font-medium bg-rose-50 px-2 py-1 rounded">
+                            {post.category}
+                          </span>
+                          <span className="text-xs text-stone-500">{post.readTime}</span>
+                        </div>
+                        <h3 className="text-xl font-semibold text-stone-900 group-hover:text-rose-600 transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-stone-600 line-clamp-3">{post.excerpt}</p>
+                        <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+                          <span className="text-sm text-stone-500">{post.author}</span>
+                          <span className="text-sm text-stone-500">{post.date}</span>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                ))}
+              </div>
+            )}
 
-            {/* Load More */}
-            <div className="text-center mt-12">
-              <button className="bg-stone-100 hover:bg-stone-200 text-stone-700 px-8 py-3 rounded-full font-medium transition-colors">
-                Load More Posts
-              </button>
-            </div>
+            {/* Load More - Hidden for now since we're showing all posts */}
+            {regularPosts.length > 9 && (
+              <div className="text-center mt-12">
+                <button className="bg-stone-100 hover:bg-stone-200 text-stone-700 px-8 py-3 rounded-full font-medium transition-colors">
+                  Load More Posts
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -237,6 +203,15 @@ const Blog: NextPage = () => {
       </main>
       
       <Footer />
+
+      <style jsx global>{`
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </>
   );
 };
