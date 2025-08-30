@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +8,7 @@ const Blog: NextPage = () => {
   const blogPosts = [
     {
       id: 1,
+      slug: 'psychology-behind-voice-first-dating',
       title: 'The Psychology Behind Voice-First Dating',
       excerpt: 'Discover why hearing someone\'s voice before seeing their photo creates deeper, more authentic connections.',
       author: 'Dr. Sarah Chen',
@@ -18,6 +20,7 @@ const Blog: NextPage = () => {
     },
     {
       id: 2,
+      slug: 'creative-ice-breakers-that-work',
       title: '10 Creative Ice Breakers That Actually Work',
       excerpt: 'Move beyond "Hey, what\'s up?" with these conversation starters that spark real dialogue.',
       author: 'Emma Rodriguez',
@@ -29,6 +32,7 @@ const Blog: NextPage = () => {
     },
     {
       id: 3,
+      slug: 'building-confidence-digital-dating-world',
       title: 'Building Confidence in the Digital Dating World',
       excerpt: 'Expert tips for overcoming dating app anxiety and presenting your authentic self online.',
       author: 'Marcus Thompson',
@@ -40,6 +44,7 @@ const Blog: NextPage = () => {
     },
     {
       id: 4,
+      slug: 'science-of-meaningful-matches',
       title: 'The Science of Meaningful Matches',
       excerpt: 'How our algorithm prioritizes compatibility factors that lead to lasting relationships.',
       author: 'Tech Team',
@@ -51,6 +56,7 @@ const Blog: NextPage = () => {
     },
     {
       id: 5,
+      slug: 'success-stories-real-love-found-balloond',
       title: 'Success Stories: Real Love Found on Balloon\'d',
       excerpt: 'Meet couples who found lasting love through our platform and learn from their journeys.',
       author: 'Community Team',
@@ -62,6 +68,7 @@ const Blog: NextPage = () => {
     },
     {
       id: 6,
+      slug: 'red-flags-vs-deal-breakers',
       title: 'Red Flags vs. Deal Breakers: Know the Difference',
       excerpt: 'Learn to identify warning signs and distinguish between minor concerns and serious issues.',
       author: 'Dr. Michael Park',
@@ -125,9 +132,11 @@ const Blog: NextPage = () => {
                         <span>•</span>
                         <span>{featuredPost.readTime}</span>
                       </div>
-                      <button className="bg-white text-rose-600 hover:bg-stone-50 px-6 py-2 rounded-full font-medium transition-colors">
-                        Read More
-                      </button>
+                      <Link href={`/blog/${featuredPost.slug}`}>
+                        <button className="bg-white text-rose-600 hover:bg-stone-50 px-6 py-2 rounded-full font-medium transition-colors">
+                          Read More
+                        </button>
+                      </Link>
                     </div>
                   </div>
                   <div className="bg-rose-400 flex items-center justify-center p-8">
@@ -164,7 +173,8 @@ const Blog: NextPage = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {regularPosts.map((post) => (
-                <article key={post.id} className="group cursor-pointer">
+                <Link key={post.id} href={`/blog/${post.slug}`}>
+                  <article className="group cursor-pointer">
                   <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center group-hover:bg-stone-300 transition-colors">
                     <span className="text-4xl">📖</span>
                   </div>
@@ -184,7 +194,8 @@ const Blog: NextPage = () => {
                       <span className="text-sm text-stone-500">{post.date}</span>
                     </div>
                   </div>
-                </article>
+                  </article>
+                </Link>
               ))}
             </div>
 
