@@ -1,11 +1,22 @@
 // components/Header.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -21,9 +32,14 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-stone-50 border-b border-stone-200 backdrop-blur-sm' 
+          : 'bg-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Adjusted padding to 1.5rem as requested */}
         <div className="flex justify-between items-center py-6">
           {/* Left side - Navigation links */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -31,8 +47,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-rose-600 ${
-                  router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                className={`text-sm font-medium transition-all duration-300 ${
+                  router.pathname === item.href 
+                    ? (isScrolled ? 'text-rose-600' : 'text-white') 
+                    : (isScrolled ? 'text-stone-700 hover:text-rose-600' : 'text-white hover:text-rose-200')
                 }`}
               >
                 {item.name}
@@ -45,7 +63,9 @@ const Header = () => {
             <img 
               src="/logo.svg" 
               alt="Balloon'd Logo" 
-              className="h-10 w-auto transform scale-[4.25] origin-center" 
+              className={`h-10 w-auto transform scale-[4.25] origin-center transition-all duration-300 ${
+                isScrolled ? '' : 'brightness-0 invert'
+              }`}
               style={{ 
                 transform: 'scale(4.25)', 
                 transformOrigin: 'center' 
@@ -59,28 +79,38 @@ const Header = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-rose-600 ${
-                  router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                className={`text-sm font-medium transition-all duration-300 ${
+                  router.pathname === item.href 
+                    ? (isScrolled ? 'text-rose-600' : 'text-white') 
+                    : (isScrolled ? 'text-stone-700 hover:text-rose-600' : 'text-white hover:text-rose-200')
                 }`}
               >
                 {item.name}
               </Link>
             ))}
-            {/* Download button now visible on the far right */}
-            <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
+            {/* Download button */}
+            <button 
+              className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+                isScrolled 
+                  ? 'bg-rose-500 hover:bg-rose-600 text-white' 
+                  : 'bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30'
+              }`}
+            >
               Download App
             </button>
           </div>
 
           {/* Mobile layout - Logo centered, burger menu on right */}
           <div className="md:hidden flex items-center justify-between w-full">
-            {/* Mobile logo - centered with original size */}
+            {/* Mobile logo - centered */}
             <div className="flex-grow flex justify-center">
               <Link href="/" className="flex-shrink-0 flex items-center">
                 <img 
                   src="/logo.svg" 
                   alt="Balloon'd Logo" 
-                  className="h-10 w-auto transform scale-[4.25] origin-center" 
+                  className={`h-10 w-auto transform scale-[4.25] origin-center transition-all duration-300 ${
+                    isScrolled ? '' : 'brightness-0 invert'
+                  }`}
                   style={{ 
                     transform: 'scale(4.25)', 
                     transformOrigin: 'center' 
@@ -91,7 +121,11 @@ const Header = () => {
             
             {/* Mobile menu button on the right */}
             <button
-              className="inline-flex items-center justify-center p-2 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100"
+              className={`inline-flex items-center justify-center p-2 rounded-md transition-all duration-300 ${
+                isScrolled 
+                  ? 'text-stone-700 hover:text-stone-900 hover:bg-stone-100' 
+                  : 'text-white hover:text-rose-200 hover:bg-white/10'
+              }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg
@@ -122,14 +156,22 @@ const Header = () => {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-stone-200 py-4">
+          <div 
+            className={`md:hidden py-4 transition-all duration-300 ${
+              isScrolled 
+                ? 'border-t border-stone-200 bg-stone-50' 
+                : 'bg-black/20 backdrop-blur-sm border-t border-white/20'
+            }`}
+          >
             <div className="flex flex-col space-y-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-base font-medium transition-colors hover:text-rose-600 ${
-                    router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                  className={`text-base font-medium transition-all duration-300 ${
+                    router.pathname === item.href 
+                      ? (isScrolled ? 'text-rose-600' : 'text-white') 
+                      : (isScrolled ? 'text-stone-700 hover:text-rose-600' : 'text-white hover:text-rose-200')
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -140,15 +182,23 @@ const Header = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-base font-medium transition-colors hover:text-rose-600 ${
-                    router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                  className={`text-base font-medium transition-all duration-300 ${
+                    router.pathname === item.href 
+                      ? (isScrolled ? 'text-rose-600' : 'text-white') 
+                      : (isScrolled ? 'text-stone-700 hover:text-rose-600' : 'text-white hover:text-rose-200')
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
+              <button 
+                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
+                  isScrolled 
+                    ? 'bg-rose-500 hover:bg-rose-600 text-white' 
+                    : 'bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30'
+                }`}
+              >
                 Download App
               </button>
             </div>
