@@ -40,8 +40,8 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Center - Logo */}
-          <Link href="/" className="flex-shrink-0 flex items-center absolute left-1/2 transform -translate-x-1/2">
+          {/* Center - Logo (hidden on mobile, shown on desktop) */}
+          <Link href="/" className="hidden md:flex flex-shrink-0 items-center absolute left-1/2 transform -translate-x-1/2">
             <img 
               src="/logo.svg" 
               alt="Balloon'd Logo" 
@@ -72,34 +72,52 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg
-              className="h-6 w-6"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 24 24"
+          {/* Mobile layout - Logo centered, burger menu on right */}
+          <div className="md:hidden flex items-center justify-between w-full">
+            {/* Mobile logo - centered */}
+            <div className="flex-grow flex justify-center">
+              <Link href="/" className="flex-shrink-0 flex items-center">
+                <img 
+                  src="/logo.svg" 
+                  alt="Balloon'd Logo" 
+                  className="h-8 w-auto transform scale-[2.5] origin-center" 
+                  style={{ 
+                    transform: 'scale(2.5)', 
+                    transformOrigin: 'center' 
+                  }}
+                />
+              </Link>
+            </div>
+            
+            {/* Mobile menu button on the right */}
+            <button
+              className="inline-flex items-center justify-center p-2 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                {isMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}
