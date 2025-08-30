@@ -1,3 +1,4 @@
+// components/Header.tsx
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,12 +21,12 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
+          {/* Logo - now correctly pointing to public/logo.svg */}
           <Link href="/" className="flex-shrink-0">
             <img 
-              src="/public/balloond-logo.svg" 
+              src="/logo.svg" 
               alt="Balloon'd Logo" 
-              className="h-8 w-auto"
+              className="h-8 w-auto" 
             />
           </Link>
 
@@ -42,14 +43,10 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-          </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
             <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
               Download App
             </button>
-          </div>
+          </nav>
 
           {/* Mobile menu button */}
           <button
