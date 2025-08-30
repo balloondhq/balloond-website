@@ -13,6 +13,9 @@ const Header = () => {
     { name: 'Careers', href: '/careers' },
     { name: 'Press', href: '/press' },
     { name: 'Blog', href: '/blog' },
+  ];
+
+  const rightNavigation = [
     { name: 'Help Center', href: '/help-center' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -21,35 +24,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
-          {/* Logo - Adjusted for proper centering on mobile */}
-          <Link href="/" className="hidden md:flex flex-shrink-0 items-center">
-            <img 
-              src="/logo.svg" 
-              alt="Balloon'd Logo" 
-              className="h-10 w-auto transform scale-[4.25] origin-center" 
-              style={{ 
-                transform: 'scale(4.25)', 
-                transformOrigin: 'center' 
-              }}
-            />
-          </Link>
-
-          {/* Mobile logo - Properly centered with adjustedment */}
-          <div className="md:hidden flex-grow flex items-center justify-center">
-            <Link href="/" className="flex-shrink-0 items-center">
-              <img 
-                src="/logo.svg" 
-                alt="Balloon'dLogo" 
-                className="h-8 w-auto transform scale-[4.25] origin-center" 
-                style={{ 
-                  transform: 'scale(4.25)', 
-                  transformOrigin: 'center' 
-                }}
-              />
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
+          {/* Left side - Navigation links */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
@@ -64,6 +39,49 @@ const Header = () => {
             ))}
           </nav>
 
+          {/* Center - Logo (hidden on mobile, shown on desktop) */}
+          <Link href="/" className="hidden md:flex flex-shrink-0 items-center">
+            <img 
+              src="/logo.svg" 
+              alt="Balloon'd Logo" 
+              className="h-10 w-auto transform scale-[4.25] origin-center" 
+              style={{ 
+                transform: 'scale(4.25)', 
+                transformOrigin: 'center' 
+              }}
+            />
+          </Link>
+
+          {/* Mobile logo - Properly centered with adjustment */}
+          <div className="md:hidden flex-grow flex items-center justify-center">
+            <Link href="/" className="flex-shrink-0 items-center">
+              <img 
+                src="/logo.svg" 
+                alt="Balloon'd Logo" 
+                className="h-8 w-auto transform scale-[4.25] origin-center" 
+                style={{ 
+                  transform: 'scale(4.25)', 
+                  transformOrigin: 'center' 
+                }}
+              />
+            </Link>
+          </div>
+
+          {/* Right side - Help Center, Contact links */}
+          <div className="hidden md:flex items-center space-x-8">
+            {rightNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-medium transition-colors hover:text-rose-600 ${
+                  router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
             <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
@@ -76,7 +94,6 @@ const Header = () => {
             className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-  
             <svg
               className="h-6 w-6"
               stroke="currentColor"
@@ -92,8 +109,8 @@ const Header = () => {
                 />
               ) : (
                 <path
-                  strokeLineCap="round"
-                  strokeLineJoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth={2}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
@@ -115,7 +132,18 @@ const Header = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-  
+                  {item.name}
+                </Link>
+              ))}
+              {rightNavigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`text-base font-medium transition-colors hover:text-rose-600 ${
+                    router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   {item.name}
                 </Link>
               ))}
