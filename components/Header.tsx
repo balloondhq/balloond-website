@@ -21,12 +21,12 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo - bigger but constrained */}
+          {/* Logo - scaled using transform instead of height */}
           <Link href="/" className="flex-shrink-0 flex items-center">
             <img 
               src="/logo.svg" 
               alt="Balloon'd Logo" 
-              className="h-12 w-auto object-contain" 
+              className="h-10 w-auto transform scale-125 origin-left" 
             />
           </Link>
 
