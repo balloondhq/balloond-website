@@ -30,21 +30,22 @@ const About: NextPage = () => {
       
       <main className="overflow-hidden">
         {/* Hero Story Section */}
-        <section className="relative pt-32 pb-48 mt-28">
-          {/* Background image placeholder */}
-          <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
-            <div className="absolute left-0 top-0 w-1/2 h-full bg-gradient-to-br from-rose-200 to-orange-200 rounded-r-lg overflow-hidden">
-              {/* Placeholder for Dishaun's photo */}
-              <div className="relative w-full h-full bg-gradient-to-br from-rose-300 to-orange-300 flex items-center justify-center">
-                <div className="text-8xl opacity-50">👤</div>
+        <section className="pt-32 pb-24 mt-28">
+          {/* Content Container */}
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="flex gap-16 items-start">
+              {/* Left side - Photo */}
+              <div className="flex-shrink-0">
+                <div className="w-96 h-96 bg-gradient-to-br from-rose-200 to-orange-200 rounded-2xl overflow-hidden shadow-lg">
+                  {/* Placeholder for Dishaun's photo */}
+                  <div className="relative w-full h-full bg-gradient-to-br from-rose-300 to-orange-300 flex items-center justify-center">
+                    <div className="text-9xl opacity-50">👤</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative max-w-6xl mx-auto px-8">
-            <div className="flex justify-end">
-              <div className="w-1/2">
+              
+              {/* Right side - Content */}
+              <div className="flex-1 max-w-2xl">
                 <p className="text-rose-600 font-medium text-lg mb-7 tracking-wide">
                   About us
                 </p>
@@ -62,23 +63,8 @@ const About: NextPage = () => {
                 </p>
                 
                 <blockquote className="text-3xl font-light leading-relaxed py-8 my-7 text-black">
-                  That's why I created <span className="relative inline-block">
-                    <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
-                      Balloon'd
-                    </span>
-                    <svg 
-                      className="absolute -bottom-2 left-0 w-full h-6 text-rose-400 opacity-60" 
-                      viewBox="0 0 243 80" 
-                      fill="none" 
-                      preserveAspectRatio="none"
-                    >
-                      <path 
-                        stroke="currentColor" 
-                        strokeWidth="3" 
-                        d="M48.5 17.5C87.5 -2.5 239 -4 239 40.5C239 87 13.4999 87.5 5.00001 43.5C2.87503 32.5 23.8594 18.1699 39.3594 14.6699"
-                        className="animate-pulse"
-                      />
-                    </svg>
+                  That's why I created <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
+                    Balloon'd
                   </span>. It's not about gamification, it's about creating a fresh, fun, and meaningful way to connect.
                 </blockquote>
                 
@@ -110,7 +96,6 @@ const About: NextPage = () => {
               </div>
             </div>
           </div>
-        </section>
 
         {/* Mission & Values Section */}
         <section className="bg-white py-20">
