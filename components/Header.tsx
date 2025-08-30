@@ -13,6 +13,9 @@ const Header = () => {
     { name: 'Careers', href: '/careers' },
     { name: 'Press', href: '/press' },
     { name: 'Blog', href: '/blog' },
+  ];
+
+  const rightNavigation = [
     { name: 'Help Center', href: '/help-center' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -50,11 +53,19 @@ const Header = () => {
             />
           </Link>
 
-          {/* Right side - Download button */}
-          <div className="hidden md:flex items-center">
-            <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors">
-              Download App
-            </button>
+          {/* Right side - Help Center and Contact links */}
+          <div className="hidden md:flex items-center space-x-8">
+            {rightNavigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm font-medium transition-colors hover:text-rose-600 ${
+                  router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile menu button */}
@@ -103,9 +114,18 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition-colors text-center">
-                Download App
-              </button>
+              {rightNavigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`text-base font-medium transition-colors hover:text-rose-600 ${
+                    router.pathname === item.href ? 'text-rose-600' : 'text-stone-700'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
         )}
