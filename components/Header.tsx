@@ -21,22 +21,13 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-stone-50 border-b border-stone-200 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo - Updated with bigger inline SVG */}
+          {/* Logo - now correctly pointing to public/logo.svg */}
           <Link href="/" className="flex-shrink-0">
-            <svg height="48" viewBox="0 0 332 126" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-stone-900">
-              <title>Balloon'd Logo</title>
-              <g fill="currentColor">
-                {/* Balloon shape */}
-                <path d="M63 25C63 37.4264 52.4264 48 40 48C27.5736 48 17 37.4264 17 25C17 12.5736 27.5736 2 40 2C52.4264 2 63 12.5736 63 25Z" />
-                {/* Balloon string */}
-                <path d="M40 48L40 80" stroke="currentColor" strokeWidth="2" />
-                {/* Text */}
-                <text x="75" y="40" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="bold">Balloon'd</text>
-                {/* Decorative elements */}
-                <circle cx="35" cy="20" r="2" fill="white" />
-                <circle cx="45" cy="30" r="1.5" fill="white" />
-              </g>
-            </svg>
+            <img 
+              src="/logo.svg" 
+              alt="Balloon'd Logo" 
+              className="h-10 w-auto" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
