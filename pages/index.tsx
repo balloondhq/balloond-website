@@ -1,11 +1,51 @@
 // pages/index.tsx
 import type { NextPage } from 'next';
+import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Home: NextPage = () => {
+  // Testimonials carousel state
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [progress, setProgress] = useState(0);
+  
+  const testimonials = [
+    {
+      quote: "The pop challenges were so fun! They immediately broke the ice and helped me connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.",
+      author: "Michael T."
+    },
+    {
+      quote: "After years of disappointing dating app experiences, Balloon'd helped me find someone who truly gets me. The voice-first approach really made a difference in forming a real connection.",
+      author: "Jessica L."
+    },
+    {
+      quote: "Balloon'd's unique approach to breaking the ice made all the difference. I met my fiancé through one of the pop challenges, and we're getting married next spring!",
+      author: "Emma R."
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          setCurrentTestimonial(current => (current + 1) % testimonials.length);
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 100); // Update every 100ms for smooth progress
+
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
+  const QuoteIcon = () => (
+    <svg viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-auto">
+      <path d="M25 11.749C25.4348 6.96234 29.0217 3.91631 35 2.93723V0C24.4565 0.761503 18.6957 7.17991 18.6957 15.8828C18.6957 21.7573 21.7391 26 26.9565 26C31.3043 26 34.6739 23.0628 34.6739 18.6025C34.6739 14.6862 32.1739 12.4017 29.0217 11.749H25ZM6.19565 11.749C6.73913 6.96234 10.2174 3.91631 16.3043 2.93723V0C5.76087 0.761503 0 7.17991 0 15.8828C0 21.7573 3.04348 26 8.26087 26C12.5 26 15.9783 23.0628 15.9783 18.6025C15.9783 14.6862 13.4783 12.4017 10.3261 11.749H6.19565Z" fill="currentColor"/>
+    </svg>
+  );
+
   return (
     <>
       <NextSeo
@@ -119,7 +159,7 @@ const Home: NextPage = () => {
               <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
                 <div className="relative">
                   <div className="inline-flex items-center bg-gradient-to-r from-rose-100 to-orange-100 px-4 py-2 rounded-full mb-8">
-                    <span className="text-rose-600 font-medium text-sm">✨ OUR APPROACH</span>
+                    <span className="text-rose-600 font-medium text-sm">âœ¨ OUR APPROACH</span>
                   </div>
                   <h2 className="text-5xl md:text-6xl font-light text-black leading-tight">
                     <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
@@ -142,7 +182,7 @@ const Home: NextPage = () => {
                     <button className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium transition-all duration-300 group">
                       <span className="flex items-center gap-2">
                         How we do it
-                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        <span className="group-hover:translate-x-1 transition-transform">â†'</span>
                       </span>
                     </button>
                   </div>
@@ -156,13 +196,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-rose-400 to-pink-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        🎯
+                        ðŸŽ¯
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Make dating fun again</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Say goodbye to boring "hey" messages! Our balloon-pop icebreakers and playful challenges 
-                      turn every conversation starter into an adventure. ✨
+                      turn every conversation starter into an adventure. âœ¨
                     </p>
                   </div>
                 </div>
@@ -172,13 +212,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        💬
+                        ðŸ'¬
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Cut through the games</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       No more guessing games or mixed signals! Our tools encourage honest, direct conversations 
-                      so you can focus on building real connections that matter. 🎪
+                      so you can focus on building real connections that matter. ðŸŽª
                     </p>
                   </div>
                 </div>
@@ -188,13 +228,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        ✨
+                        âœ¨
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Prioritize authenticity</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Your personality shines brighter than your filtered photos! We celebrate genuine vibes, 
-                      quirky interests, and real moments that make you uniquely you. 🌟
+                      quirky interests, and real moments that make you uniquely you. ðŸŒŸ
                     </p>
                   </div>
                 </div>
@@ -204,13 +244,13 @@ const Home: NextPage = () => {
                   <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        🛡️
+                        ðŸ›¡ï¸
                       </div>
                       <h3 className="text-2xl font-semibold text-black">Safe & inclusive space</h3>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-lg">
                       Everyone deserves to feel respected and valued! Our community prioritizes kindness, 
-                      safety, and creating a welcoming environment for all love stories. 💖
+                      safety, and creating a welcoming environment for all love stories. ðŸ'–
                     </p>
                   </div>
                 </div>
@@ -234,7 +274,7 @@ const Home: NextPage = () => {
             <div className="grid md:grid-cols-3 gap-16 max-w-6xl mx-auto">
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">🎈</span>
+                  <span className="text-3xl">ðŸŽˆ</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Pop challenges</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -245,7 +285,7 @@ const Home: NextPage = () => {
               
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">🎤</span>
+                  <span className="text-3xl">ðŸŽ¤</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Voice first</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -256,7 +296,7 @@ const Home: NextPage = () => {
               
               <div className="text-center">
                 <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">❤️</span>
+                  <span className="text-3xl">â¤ï¸</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Smart matching</h3>
                 <p className="text-gray-600 font-light text-lg leading-relaxed">
@@ -272,6 +312,7 @@ const Home: NextPage = () => {
         <section className="bg-gray-900 text-white py-32">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-20">
+              <p className="text-rose-400 font-medium text-lg mb-5">What Our Users Say</p>
               <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
                 Real stories, <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">real connections</span>
               </h2>
@@ -280,34 +321,47 @@ const Home: NextPage = () => {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-              <div className="bg-gray-800 p-10 rounded-lg">
-                <div className="text-rose-400 text-4xl mb-6">"</div>
-                <p className="text-lg font-light mb-8 leading-relaxed opacity-90">
-                  The pop challenges were so fun! They immediately broke the ice and helped me 
-                  connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-700 mr-4"></div>
-                  <div>
-                    <div className="font-light text-white">Michael T.</div>
-                    <div className="text-gray-400 text-sm font-light">Matched 6 months ago</div>
-                  </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="relative" style={{height: '512px'}}>
+                {/* Testimonial Content */}
+                <div className="flex flex-col justify-between h-full max-w-3xl">
+                  <div className="flex items-center"></div>
+                  <blockquote className="pt-30 pb-14">
+                    <div className="text-rose-400 mb-6">
+                      <QuoteIcon />
+                    </div>
+                    <p className="text-3xl md:text-4xl font-light leading-tight mb-9 transition-all duration-500">
+                      {testimonials[currentTestimonial].quote}
+                    </p>
+                    <span className="text-lg font-medium block transition-all duration-500">
+                      {testimonials[currentTestimonial].author}
+                    </span>
+                  </blockquote>
                 </div>
-              </div>
-              
-              <div className="bg-gray-800 p-10 rounded-lg">
-                <div className="text-rose-400 text-4xl mb-6">"</div>
-                <p className="text-lg font-light mb-8 leading-relaxed opacity-90">
-                  After years of disappointing dating app experiences, Balloon'd helped me find someone 
-                  who truly gets me. The voice-first approach really made a difference in forming a real connection.
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-700 mr-4"></div>
-                  <div>
-                    <div className="font-light text-white">Jessica L.</div>
-                    <div className="text-gray-400 text-sm font-light">Matched 1 year ago</div>
-                  </div>
+
+                {/* Progress indicators */}
+                <div className="absolute bottom-0 left-0 w-full flex">
+                  {testimonials.map((_, index) => (
+                    <button 
+                      key={index}
+                      className={`flex-1 px-4 py-4 -mb-4 cursor-pointer appearance-none bg-transparent border-0 text-white ${index > 0 ? 'ml-2' : ''}`}
+                      role="tab"
+                      aria-label={`Testimonial ${index + 1}`}
+                      onClick={() => {
+                        setCurrentTestimonial(index);
+                        setProgress(0);
+                      }}
+                    >
+                      <span className="relative block h-0.5 overflow-hidden rounded-full bg-gray-600">
+                        <span 
+                          className="absolute left-0 top-0 h-0.5 rounded bg-white transition-all duration-100"
+                          style={{
+                            width: index === currentTestimonial ? `${progress}%` : index < currentTestimonial ? '100%' : '0%'
+                          }}
+                        ></span>
+                      </span>
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
