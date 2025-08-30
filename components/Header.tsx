@@ -74,15 +74,15 @@ const Header = () => {
 
           {/* Mobile layout - Logo centered, burger menu on right */}
           <div className="md:hidden flex items-center justify-between w-full">
-            {/* Mobile logo - centered */}
+            {/* Mobile logo - centered with original size */}
             <div className="flex-grow flex justify-center">
               <Link href="/" className="flex-shrink-0 flex items-center">
                 <img 
                   src="/logo.svg" 
                   alt="Balloon'd Logo" 
-                  className="h-8 w-auto transform scale-[2.5] origin-center" 
+                  className="h-10 w-auto transform scale-[4.25] origin-center" 
                   style={{ 
-                    transform: 'scale(2.5)', 
+                    transform: 'scale(4.25)', 
                     transformOrigin: 'center' 
                   }}
                 />
