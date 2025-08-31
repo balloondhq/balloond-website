@@ -1,75 +1,4 @@
-// pages/index.tsx
-import type { NextPage } from 'next';
-import { useState, useEffect } from 'react';
-import { NextSeo } from 'next-seo';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
-const Home: NextPage = () => {
-  // Testimonials carousel state
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [progress, setProgress] = useState(0);
-  
-  const testimonials = [
-    {
-      quote: "The pop challenges were so fun! They immediately broke the ice and helped me connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.",
-      author: "Michael T."
-    },
-    {
-      quote: "After years of disappointing dating app experiences, Balloon'd helped me find someone who truly gets me. The voice-first approach really made a difference in forming a real connection.",
-      author: "Jessica L."
-    }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          setCurrentTestimonial(current => (current + 1) % testimonials.length);
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 100); // Update every 100ms for smooth progress
-
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  const QuoteIcon = () => (
-    <svg viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-auto">
-      <path d="M25 11.749C25.4348 6.96234 29.0217 3.91631 35 2.93723V0C24.4565 0.761503 18.6957 7.17991 18.6957 15.8828C18.6957 21.7573 21.7391 26 26.9565 26C31.3043 26 34.6739 23.0628 34.6739 18.6025C34.6739 14.6862 32.1739 12.4017 29.0217 11.749H25ZM6.19565 11.749C6.73913 6.96234 10.2174 3.91631 16.3043 2.93723V0C5.76087 0.761503 0 7.17991 0 15.8828C0 21.7573 3.04348 26 8.26087 26C12.5 26 15.9783 23.0628 15.9783 18.6025C15.9783 14.6862 13.4783 12.4017 10.3261 11.749H6.19565Z" fill="currentColor"/>
-    </svg>
-  );
-
-  return (
-    <>
-      <NextSeo
-        title="Balloon'd - Pop into Something Real"
-        description="Break through the noise of modern dating. Pop the balloon of small talk and endless swiping with authentic, fun connections."
-        canonical="https://balloond.com/"
-        openGraph={{
-          type: 'website',
-          locale: 'en_US',
-          url: 'https://balloond.com/',
-          siteName: "Balloon'd",
-          images: [
-            {
-              url: 'https://balloond.com/og-image.png',
-              width: 1200,
-              height: 630,
-              alt: "Balloon'd Dating App",
-            },
-          ],
-        }}
-      />
-      
-      <Header />
-      
-      <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen bg-black text-white overflow-hidden">
-          {/* Background gradient overlay */}
+// pages/index.tsx (continued)
           <div className="absolute inset-0 bg-gradient-to-br from-rose-900/20 via-black to-orange-900/20"></div>
           
           {/* Lottie Animations */}
@@ -117,14 +46,12 @@ const Home: NextPage = () => {
               <div className="max-w-6xl mx-auto text-center">
                 <h1 className="text-6xl md:text-8xl font-light mb-8 leading-tight">
                   <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
-                    One pop away
+                    {heroHeadline}
                   </span>
-                  <br />
                 </h1>
                 
                 <p className="text-xl md:text-2xl font-light mb-12 max-w-3xl mx-auto opacity-90 leading-relaxed">
-                  The dating app that breaks through small talk and endless swiping 
-                  with authentic connections and meaningful conversations.
+                  {heroSubtitle}
                 </p>
                 
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
@@ -169,10 +96,7 @@ const Home: NextPage = () => {
                   <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-rose-200 to-orange-200 rounded-full opacity-60 animate-pulse"></div>
                   <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 relative z-10">
                     <p className="text-lg font-light text-gray-600 leading-relaxed mb-8">
-                      Balloon'd is built on the belief that anyone looking for love should 
-                      be able to find it. We break through the noise of modern dating by helping people 
-                      "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, 
-                      fun, and meaningful connections where people can quickly discover if sparks truly fly.
+                      {missionStatement}
                     </p>
                     <button className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium transition-all duration-300 group">
                       <span className="flex items-center gap-2">
