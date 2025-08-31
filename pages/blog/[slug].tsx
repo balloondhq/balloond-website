@@ -1,4 +1,131 @@
-// pages/blog/[slug].tsx (continued)
+// pages/blog/[slug].tsx
+import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { NextSeo } from 'next-seo';
+import { useEffect, useState } from 'react';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import { BlogPost, getBlogPost, getPublishedBlogPosts } from '../../lib/content-manager';
+
+interface BlogPostProps {
+  post: BlogPost | null;
+  relatedPosts: BlogPost[];
+}
+
+const BlogPostPage: NextPage<BlogPostProps> = ({ post: initialPost, relatedPosts: initialRelatedPosts }) => {
+  const router = useRouter();
+  const [post, setPost] = useState<BlogPost | null>(initialPost);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>(initialRelatedPosts);
+
+  // Update post data when content changes
+  useEffect(() => {
+    if (router.query.slug && typeof window !== 'undefined') {
+      const slug = router.query.slug as string;
+      const updatedPost = getBlogPost(slug);
+      
+      if (updatedPost && updatedPost.status === 'published') {
+        setPost(updatedPost);
+        
+        // Update related posts
+        const allPosts = getPublishedBlogPosts();
+        const related = allPosts
+          .filter((p) => p.category === updatedPost.category && p.id !== updatedPost.id)
+          .slice(0, 3);
+        setRelatedPosts(related);
+      }
+    }
+
+    // Listen for content updates
+    const handleContentUpdate = () => {
+      if (router.query.slug) {
+        const slug = router.query.slug as string;
+        const updatedPost = getBlogPost(slug);
+        
+        if (updatedPost && updatedPost.status === 'published') {
+          setPost(updatedPost);
+          
+          const allPosts = getPublishedBlogPosts();
+          const related = allPosts
+            .filter((p) => p.category === updatedPost.category && p.id !== updatedPost.id)
+            .slice(0, 3);
+          setRelatedPosts(related);
+        }
+      }
+    };
+
+    window.addEventListener('content-updated', handleContentUpdate);
+    return () => window.removeEventListener('content-updated', handleContentUpdate);
+  }, [router.query.slug]);
+
+  if (router.isFallback) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
+            <p className="text-stone-600">Loading post...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!post) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-stone-900 mb-4">Post Not Found</h1>
+            <p className="text-stone-600 mb-8">The blog post you're looking for doesn't exist or has been unpublished.</p>
+            <Link href="/blog" className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+              Back to Blog
+            </Link>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <NextSeo
+        title={`${post.title} - Balloon'd Blog`}
+        description={post.excerpt}
+        canonical={`https://balloond.com/blog/${post.slug}`}
+        openGraph={{
+          type: 'article',
+          article: {
+            publishedTime: post.date,
+            authors: [post.author],
+            tags: post.tags,
+          },
+          images: [
+            {
+              url: `https://balloond.com${post.image}`,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ],
+        }}
+      />
+      
+      <Header />
+      
+      <main className="pt-20">
+        {/* Breadcrumb */}
+        <section className="py-6 border-b border-stone-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="flex items-center space-x-2 text-sm text-stone-500">
+              <Link href="/" className="hover:text-rose-500 transition-colors">Home</Link>
+              <span>/</span>
+              <Link href="/blog" className="hover:text-rose-500 transition-colors">Blog</Link>
+              <span>/</span>
               <span className="text-stone-700">{post.title}</span>
             </nav>
           </div>
@@ -112,7 +239,6 @@
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href);
-                    // You could add a toast notification here
                   }}
                   className="bg-stone-600 hover:bg-stone-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
