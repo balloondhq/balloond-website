@@ -158,7 +158,9 @@ const BlogPostForm = ({ post, onSave, onCancel }: any) => {
     readTime: post?.readTime || '5 min read',
     published: post?.published || false,
     featured: post?.featured || false,
+    image: post?.image || '',
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -166,6 +168,35 @@ const BlogPostForm = ({ post, onSave, onCancel }: any) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/upload/image-blob', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Upload failed');
+      }
+      
+      const data = await res.json();
+      setFormData(prev => ({ ...prev, image: data.url }));
+    } catch (error) {
+      console.error('Image upload error:', error);
+      alert('Failed to upload image. Please try again.');
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -202,6 +233,57 @@ const BlogPostForm = ({ post, onSave, onCancel }: any) => {
         <div>
             <label className="block text-sm font-medium text-gray-700">Content</label>
             <textarea name="content" value={formData.content} onChange={handleChange} rows={10} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+
+        {/* Featured Image Upload */}
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+              {formData.image ? (
+                <div className="space-y-4">
+                  <div className="relative">
+                    <img 
+                      src={formData.image} 
+                      alt="Featured image preview" 
+                      className="max-w-full h-48 object-cover rounded-lg mx-auto"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="text-gray-400 mb-4">
+                    <svg className="mx-auto h-12 w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">Upload a featured image for your blog post</p>
+                </div>
+              )}
+              <div className="flex justify-center">
+                <label className={`cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white ${
+                  uploadingImage ? 'bg-gray-400' : 'bg-rose-500 hover:bg-rose-600'
+                } transition-colors`}>
+                  {uploadingImage ? 'Uploading...' : formData.image ? 'Change Image' : 'Upload Image'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                    className="sr-only"
+                  />
+                </label>
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-2">PNG, JPG, GIF up to 5MB</p>
+            </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

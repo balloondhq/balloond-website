@@ -20,6 +20,7 @@ interface BlogPost {
   category: string;
   tags: string[];
   featured: boolean;
+  image?: string | null;
 }
 
 interface BlogPostProps {
@@ -136,8 +137,22 @@ const BlogPostPage: NextPage<BlogPostProps> = ({ post, relatedPosts }) => {
             </div>
 
             {/* Featured Image */}
-            <div className="bg-stone-200 aspect-video rounded-lg flex items-center justify-center mb-8">
-              <span className="text-6xl">📖</span>
+            <div className="bg-stone-200 aspect-video rounded-lg flex items-center justify-center mb-8 overflow-hidden">
+              {post.image ? (
+                <img 
+                  src={post.image} 
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.parentElement!.innerHTML = '<span class="text-6xl">📖</span>';
+                  }}
+                />
+              ) : (
+                <span className="text-6xl">📖</span>
+              )}
             </div>
           </div>
         </section>
@@ -232,8 +247,21 @@ const BlogPostPage: NextPage<BlogPostProps> = ({ post, relatedPosts }) => {
                 {relatedPosts.map((relatedPost) => (
                   <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
                     <article className="group cursor-pointer bg-white rounded-lg p-6 hover:shadow-lg transition-shadow">
-                      <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center">
-                        <span className="text-4xl">📖</span>
+                      <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                        {relatedPost.image ? (
+                          <img 
+                            src={relatedPost.image} 
+                            alt={relatedPost.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement!.innerHTML = '<span class="text-4xl">📖</span>';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-4xl">📖</span>
+                        )}
                       </div>
                       <div className="space-y-3">
                         <span className="text-xs text-rose-600 font-medium bg-rose-50 px-2 py-1 rounded">
@@ -391,6 +419,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) 
         tags: true,
         featured: true,
         published: true,
+        image: true,
       },
     });
 
@@ -420,6 +449,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) 
         category: true,
         tags: true,
         featured: true,
+        image: true,
       },
       take: 3,
     });

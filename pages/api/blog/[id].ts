@@ -60,6 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         category,
         tags,
         readTime,
+        image,
         featured,
         published,
       } = req.body;
@@ -76,6 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           category,
           tags,
           readTime,
+          image,
           featured,
           published,
           publishedAt: published && !existingPost.published ? new Date() : existingPost.publishedAt,

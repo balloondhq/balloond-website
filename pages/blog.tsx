@@ -17,6 +17,7 @@ interface BlogPost {
   readTime: string;
   category: string;
   featured: boolean;
+  image?: string | null;
 }
 
 interface BlogProps {
@@ -138,8 +139,21 @@ const Blog: NextPage<BlogProps> = ({ posts }) => {
                 {regularPosts.map((post) => (
                   <Link key={post.id} href={`/blog/${post.slug}`}>
                     <article className="group cursor-pointer">
-                      <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center group-hover:bg-stone-300 transition-colors">
-                        <span className="text-4xl">📖</span>
+                      <div className="bg-stone-200 aspect-video rounded-lg mb-4 flex items-center justify-center group-hover:bg-stone-300 transition-colors overflow-hidden">
+                        {post.image ? (
+                          <img 
+                            src={post.image} 
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement!.innerHTML = '<span class="text-4xl">📖</span>';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-4xl">📖</span>
+                        )}
                       </div>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -223,6 +237,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         readTime: true,
         category: true,
         featured: true,
+        image: true,
       },
       orderBy: { createdAt: 'desc' },
     });

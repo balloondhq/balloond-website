@@ -42,6 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         category,
         tags,
         readTime,
+        image,
         featured,
         published,
       } = req.body;
@@ -57,6 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           category,
           tags: tags || [],
           readTime: readTime || '5 min read',
+          image: image || null,
           featured: featured || false,
           published: published || false,
           publishedAt: published ? new Date() : null,
