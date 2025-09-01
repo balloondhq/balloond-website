@@ -29,10 +29,15 @@ const AdminSeedPage: NextPage = () => {
       if (response.ok) {
         setResult(data);
       } else {
-        setError(`Error: ${data.message || 'Seeding failed'}`);
+        // Show detailed error information
+        const errorMsg = `HTTP ${response.status}: ${data.message || 'Seeding failed'}`;
+        const errorDetails = data.error ? `\nDetails: ${data.error}` : '';
+        setError(errorMsg + errorDetails);
+        console.error('Seed API Error:', data);
       }
     } catch (err) {
       setError(`Network Error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      console.error('Network Error:', err);
     }
     
     setIsLoading(false);
@@ -70,8 +75,15 @@ const AdminSeedPage: NextPage = () => {
         }}>
           <strong>Instructions:</strong>
           <ol>
-            <li>Make sure your Vercel environment variables are set</li>
-            <li>Enter your seed key</li>
+            <li>Make sure your Vercel environment variables are set:
+              <ul>
+                <li><code>DATABASE_URL</code> - Your database connection string</li>
+                <li><code>SEED_KEY</code> - Must match the value below</li>
+                <li><code>ADMIN_EMAIL</code> (optional) - Admin user email</li>
+                <li><code>ADMIN_PASSWORD</code> (optional) - Admin user password</li>
+              </ul>
+            </li>
+            <li>Enter your seed key (should match your <code>SEED_KEY</code> env var)</li>
             <li>Click "Seed Database"</li>
             <li>Wait for the success message</li>
           </ol>
