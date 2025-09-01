@@ -1,6 +1,7 @@
 // lib/auth.ts
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 import { NextRequest } from 'next/server';
+import { NextApiRequest } from 'next';
 import bcrypt from 'bcryptjs';
 import { prisma } from './prisma';
 
@@ -75,4 +76,22 @@ export function hasPermission(userRole: 'ADMIN' | 'EDITOR', requiredRole: 'ADMIN
     return userRole === 'ADMIN' || userRole === 'EDITOR';
   }
   return userRole === 'ADMIN';
+}
+
+// For API routes - extracts session from cookies
+export async function getSession(req: NextApiRequest): Promise<UserPayload & { userId: string } | null> {
+  try {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+      return null;
+    }
+
+    const payload = await verifyJWT(token);
+    return {
+      ...payload,
+      userId: payload.id, // Add userId alias for compatibility
+    };
+  } catch (error) {
+    return null;
+  }
 }
