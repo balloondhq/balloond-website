@@ -156,9 +156,9 @@ const Home: NextPage = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20 sm:pt-16 lg:pt-0">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen">
-            {/* Left Content - Enhanced Typography */}
-            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left order-2 lg:order-1">
+          <div className="flex justify-center items-center min-h-screen">
+            {/* Center Content - Enhanced Typography */}
+            <div className="max-w-4xl mx-auto text-center">
               {/* Badge/Tag - Lowered Position */}
               <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-rose-700 font-medium text-xs sm:text-sm mb-6 sm:mb-8 lg:mb-12 border border-rose-200">
                 <span className="mr-2">🎈</span>
@@ -178,88 +178,13 @@ const Home: NextPage = () => {
               </p>
               
               {/* Enhanced CTA Button */}
-              <div className="flex justify-center lg:justify-start mb-8 lg:mb-16">
+              <div className="flex justify-center mb-8 lg:mb-16">
                 <button className="group bg-white/90 backdrop-blur-sm text-gray-900 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg hover:bg-white transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
                   Get Started Today
                 </button>
               </div>
             </div>
             
-            {/* Right Content - Enhanced Phone with Multiple Screens */}
-            <div className="flex justify-center relative order-1 lg:order-2 mb-8 lg:mb-0">
-              <div className="relative">
-                {/* Main Phone Frame */}
-                <div className="relative w-72 sm:w-80 h-[580px] sm:h-[650px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
-                  {/* Screen */}
-                  <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
-                    {/* Status Bar */}
-                    <div className="h-14 bg-gradient-to-r from-rose-50 to-orange-50 flex items-center justify-between px-6">
-                      <span className="text-sm font-bold text-gray-800">9:41</span>
-                      <div className="flex items-center space-x-2">
-                        <div className="flex space-x-1">
-                          <div className="w-4 h-2 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full"></div>
-                          <div className="w-4 h-2 bg-green-500 rounded-full"></div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* App Header */}
-                    <div className="px-6 py-4 bg-white border-b border-rose-100">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-orange-500">Balloon'd</h3>
-                        <div className="text-2xl animate-pulse">🎈</div>
-                      </div>
-                    </div>
-                    
-                    {/* App Content - Discovery */}
-                    <div className="flex-1 bg-gradient-to-br from-rose-50 via-white to-orange-50 p-6">
-                      <div className="text-center mb-4">
-                        <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-rose-100 to-pink-100 rounded-full text-rose-700 text-sm font-medium mb-4">
-                          <span className="mr-1">🎯</span>
-                          Perfect Match
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-1">Emma, 26</h3>
-                        <p className="text-rose-600 font-medium">1.2 miles away • Online now</p>
-                      </div>
-                      
-                      {/* Profile Card with Balloon Reveal */}
-                      <div className="relative w-full h-80 bg-gradient-to-br from-rose-200 via-pink-200 to-orange-200 rounded-3xl mx-auto mb-6 overflow-hidden shadow-lg">
-                        {/* Balloon Overlay Effect */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-8xl animate-bounce-slow opacity-80">🎈</div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-3">
-                            <p className="text-sm font-medium text-gray-800">"Love hiking and Sunday brunches! 🥞"</p>
-                            <div className="flex items-center mt-2 space-x-2">
-                              <span className="text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-full">Adventurous</span>
-                              <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Foodie</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Action Buttons */}
-                      <div className="flex justify-center space-x-6">
-                        <button className="w-16 h-16 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center text-2xl hover:bg-gray-50 hover:border-gray-300 transition-all transform hover:scale-110 shadow-lg">
-                          ✕
-                        </button>
-                        <button className="w-20 h-20 bg-gradient-to-r from-rose-500 to-orange-500 rounded-full flex items-center justify-center text-3xl text-white hover:from-rose-600 hover:to-orange-600 transition-all transform hover:scale-110 shadow-2xl">
-                          🎈
-                        </button>
-                        <button className="w-16 h-16 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center text-2xl hover:bg-gray-50 hover:border-gray-300 transition-all transform hover:scale-110 shadow-lg">
-                          💝
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Notch */}
-                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
-                </div>
-                
-              </div>
-            </div>
           </div>
         </div>
       </section>

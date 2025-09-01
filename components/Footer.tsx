@@ -31,16 +31,15 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              {/* Updated logo - now referencing public/logo.svg */}
+            <div className="flex justify-center lg:justify-start mb-6">
+              {/* Updated logo - larger and white */}
               <Image
                 src="/logo.svg"
                 alt="Balloon'd Logo"
-                width={40}
-                height={40}
-                className="h-10 w-auto"
+                width={80}
+                height={80}
+                className="h-16 w-auto brightness-0 invert"
               />
-              <span className="text-2xl font-bold">Balloon'd</span>
             </div>
             
             <p className="text-gray-400 mb-6 max-w-sm">
