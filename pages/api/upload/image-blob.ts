@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       maxFileSize: 5 * 1024 * 1024, // 5MB limit
       filter: ({ mimetype }) => {
         // Only allow images
-        return mimetype && mimetype.startsWith('image/');
+        return Boolean(mimetype && mimetype.startsWith('image/'));
       },
     });
 
