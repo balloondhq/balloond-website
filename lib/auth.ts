@@ -1,5 +1,5 @@
 // lib/auth.ts
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 import { NextRequest } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from './prisma';
@@ -13,9 +13,11 @@ export interface UserPayload {
   email: string;
   name: string;
   role: 'ADMIN' | 'EDITOR';
+  [key: string]: unknown; // <-- Add this for jose JWTPayload compatibility
 }
 
 export async function signJWT(payload: UserPayload): Promise<string> {
+  // SignJWT expects a JWTPayload (index signature), so this is now type-safe
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
