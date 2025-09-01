@@ -258,34 +258,6 @@ const Home: NextPage = () => {
                   <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
                 </div>
                 
-                {/* Floating Success Notification - Hidden on mobile */}
-                <div className="hidden sm:block absolute -top-8 -left-12 bg-white rounded-2xl p-4 shadow-2xl border border-rose-100 transform -rotate-12 animate-float">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full flex items-center justify-center text-white">
-                      🎈
-                    </div>
-                    <div>
-                      <p className="font-bold text-gray-900 text-sm">It's a match!</p>
-                      <p className="text-gray-600 text-xs">Someone popped for you</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Floating Voice Message - Hidden on mobile */}
-                <div className="hidden sm:block absolute -bottom-8 -right-16 bg-gradient-to-r from-rose-500 to-orange-500 rounded-2xl p-4 shadow-2xl transform rotate-12 animate-float-delay">
-                  <div className="flex items-center space-x-2 text-white">
-                    <span className="text-xl animate-pulse">🎙️</span>
-                    <div>
-                      <p className="font-bold text-sm">Voice message</p>
-                      <div className="flex space-x-1 mt-1">
-                        <div className="w-1 h-3 bg-white rounded-full animate-pulse"></div>
-                        <div className="w-1 h-4 bg-white rounded-full animate-pulse delay-100"></div>
-                        <div className="w-1 h-2 bg-white rounded-full animate-pulse delay-200"></div>
-                        <div className="w-1 h-5 bg-white rounded-full animate-pulse delay-300"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
