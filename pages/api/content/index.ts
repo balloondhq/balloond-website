@@ -23,8 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const user = await verifyJWT(token);
-      if (!hasPermission(user.role, 'EDITOR')) {
-        return res.status(403).json({ message: 'Insufficient permissions' });
+      if (!hasPermission(user.role, 'ADMIN')) {
+        return res.status(403).json({ message: 'Admin permission required' });
       }
 
       const { section, title, content: contentText, published } = req.body;
