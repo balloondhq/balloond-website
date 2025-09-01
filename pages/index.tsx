@@ -89,102 +89,146 @@ const Home: NextPage = () => {
       {/* Header */}
       <Header />
       
-      {/* Hero Section - Hinge Style */}
-      <section className="relative min-h-screen bg-white flex items-center overflow-hidden">
-        {/* Subtle Background Pattern */}
+      {/* Hero Section - Hinge + Bumble Inspired */}
+      <section className="relative min-h-screen bg-gradient-to-br from-white via-rose-50 to-orange-50 flex items-center overflow-hidden">
+        {/* Animated Background Elements - Bumble Style */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-3 h-3 bg-rose-200 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-2 h-2 bg-orange-200 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute bottom-40 left-1/4 w-4 h-4 bg-pink-200 rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute bottom-20 right-1/3 w-2 h-2 bg-rose-200 rounded-full animate-pulse delay-3000"></div>
+          {/* Large Background Balloons */}
+          <div className="absolute top-20 left-20 w-32 h-32 bg-rose-200/30 rounded-full animate-float blur-xl"></div>
+          <div className="absolute top-60 right-32 w-48 h-48 bg-orange-200/20 rounded-full animate-float-delay blur-2xl"></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-pink-200/25 rounded-full animate-bounce-slow blur-xl"></div>
+          
+          {/* Small Floating Balloons */}
+          <div className="absolute top-32 right-20 text-4xl animate-float opacity-60">🎈</div>
+          <div className="absolute top-80 left-12 text-3xl animate-float-delay opacity-50">💕</div>
+          <div className="absolute bottom-40 right-16 text-5xl animate-bounce-slow opacity-40">🎈</div>
+          <div className="absolute top-1/2 left-8 text-2xl animate-float opacity-30">💝</div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
-            <div className="max-w-lg mx-auto lg:mx-0">
-              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-8">
-                Pop into
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-orange-500">
-                  Something Real
+            {/* Left Content - Enhanced Typography */}
+            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+              {/* Badge/Tag */}
+              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-rose-100 to-orange-100 rounded-full text-rose-700 font-medium text-sm mb-8 border border-rose-200">
+                <span className="mr-2">🎈</span>
+                New way to connect authentically
+              </div>
+              
+              <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8">
+                <span className="block text-gray-900 mb-2">You're</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 relative">
+                  One Pop Away
+                  {/* Decorative balloon */}
+                  <div className="absolute -top-8 -right-12 text-4xl animate-bounce-slow">
+                    🎈
+                  </div>
                 </span>
               </h1>
               
-              <p className="text-xl text-gray-600 mb-10 leading-relaxed">
-                The dating app designed for meaningful connections. Hear their voice, 
-                see their authentic self, and discover matches that matter.
+              <p className="text-2xl text-gray-700 mb-12 leading-relaxed font-medium">
+                From finding your person. Authentic connections through voice, 
+                video, and our unique balloon reveal experience.
               </p>
               
-              {/* App Download Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <button className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-3">
-                  <span className="text-2xl">📱</span>
+              {/* Enhanced CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-6 mb-16 justify-center lg:justify-start">
+                <button className="group bg-gradient-to-r from-rose-500 to-orange-500 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:from-rose-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-3">
+                  <span className="text-2xl group-hover:animate-bounce">📱</span>
                   <div className="text-left">
-                    <div className="text-xs text-gray-300">Download on the</div>
-                    <div className="text-lg font-semibold">App Store</div>
+                    <div className="text-sm opacity-90">Download on the</div>
+                    <div className="text-xl font-bold">App Store</div>
                   </div>
                 </button>
-                <button className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-3">
-                  <span className="text-2xl">🤖</span>
+                <button className="group bg-gray-900 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-gray-800 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-3">
+                  <span className="text-2xl group-hover:animate-bounce">🤖</span>
                   <div className="text-left">
-                    <div className="text-xs text-gray-300">Get it on</div>
-                    <div className="text-lg font-semibold">Google Play</div>
+                    <div className="text-sm text-gray-300">Get it on</div>
+                    <div className="text-xl font-bold">Google Play</div>
                   </div>
                 </button>
               </div>
               
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-8">
-                <div>
-                  <div className="text-3xl font-bold text-rose-600">500K+</div>
-                  <div className="text-gray-600">People matched</div>
+              {/* Enhanced Stats */}
+              <div className="grid grid-cols-3 gap-8 pt-8 border-t border-rose-200">
+                <div className="text-center lg:text-left">
+                  <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500 mb-2">500K+</div>
+                  <div className="text-gray-600 font-medium">Balloon pops daily</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-orange-600">4.8★</div>
-                  <div className="text-gray-600">App Store rating</div>
+                <div className="text-center lg:text-left">
+                  <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mb-2">4.8★</div>
+                  <div className="text-gray-600 font-medium">Love stories created</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-pink-600">2M+</div>
-                  <div className="text-gray-600">Messages sent</div>
+                <div className="text-center lg:text-left">
+                  <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2">2M+</div>
+                  <div className="text-gray-600 font-medium">Voice messages sent</div>
                 </div>
               </div>
             </div>
             
-            {/* Right Content - Phone Mockup */}
-            <div className="flex justify-center lg:justify-end">
+            {/* Right Content - Enhanced Phone with Multiple Screens */}
+            <div className="flex justify-center lg:justify-end relative">
               <div className="relative">
-                {/* Phone Frame - More Realistic */}
-                <div className="relative w-80 h-[600px] bg-gray-900 rounded-[2.5rem] p-2 shadow-2xl">
+                {/* Main Phone Frame */}
+                <div className="relative w-80 h-[650px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
                   {/* Screen */}
-                  <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
+                  <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
                     {/* Status Bar */}
-                    <div className="h-12 bg-gray-50 flex items-center justify-between px-6">
-                      <span className="text-sm font-medium">9:41</span>
-                      <div className="flex space-x-1">
-                        <div className="w-4 h-2 bg-gray-300 rounded-full"></div>
-                        <div className="w-4 h-2 bg-gray-300 rounded-full"></div>
-                        <div className="w-4 h-2 bg-green-500 rounded-full"></div>
+                    <div className="h-14 bg-gradient-to-r from-rose-50 to-orange-50 flex items-center justify-between px-6">
+                      <span className="text-sm font-bold text-gray-800">9:41</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex space-x-1">
+                          <div className="w-4 h-2 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full"></div>
+                          <div className="w-4 h-2 bg-green-500 rounded-full"></div>
+                        </div>
                       </div>
                     </div>
                     
-                    {/* App Content */}
-                    <div className="flex-1 bg-gradient-to-br from-rose-50 to-orange-50 p-6">
-                      <div className="text-center mb-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">Sarah, 28</h3>
-                        <p className="text-gray-600">2 miles away</p>
+                    {/* App Header */}
+                    <div className="px-6 py-4 bg-white border-b border-rose-100">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-orange-500">Balloon'd</h3>
+                        <div className="text-2xl animate-pulse">🎈</div>
+                      </div>
+                    </div>
+                    
+                    {/* App Content - Discovery */}
+                    <div className="flex-1 bg-gradient-to-br from-rose-50 via-white to-orange-50 p-6">
+                      <div className="text-center mb-4">
+                        <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-rose-100 to-pink-100 rounded-full text-rose-700 text-sm font-medium mb-4">
+                          <span className="mr-1">🎯</span>
+                          Perfect Match
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-1">Emma, 26</h3>
+                        <p className="text-rose-600 font-medium">1.2 miles away • Online now</p>
                       </div>
                       
-                      {/* Profile Image Placeholder */}
-                      <div className="w-48 h-64 bg-gradient-to-br from-rose-200 to-orange-200 rounded-3xl mx-auto mb-6 flex items-center justify-center">
-                        <div className="text-6xl animate-bounce-slow">🎈</div>
+                      {/* Profile Card with Balloon Reveal */}
+                      <div className="relative w-full h-80 bg-gradient-to-br from-rose-200 via-pink-200 to-orange-200 rounded-3xl mx-auto mb-6 overflow-hidden shadow-lg">
+                        {/* Balloon Overlay Effect */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-8xl animate-bounce-slow opacity-80">🎈</div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-3">
+                            <p className="text-sm font-medium text-gray-800">"Love hiking and Sunday brunches! 🥞"</p>
+                            <div className="flex items-center mt-2 space-x-2">
+                              <span className="text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-full">Adventurous</span>
+                              <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Foodie</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       
                       {/* Action Buttons */}
-                      <div className="flex justify-center space-x-4">
-                        <button className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-2xl hover:bg-gray-200 transition-colors">
+                      <div className="flex justify-center space-x-6">
+                        <button className="w-16 h-16 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center text-2xl hover:bg-gray-50 hover:border-gray-300 transition-all transform hover:scale-110 shadow-lg">
                           ✕
                         </button>
-                        <button className="w-16 h-16 bg-gradient-to-r from-rose-500 to-orange-500 rounded-full flex items-center justify-center text-2xl text-white hover:shadow-lg transition-shadow">
+                        <button className="w-20 h-20 bg-gradient-to-r from-rose-500 to-orange-500 rounded-full flex items-center justify-center text-3xl text-white hover:from-rose-600 hover:to-orange-600 transition-all transform hover:scale-110 shadow-2xl">
+                          🎈
+                        </button>
+                        <button className="w-16 h-16 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center text-2xl hover:bg-gray-50 hover:border-gray-300 transition-all transform hover:scale-110 shadow-lg">
                           💝
                         </button>
                       </div>
@@ -192,15 +236,36 @@ const Home: NextPage = () => {
                   </div>
                   
                   {/* Notch */}
-                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
+                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
                 </div>
                 
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-12 h-12 bg-rose-400 rounded-full flex items-center justify-center animate-bounce text-white text-xl shadow-lg">
-                  🎈
+                {/* Floating Success Notification */}
+                <div className="absolute -top-8 -left-12 bg-white rounded-2xl p-4 shadow-2xl border border-rose-100 transform -rotate-12 animate-float">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full flex items-center justify-center text-white">
+                      🎈
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900 text-sm">It's a match!</p>
+                      <p className="text-gray-600 text-xs">Someone popped for you</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-orange-400 rounded-full flex items-center justify-center animate-pulse text-white text-2xl shadow-lg">
-                  💕
+                
+                {/* Floating Voice Message */}
+                <div className="absolute -bottom-8 -right-16 bg-gradient-to-r from-rose-500 to-orange-500 rounded-2xl p-4 shadow-2xl transform rotate-12 animate-float-delay">
+                  <div className="flex items-center space-x-2 text-white">
+                    <span className="text-xl animate-pulse">🎙️</span>
+                    <div>
+                      <p className="font-bold text-sm">Voice message</p>
+                      <div className="flex space-x-1 mt-1">
+                        <div className="w-1 h-3 bg-white rounded-full animate-pulse"></div>
+                        <div className="w-1 h-4 bg-white rounded-full animate-pulse delay-100"></div>
+                        <div className="w-1 h-2 bg-white rounded-full animate-pulse delay-200"></div>
+                        <div className="w-1 h-5 bg-white rounded-full animate-pulse delay-300"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
