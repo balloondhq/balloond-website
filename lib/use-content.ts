@@ -15,8 +15,8 @@ export function useBlogPosts() {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await fetchJson('/api/blog-posts');
-      setBlogPosts(data);
+      const data = await fetchJson('/api/blog');
+      setBlogPosts(data.posts || []);
     } catch {
       setBlogPosts([]);
     }
@@ -37,7 +37,7 @@ export function useJobPositions() {
     setLoading(true);
     try {
       const data = await fetchJson('/api/careers');
-      setJobPositions(data);
+      setJobPositions(data.careers || []);
     } catch {
       setJobPositions([]);
     }
@@ -57,8 +57,73 @@ export function useSiteContent() {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await fetchJson('/api/site-content');
-      setSiteContent(data);
+      const data = await fetchJson('/api/content');
+      setSiteContent(data.content || []);
+    } catch {
+      setSiteContent([]);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { siteContent, loading, refresh };
+}
+
+// Admin hooks to fetch all content (including drafts)
+
+// All Blog Posts (for admin panel)
+export function useAdminBlogPosts() {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await fetchJson('/api/blog/admin');
+      setBlogPosts(data.posts || []);
+    } catch {
+      setBlogPosts([]);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { blogPosts, loading, refresh };
+}
+
+// All Job Positions (for admin panel)
+export function useAdminJobPositions() {
+  const [jobPositions, setJobPositions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await fetchJson('/api/careers/admin');
+      setJobPositions(data.careers || []);
+    } catch {
+      setJobPositions([]);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { jobPositions, loading, refresh };
+}
+
+// All Site Content (for admin panel)
+export function useAdminSiteContent() {
+  const [siteContent, setSiteContent] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await fetchJson('/api/content/admin');
+      setSiteContent(data.content || []);
     } catch {
       setSiteContent([]);
     }

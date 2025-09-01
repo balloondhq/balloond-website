@@ -1,32 +1,60 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useBlogPosts, useJobPositions, useSiteContent } from '../../lib/use-content';
+import {
+  useAdminBlogPosts,
+  useAdminJobPositions,
+  useAdminSiteContent,
+} from '../../lib/use-content';
 
-// API-based authentication hook (replace with your real API logic)
+// API-based authentication hook
 function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+          setIsAuthenticated(true);
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      setIsLoading(false);
+    };
+    checkAuth();
+  }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    const res = await fetch('/api/admin/login', {
+    const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    setIsLoading(false);
+    
     if (res.ok) {
       const data = await res.json();
       setUser(data.user);
       setIsAuthenticated(true);
+      setIsLoading(false);
       return true;
     }
+    setIsLoading(false);
     return false;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
     setUser(null);
     setIsAuthenticated(false);
   };
@@ -95,9 +123,9 @@ const LoginForm = ({ onLogin }) => {
 
 const AdminDashboard: NextPage = () => {
   const { isAuthenticated, isLoading, user, login, logout } = useAuth();
-  const { blogPosts, refresh: refreshPosts, loading: loadingPosts } = useBlogPosts();
-  const { jobPositions, refresh: refreshJobs, loading: loadingJobs } = useJobPositions();
-  const { siteContent, refresh: refreshContent, loading: loadingContent } = useSiteContent();
+  const { blogPosts, refresh: refreshPosts, loading: loadingPosts } = useAdminBlogPosts();
+  const { jobPositions, refresh: refreshJobs, loading: loadingJobs } = useAdminJobPositions();
+  const { siteContent, refresh: refreshContent, loading: loadingContent } = useAdminSiteContent();
   const [activeTab, setActiveTab] = useState('dashboard');
   const router = useRouter();
 
