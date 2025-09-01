@@ -105,90 +105,91 @@ const Home: NextPage = () => {
         {/* Background Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
         
-        {/* Balloon Pop Animations Overlay */}
+        {/* Balloon Pop Animations Overlay - Sequential with slower speed */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Multiple Lottie balloon animations positioned across the screen */}
-          <div className="absolute top-20 left-20 w-32 h-32">
+          {/* Multiple Lottie balloon animations positioned across the screen with delays */}
+          <div className="absolute top-4 sm:top-20 left-4 sm:left-20 w-24 h-24 sm:w-32 sm:h-32 opacity-0 animate-balloon-appear-1">
             <Lottie
               loop
               animationData={require('../components/redBallon.json')}
               play
+              speed={0.5}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
-          <div className="absolute top-40 right-32 w-40 h-40">
+          <div className="absolute top-20 sm:top-40 right-4 sm:right-32 w-28 h-28 sm:w-40 sm:h-40 opacity-0 animate-balloon-appear-2">
             <Lottie
               loop
               animationData={require('../components/redBallon.json')}
               play
+              speed={0.4}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
-          <div className="absolute bottom-32 left-1/4 w-36 h-36">
+          <div className="absolute bottom-40 sm:bottom-32 left-1/4 w-24 h-24 sm:w-36 sm:h-36 opacity-0 animate-balloon-appear-3">
             <Lottie
               loop
               animationData={require('../components/redBallon.json')}
               play
+              speed={0.6}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
-          <div className="absolute top-1/2 right-20 w-28 h-28">
+          <div className="absolute top-1/2 right-4 sm:right-20 w-20 h-20 sm:w-28 sm:h-28 opacity-0 animate-balloon-appear-4">
             <Lottie
               loop
               animationData={require('../components/redBallon.json')}
               play
+              speed={0.7}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
-          <div className="absolute bottom-40 left-16 w-32 h-32">
+          <div className="absolute bottom-20 sm:bottom-40 left-4 sm:left-16 w-24 h-24 sm:w-32 sm:h-32 opacity-0 animate-balloon-appear-5">
             <Lottie
               loop
               animationData={require('../components/redBallon.json')}
               play
+              speed={0.3}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20 sm:pt-16 lg:pt-0">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen">
             {/* Left Content - Enhanced Typography */}
-            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left order-2 lg:order-1">
               {/* Badge/Tag - Lowered Position */}
-              <div className="inline-flex items-center px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-rose-700 font-medium text-sm mb-12 border border-rose-200">
+              <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-rose-700 font-medium text-xs sm:text-sm mb-6 sm:mb-8 lg:mb-12 border border-rose-200">
                 <span className="mr-2">🎈</span>
                 New way to connect authentically
               </div>
               
-              <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-8">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold leading-tight mb-6 lg:mb-8">
                 <span className="block text-white drop-shadow-lg mb-2">Designed</span>
-                <span className="block text-white drop-shadow-lg relative">
+                <span className="block text-white drop-shadow-lg">
                   for Chemistry
-                  {/* Decorative balloon */}
-                  <div className="absolute -top-8 -right-12 text-4xl animate-bounce-slow">
-                    🎈
-                  </div>
                 </span>
               </h1>
               
-              <p className="text-2xl text-white drop-shadow-md mb-12 leading-relaxed font-medium">
+              <p className="text-lg sm:text-xl lg:text-2xl text-white drop-shadow-md mb-8 lg:mb-12 leading-relaxed font-medium px-4 lg:px-0">
                 From finding your person. Authentic connections through voice, 
                 video, and our unique balloon reveal experience.
               </p>
               
               {/* Enhanced CTA Button */}
-              <div className="flex justify-center lg:justify-start mb-16">
-                <button className="group bg-white/90 backdrop-blur-sm text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
+              <div className="flex justify-center lg:justify-start mb-8 lg:mb-16">
+                <button className="group bg-white/90 backdrop-blur-sm text-gray-900 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg hover:bg-white transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
                   Get Started Today
                 </button>
               </div>
             </div>
             
             {/* Right Content - Enhanced Phone with Multiple Screens */}
-            <div className="flex justify-center lg:justify-end relative">
+            <div className="flex justify-center relative order-1 lg:order-2 mb-8 lg:mb-0">
               <div className="relative">
                 {/* Main Phone Frame */}
-                <div className="relative w-80 h-[650px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
+                <div className="relative w-72 sm:w-80 h-[580px] sm:h-[650px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
                   {/* Screen */}
                   <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
                     {/* Status Bar */}
@@ -257,8 +258,8 @@ const Home: NextPage = () => {
                   <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-900 rounded-full"></div>
                 </div>
                 
-                {/* Floating Success Notification */}
-                <div className="absolute -top-8 -left-12 bg-white rounded-2xl p-4 shadow-2xl border border-rose-100 transform -rotate-12 animate-float">
+                {/* Floating Success Notification - Hidden on mobile */}
+                <div className="hidden sm:block absolute -top-8 -left-12 bg-white rounded-2xl p-4 shadow-2xl border border-rose-100 transform -rotate-12 animate-float">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full flex items-center justify-center text-white">
                       🎈
@@ -270,8 +271,8 @@ const Home: NextPage = () => {
                   </div>
                 </div>
                 
-                {/* Floating Voice Message */}
-                <div className="absolute -bottom-8 -right-16 bg-gradient-to-r from-rose-500 to-orange-500 rounded-2xl p-4 shadow-2xl transform rotate-12 animate-float-delay">
+                {/* Floating Voice Message - Hidden on mobile */}
+                <div className="hidden sm:block absolute -bottom-8 -right-16 bg-gradient-to-r from-rose-500 to-orange-500 rounded-2xl p-4 shadow-2xl transform rotate-12 animate-float-delay">
                   <div className="flex items-center space-x-2 text-white">
                     <span className="text-xl animate-pulse">🎙️</span>
                     <div>
@@ -292,26 +293,26 @@ const Home: NextPage = () => {
       </section>
       
       {/* Features Section - Clean Cards */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 px-4">
               Designed for real connections
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Every feature is thoughtfully crafted to help you find meaningful relationships, 
               not just matches.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg transition-shadow">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-2xl mb-6`}>
+              <div key={index} className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg transition-shadow mx-4 sm:mx-0">
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -319,30 +320,30 @@ const Home: NextPage = () => {
       </section>
       
       {/* Success Stories - Testimonial Carousel */}
-      <section className="py-24 bg-white">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 px-4">
               Real stories, real connections
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-gray-600 px-4">
               Join thousands of people who found love through Balloon'd
             </p>
           </div>
           
           <div className="relative">
-            <div className="bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-12 text-center">
-              <div className="text-6xl mb-6">{testimonials[currentSlide].image}</div>
-              <blockquote className="text-2xl font-medium text-gray-900 mb-6 leading-relaxed">
+            <div className="bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-6 sm:p-8 lg:p-12 text-center mx-4 sm:mx-0">
+              <div className="text-4xl sm:text-6xl mb-4 sm:mb-6">{testimonials[currentSlide].image}</div>
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 mb-4 sm:mb-6 leading-relaxed px-2">
                 "{testimonials[currentSlide].text}"
               </blockquote>
-              <cite className="text-lg text-gray-600 font-medium">
+              <cite className="text-base sm:text-lg text-gray-600 font-medium">
                 {testimonials[currentSlide].name}
               </cite>
             </div>
             
             {/* Dots Indicator */}
-            <div className="flex justify-center mt-8 space-x-3">
+            <div className="flex justify-center mt-6 sm:mt-8 space-x-3">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
@@ -358,20 +359,20 @@ const Home: NextPage = () => {
       </section>
       
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-rose-500 to-orange-500">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-rose-500 to-orange-500">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
             Ready to find something real?
           </h2>
-          <p className="text-xl text-rose-100 mb-10">
+          <p className="text-lg sm:text-xl text-rose-100 mb-8 sm:mb-10 px-4">
             Join Balloon'd today and start connecting with people who matter.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
+            <button className="bg-white text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base">
               Download for iPhone
             </button>
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors">
+            <button className="bg-white text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base">
               Download for Android
             </button>
           </div>
@@ -408,6 +409,17 @@ const Home: NextPage = () => {
           }
         }
         
+        @keyframes balloonAppear {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0px);
+          }
+        }
+        
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
@@ -418,6 +430,26 @@ const Home: NextPage = () => {
         
         .animate-bounce-slow {
           animation: bounce-slow 4s ease-in-out infinite;
+        }
+        
+        .animate-balloon-appear-1 {
+          animation: balloonAppear 1s ease-out 0.5s forwards;
+        }
+        
+        .animate-balloon-appear-2 {
+          animation: balloonAppear 1s ease-out 1.2s forwards;
+        }
+        
+        .animate-balloon-appear-3 {
+          animation: balloonAppear 1s ease-out 1.8s forwards;
+        }
+        
+        .animate-balloon-appear-4 {
+          animation: balloonAppear 1s ease-out 2.5s forwards;
+        }
+        
+        .animate-balloon-appear-5 {
+          animation: balloonAppear 1s ease-out 3.2s forwards;
         }
         
         .gradient-text {
