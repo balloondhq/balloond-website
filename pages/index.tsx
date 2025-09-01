@@ -1,437 +1,581 @@
-// pages/index.tsx
-import type { NextPage, GetServerSideProps } from 'next';
+// pages/admin/index.tsx (complete file)
+import type { NextPage } from 'next';
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { prisma } from '../lib/prisma';
+import { useRouter } from 'next/router';
+import { 
+  useBlogPosts, 
+  useJobPositions, 
+  useSiteContent,
+  triggerContentUpdate 
+} from '../../lib/use-content';
+import { BlogPost, JobPosition, SiteContent } from '../../lib/content-manager';
 
-interface SiteContent {
-  id: string;
-  content: string;
-}
-
-interface HomeProps {
-  siteContent: SiteContent[];
-}
-
-const Home: NextPage<HomeProps> = ({ siteContent }) => {
-  // Testimonials carousel state
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [progress, setProgress] = useState(0);
-  
-  const testimonials = [
-    {
-      quote: "The pop challenges were so fun! They immediately broke the ice and helped me connect with Sarah on a deeper level. We matched 6 months ago and just moved in together.",
-      author: "Michael T."
-    },
-    {
-      quote: "After years of disappointing dating app experiences, Balloon'd helped me find someone who truly gets me. The voice-first approach really made a difference in forming a real connection.",
-      author: "Jessica L."
-    }
-  ];
+// Mock authentication
+const useAuth = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          setCurrentTestimonial(current => (current + 1) % testimonials.length);
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 100); // Update every 100ms for smooth progress
+    const authToken = localStorage.getItem('admin_token');
+    if (authToken) {
+      setUser({ name: 'Admin User', email: 'admin@balloond.com' });
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  // Get content with fallbacks
-  const getContentById = (id: string) => {
-    const content = siteContent.find(item => item.id === id);
-    return content?.content || '';
+  const login = async (email: string, password: string) => {
+    if (email === 'admin@balloond.com' && password === 'password') {
+      localStorage.setItem('admin_token', 'mock_token_123');
+      setUser({ name: 'Admin User', email: email });
+      setIsAuthenticated(true);
+      return true;
+    }
+    return false;
   };
 
-  const heroHeadline = getContentById('hero-headline') || 'One pop away from what you\'ve been waiting for';
-  const heroSubtitle = getContentById('hero-subtitle') || 'Break through the noise of modern dating. Pop the balloon of small talk and endless swiping with authentic, fun connections.';
-  const missionStatement = getContentById('about-mission') || 'Balloon\'d is built on the belief that anyone looking for love should be able to find it. We break through the noise of modern dating by helping people "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, fun, and meaningful connections where people can quickly discover if sparks truly fly.';
+  const logout = () => {
+    localStorage.removeItem('admin_token');
+    setUser(null);
+    setIsAuthenticated(false);
+  };
 
-  const QuoteIcon = () => (
-    <svg viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-auto">
-      <path d="M25 11.749C25.4348 6.96234 29.0217 3.91631 35 2.93723V0C24.4565 0.761503 18.6957 7.17991 18.6957 15.8828C18.6957 21.7573 21.7391 26 26.9565 26C31.3043 26 34.6739 23.0628 34.6739 18.6025C34.6739 14.6862 32.1739 12.4017 29.0217 11.749H25ZM6.19565 11.749C6.73913 6.96234 10.2174 3.91631 16.3043 2.93723V0C5.76087 0.761503 0 7.17991 0 15.8828C0 21.7573 3.04348 26 8.26087 26C12.5 26 15.9783 23.0628 15.9783 18.6025C15.9783 14.6862 13.4783 12.4017 10.3261 11.749H6.19565Z" fill="currentColor"/>
-    </svg>
+  return { isAuthenticated, isLoading, user, login, logout };
+};
+
+const LoginForm = ({ onLogin }: { onLogin: (email: string, password: string) => Promise<boolean> }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogging, setIsLogging] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLogging(true);
+    setError('');
+    
+    const success = await onLogin(email, password);
+    if (!success) {
+      setError('Invalid credentials');
+    }
+    setIsLogging(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Balloon'd Admin</h1>
+          <p className="text-gray-600">Sign in to manage your site</p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="admin@balloond.com"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+          
+          <button
+            type="submit"
+            disabled={isLogging}
+            className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+          >
+            {isLogging ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+        
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <p className="text-sm text-gray-600 font-medium">Demo Credentials:</p>
+          <p className="text-xs text-gray-500">Email: admin@balloond.com</p>
+          <p className="text-xs text-gray-500">Password: password</p>
+        </div>
+      </div>
+    </div>
   );
+};
+
+const AdminDashboard: NextPage = () => {
+  const { isAuthenticated, isLoading, user, login, logout } = useAuth();
+  const { posts, createPost, editPost, removePost } = useBlogPosts();
+  const { positions, createPosition, editPosition, removePosition } = useJobPositions();
+  const { content, editContent } = useSiteContent();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [editingContent, setEditingContent] = useState<SiteContent | null>(null);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [editingPosition, setEditingPosition] = useState<JobPosition | null>(null);
+  const [showNewPostModal, setShowNewPostModal] = useState(false);
+  const [showNewPositionModal, setShowNewPositionModal] = useState(false);
+  const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginForm onLogin={login} />;
+  }
+
+  const handleSaveContent = (updatedContent: SiteContent) => {
+    editContent(updatedContent.id, updatedContent);
+    setEditingContent(null);
+    triggerContentUpdate();
+  };
+
+  const handleSavePost = (post: BlogPost) => {
+    if (post.id && post.id > 0) {
+      editPost(post.id, post);
+    } else {
+      createPost(post);
+    }
+    setEditingPost(null);
+    setShowNewPostModal(false);
+    triggerContentUpdate();
+  };
+
+  const handleSavePosition = (position: JobPosition) => {
+    if (position.id && position.id > 0) {
+      editPosition(position.id, position);
+    } else {
+      createPosition(position);
+    }
+    setEditingPosition(null);
+    setShowNewPositionModal(false);
+    triggerContentUpdate();
+  };
+
+  const handleDeletePost = (id: number) => {
+    if (confirm('Are you sure you want to delete this post?')) {
+      removePost(id);
+      triggerContentUpdate();
+    }
+  };
+
+  const handleDeletePosition = (id: number) => {
+    if (confirm('Are you sure you want to delete this position?')) {
+      removePosition(id);
+      triggerContentUpdate();
+    }
+  };
 
   return (
     <>
       <NextSeo
-        title="Balloon'd - Pop into Something Real"
-        description={heroSubtitle}
-        canonical="https://balloond.com/"
-        openGraph={{
-          type: 'website',
-          locale: 'en_US',
-          url: 'https://balloond.com/',
-          siteName: "Balloon'd",
-          images: [
-            {
-              url: 'https://balloond.com/og-image.png',
-              width: 1200,
-              height: 630,
-              alt: "Balloon'd Dating App",
-            },
-          ],
-        }}
+        title="Admin Dashboard - Balloon'd"
+        description="Admin dashboard for managing Balloon'd website content"
+        noindex={true}
       />
       
-      <Header />
-      
-      <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen bg-black text-white overflow-hidden">
-          {/* Background gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-rose-900/20 via-black to-orange-900/20"></div>
-          
-          {/* Lottie Animations */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* First balloon animation - top left area */}
-            <div className="absolute top-10 left-10 md:top-20 md:left-20 w-32 h-32 md:w-48 md:h-48 opacity-70">
-              <DotLottieReact
-                src="https://lottie.host/ff0edf7f-b569-47c8-afad-4375cb158d77/UrB5B0VwbT.lottie"
-                loop
-                autoplay
-              />
-            </div>
-            
-            {/* Second balloon animation - bottom right area */}
-            <div className="absolute bottom-10 right-10 md:bottom-20 md:right-20 w-40 h-40 md:w-56 md:h-56 opacity-60">
-              <DotLottieReact
-                src="https://lottie.host/fd4b8bf2-dc11-47f5-b041-5b20a4f13816/rKEAnri6dL.lottie"
-                loop
-                autoplay
-              />
-            </div>
-            
-            {/* Additional smaller balloon for mobile - center right */}
-            <div className="hidden sm:block absolute top-1/3 right-1/4 w-24 h-24 md:w-32 md:h-32 opacity-40 animate-pulse">
-              <DotLottieReact
-                src="https://lottie.host/ff0edf7f-b569-47c8-afad-4375cb158d77/UrB5B0VwbT.lottie"
-                loop
-                autoplay
-              />
-            </div>
-            
-            {/* Additional balloon for desktop - top right */}
-            <div className="hidden lg:block absolute top-1/4 right-1/3 w-20 h-20 opacity-50 animate-bounce">
-              <DotLottieReact
-                src="https://lottie.host/fd4b8bf2-dc11-47f5-b041-5b20a4f13816/rKEAnri6dL.lottie"
-                loop
-                autoplay
-              />
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10 flex items-center justify-center min-h-screen">
-            <div className="container mx-auto px-6">
-              <div className="max-w-6xl mx-auto text-center">
-                <h1 className="text-6xl md:text-8xl font-light mb-8 leading-tight">
-                  <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
-                    {heroHeadline}
-                  </span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl font-light mb-12 max-w-3xl mx-auto opacity-90 leading-relaxed">
-                  {heroSubtitle}
-                </p>
-                
-                <div className="flex flex-col sm:flex-row justify-center gap-6">
-                  <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 border border-transparent hover:border-gray-200">
-                    Download the app
-                  </button>
-                  <button className="border border-white text-white hover:bg-white hover:text-black px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300">
-                    Learn more
-                  </button>
-                </div>
+      <div className="min-h-screen bg-gray-100">
+        <header className="bg-white shadow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-2xl font-bold text-rose-600">Balloon'd</h1>
+                <span className="text-gray-400">|</span>
+                <span className="text-gray-600">Admin Dashboard</span>
+              </div>
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+                <button
+                  onClick={() => router.push('/')}
+                  className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+                >
+                  View Site
+                </button>
               </div>
             </div>
           </div>
-          
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
-            </div>
-          </div>
-        </section>
+        </header>
 
-        {/* Mission Section */}
-        <section className="bg-gradient-to-b from-gray-50 to-white py-32">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
-                <div className="relative">
-                  <div className="inline-flex items-center bg-gradient-to-r from-rose-100 to-orange-100 px-4 py-2 rounded-full mb-8">
-                    <span className="text-rose-600 font-medium text-sm">✨ OUR APPROACH</span>
-                  </div>
-                  <h2 className="text-5xl md:text-6xl font-light text-black leading-tight">
-                    <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
-                      Pop the balloon
-                    </span> of
-                    <br />
-                    awkward dating.
-                  </h2>
-                </div>
-                
-                <div className="relative">
-                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-rose-200 to-orange-200 rounded-full opacity-60 animate-pulse"></div>
-                  <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 relative z-10">
-                    <p className="text-lg font-light text-gray-600 leading-relaxed mb-8">
-                      {missionStatement}
-                    </p>
-                    <button className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-full font-medium transition-all duration-300 group">
-                      <span className="flex items-center gap-2">
-                        How we do it
-                        <span className="group-hover:translate-x-1 transition-transform">→</span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Fun features grid */}
-              <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-rose-300 to-orange-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-gradient-to-br from-rose-400 to-pink-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        🎯
-                      </div>
-                      <h3 className="text-2xl font-semibold text-black">Make dating fun again</h3>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed text-lg">
-                      Say goodbye to boring "hey" messages! Our balloon-pop icebreakers and playful challenges 
-                      turn every conversation starter into an adventure. ✨
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-300 to-blue-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        💬
-                      </div>
-                      <h3 className="text-2xl font-semibold text-black">Cut through the games</h3>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed text-lg">
-                      No more guessing games or mixed signals! Our tools encourage honest, direct conversations 
-                      so you can focus on building real connections that matter. 🎪
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-yellow-300 to-orange-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        ✨
-                      </div>
-                      <h3 className="text-2xl font-semibold text-black">Prioritize authenticity</h3>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed text-lg">
-                      Your personality shines brighter than your filtered photos! We celebrate genuine vibes, 
-                      quirky interests, and real moments that make you uniquely you. 🌟
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-green-300 to-teal-300 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                        🛡️
-                      </div>
-                      <h3 className="text-2xl font-semibold text-black">Safe & inclusive space</h3>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed text-lg">
-                      Everyone deserves to feel respected and valued! Our community prioritizes kindness, 
-                      safety, and creating a welcoming environment for all love stories. 💖
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex space-x-8">
+            <aside className="w-64 flex-shrink-0">
+              <nav className="bg-white rounded-lg shadow p-4">
+                <ul className="space-y-2">
+                  {[
+                    { id: 'dashboard', name: 'Dashboard', icon: '📊' },
+                    { id: 'content', name: 'Site Content', icon: '📝' },
+                    { id: 'blog', name: 'Blog Posts', icon: '📖' },
+                    { id: 'careers', name: 'Careers', icon: '💼' },
+                    { id: 'settings', name: 'Settings', icon: '⚙️' }
+                  ].map((item) => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => setActiveTab(item.id)}
+                        className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg text-left transition-colors ${
+                          activeTab === item.id
+                            ? 'bg-rose-100 text-rose-600'
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        <span>{item.icon}</span>
+                        <span className="font-medium">{item.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </aside>
 
-        {/* How It Works Section */}
-        <section className="bg-white py-32">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-20">
-              <h2 className="text-4xl md:text-6xl font-light mb-8 text-black leading-tight">
-                How <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">Balloon'd works</span>
-              </h2>
-              <p className="text-xl md:text-2xl font-light text-gray-700 leading-relaxed">
-                Our unique approach helps you break the ice and form real connections quickly.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-16 max-w-6xl mx-auto">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">🎈</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Pop challenges</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  Start conversations with fun, unique icebreakers that reveal 
-                  personality beyond photos.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">🎤</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Voice first</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  Hear someone's voice before seeing photos to connect on a 
-                  deeper level from the start.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <span className="text-3xl">❤️</span>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-light mb-6 text-black">Smart matching</h3>
-                <p className="text-gray-600 font-light text-lg leading-relaxed">
-                  Our algorithm prioritizes compatibility over superficial swiping 
-                  for meaningful connections.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className="bg-gray-900 text-white py-32">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-20">
-              <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
-                Real stories, <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">real connections</span>
-              </h2>
-              <p className="text-xl md:text-2xl font-light opacity-80 leading-relaxed">
-                Hear from people who found love through Balloon'd
-              </p>
-            </div>
-            
-            <div className="max-w-5xl mx-auto">
-              <div className="relative" style={{height: '400px'}}>
-                {/* Testimonial Content */}
-                <div className="flex flex-col justify-center h-full">
-                  <div className="text-center">
-                    <div className="text-rose-400 mb-6 flex justify-center">
-                      <QuoteIcon />
+            <main className="flex-1">
+              {activeTab === 'dashboard' && (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white p-6 rounded-lg shadow">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Blog Posts</h3>
+                      <p className="text-3xl font-bold text-rose-600">{posts.length}</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {posts.filter(p => p.status === 'published').length} published
+                      </p>
                     </div>
-                    <p className="text-xl md:text-2xl font-light mb-8 leading-relaxed opacity-90 max-w-4xl mx-auto transition-all duration-500">
-                      {testimonials[currentTestimonial].quote}
-                    </p>
-                    <div className="flex items-center justify-center">
-                      <div>
-                        <div className="font-light text-white">{testimonials[currentTestimonial].author}</div>
-                        <div className="text-gray-400 text-sm font-light">
-                          {currentTestimonial === 0 ? 'Matched 6 months ago' : 'Matched 1 year ago'}
+                    <div className="bg-white p-6 rounded-lg shadow">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Job Positions</h3>
+                      <p className="text-3xl font-bold text-orange-600">{positions.length}</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {positions.filter(p => p.status === 'active').length} active
+                      </p>
+                    </div>
+                    <div className="bg-white p-6 rounded-lg shadow">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Site Content</h3>
+                      <p className="text-3xl font-bold text-blue-600">{content.length}</p>
+                      <p className="text-sm text-gray-500 mt-1">Content sections</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow">
+                    <div className="p-6 border-b border-gray-200">
+                      <h2 className="text-xl font-semibold text-gray-900">System Status</h2>
+                    </div>
+                    <div className="p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Content management system active</span>
+                          <span className="text-xs text-gray-400">Live</span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Real-time updates enabled</span>
+                          <span className="text-xs text-gray-400">Live</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              )}
 
-                {/* Progress indicators */}
-                <div className="absolute bottom-0 left-0 w-full flex justify-center">
-                  <div className="flex max-w-xs w-full">
-                    {testimonials.map((_, index) => (
-                      <button 
-                        key={index}
-                        className={`flex-1 px-2 py-4 cursor-pointer appearance-none bg-transparent border-0 text-white ${index > 0 ? 'ml-2' : ''}`}
-                        role="tab"
-                        aria-label={`Testimonial ${index + 1}`}
-                        onClick={() => {
-                          setCurrentTestimonial(index);
-                          setProgress(0);
-                        }}
+              {activeTab === 'content' && (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-gray-900">Site Content</h2>
+                    <div className="text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                      ✅ Live Updates Active
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {content.map((item) => (
+                          <tr key={item.id}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              {item.section}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm font-medium text-gray-900">{item.title}</div>
+                              <div className="text-sm text-gray-500 truncate max-w-xs">{item.content}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                item.status === 'published' 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-yellow-100 text-yellow-800'
+                              }`}>
+                                {item.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <button
+                                onClick={() => setEditingContent(item)}
+                                className="text-rose-600 hover:text-rose-900"
+                              >
+                                Edit
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'blog' && (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-gray-900">Blog Management</h2>
+                    <div className="flex items-center space-x-4">
+                      <div className="text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        ✅ Live Updates Active
+                      </div>
+                      <button
+                        onClick={() => setShowNewPostModal(true)}
+                        className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                       >
-                        <span className="relative block h-0.5 overflow-hidden rounded-full bg-gray-600">
-                          <span 
-                            className="absolute left-0 top-0 h-0.5 rounded bg-white transition-all duration-100"
-                            style={{
-                              width: index === currentTestimonial ? `${progress}%` : index < currentTestimonial ? '100%' : '0%'
-                            }}
-                          ></span>
-                        </span>
+                        New Blog Post
                       </button>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {posts.map((post) => (
+                      <div key={post.id} className="bg-white rounded-lg shadow p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            post.status === 'published' 
+                              ? 'bg-green-100 text-green-600' 
+                              : 'bg-yellow-100 text-yellow-600'
+                          }`}>
+                            {post.status}
+                          </span>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => setEditingPost(post)}
+                              className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeletePost(post.id)}
+                              className="text-red-600 hover:text-red-700 text-sm font-medium"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 mb-2">{post.title}</h3>
+                        <p className="text-sm text-gray-600 mb-4">{post.excerpt}</p>
+                        <div className="flex justify-between items-center text-xs text-gray-500">
+                          <span>{post.date}</span>
+                          <span>{post.readTime}</span>
+                        </div>
+                        <div className="mt-2">
+                          <span className="inline-block bg-rose-50 text-rose-600 text-xs px-2 py-1 rounded">
+                            {post.category}
+                          </span>
+                        </div>
+                      </div>
                     ))}
                   </div>
+                </div>
+              )}
+
+              {activeTab === 'careers' && (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-gray-900">Careers Management</h2>
+                    <div className="flex items-center space-x-4">
+                      <div className="text-sm text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        ✅ Live Updates Active
+                      </div>
+                      <button
+                        onClick={() => setShowNewPositionModal(true)}
+                        className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                      >
+                        New Position
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {positions.map((position) => (
+                      <div key={position.id} className="bg-white rounded-lg shadow p-6">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-3 mb-2">
+                              <h3 className="text-lg font-semibold text-gray-900">{position.title}</h3>
+                              <span className={`text-xs px-2 py-1 rounded-full ${
+                                position.status === 'active' 
+                                  ? 'bg-green-100 text-green-600' 
+                                  : 'bg-gray-100 text-gray-600'
+                              }`}>
+                                {position.status}
+                              </span>
+                            </div>
+                            <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+                              <span>{position.department}</span>
+                              <span>•</span>
+                              <span>{position.location}</span>
+                              <span>•</span>
+                              <span>{position.type}</span>
+                            </div>
+                            <p className="text-gray-600">{position.description}</p>
+                          </div>
+                          <div className="flex space-x-2 ml-4">
+                            <button
+                              onClick={() => setEditingPosition(position)}
+                              className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeletePosition(position.id)}
+                              className="text-red-600 hover:text-red-700 text-sm font-medium"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'settings' && (
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+                  
+                  <div className="bg-white rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Management System</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                        <div>
+                          <h4 className="font-medium text-green-800">Live Updates</h4>
+                          <p className="text-sm text-green-600">Changes are instantly reflected on your website</p>
+                        </div>
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                        <div>
+                          <h4 className="font-medium text-blue-800">Data Persistence</h4>
+                          <p className="text-sm text-blue-600">All changes are saved locally in browser storage</p>
+                        </div>
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">User Account</h3>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center text-white font-medium">
+                        {user?.name?.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{user?.name}</p>
+                        <p className="text-sm text-gray-600">{user?.email}</p>
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <button
+                        onClick={logout}
+                        className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </main>
+          </div>
+        </div>
+
+        {/* Modals */}
+        {editingContent && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-96 overflow-y-auto">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Edit: {editingContent.title}
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                    <input
+                      type="text"
+                      value={editingContent.title}
+                      onChange={(e) => setEditingContent({
+                        ...editingContent,
+                        title: e.target.value
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                    <textarea
+                      rows={6}
+                      value={editingContent.content}
+                      onChange={(e) => setEditingContent({
+                        ...editingContent,
+                        content: e.target.value
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end space-x-3 mt-6">
+                  <button
+                    onClick={() => setEditingContent(null)}
+                    className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSaveContent(editingContent)}
+                    className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    Save Changes
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-        {/* Final CTA Section */}
-        <section className="bg-black text-white py-32">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-6xl font-light mb-8 leading-tight">
-                Ready to <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">pop the balloon?</span>
-              </h2>
-              <p className="text-xl md:text-2xl font-light mb-12 opacity-80 leading-relaxed">
-                Join thousands of people finding meaningful connections every day.
-              </p>
-              <button className="bg-white text-black hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300">
-                Download Balloon'd free
-              </button>
-              <div className="mt-8 text-gray-400 font-light">
-                <p>Free to download. Free to sign up. Free to connect.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
+        )}
+      </div>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const siteContent = await prisma.siteContent.findMany({
-      where: { published: true },
-      select: {
-        id: true,
-        content: true,
-      },
-    });
-
-    return {
-      props: {
-        siteContent,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching site content:', error);
-    return {
-      props: {
-        siteContent: [],
-      },
-    };
-  }
-};
-
-export default Home;
+export default AdminDashboard;
