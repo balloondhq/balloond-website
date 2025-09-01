@@ -1,35 +1,28 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import { NextSeo } from 'next-seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { prisma } from '../lib/prisma';
 
-const Press: NextPage = () => {
-  const pressReleases = [
-    {
-      date: 'December 15, 2024',
-      title: 'Balloon\'d Reaches 1 Million Users Milestone',
-      excerpt: 'Revolutionary dating app celebrates major growth driven by authentic connection features.',
-      link: '#'
-    },
-    {
-      date: 'November 28, 2024',
-      title: 'Balloon\'d Launches Voice Pop Feature',
-      excerpt: 'New audio-first matching system creates more meaningful first impressions.',
-      link: '#'
-    },
-    {
-      date: 'October 12, 2024',
-      title: 'Series A Funding: $15M to Revolutionize Dating',
-      excerpt: 'Leading VCs back Balloon\'d\'s mission to create authentic connections in digital dating.',
-      link: '#'
-    },
-    {
-      date: 'September 5, 2024',
-      title: 'Balloon\'d Expands to European Markets',
-      excerpt: 'Popular dating app launches in UK, France, and Germany after successful US rollout.',
-      link: '#'
-    }
-  ];
+interface PressItem {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  link?: string | null;
+  type: string;
+  category?: string | null;
+  date: string;
+}
+
+interface PressProps {
+  pressReleases: PressItem[];
+  awards: PressItem[];
+  mediaItems: PressItem[];
+}
+
+const Press: NextPage<PressProps> = ({ pressReleases, awards, mediaItems }) => {
+  // Static media kit data (this doesn't change often)
 
   const mediaKit = [
     {
@@ -58,28 +51,14 @@ const Press: NextPage = () => {
     }
   ];
 
-  const awards = [
-    {
-      year: '2024',
-      award: 'Best Dating App Innovation',
-      organization: 'TechCrunch Disrupt'
-    },
-    {
-      year: '2024',
-      award: 'People\'s Choice Award',
-      organization: 'Product Hunt'
-    },
-    {
-      year: '2024',
-      award: 'Best Mobile App Design',
-      organization: 'Design Awards'
-    },
-    {
-      year: '2024',
-      award: 'Rising Star Startup',
-      organization: 'UK Tech Awards'
-    }
-  ];
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
 
   return (
     <>
@@ -119,24 +98,38 @@ const Press: NextPage = () => {
             <h2 className="text-3xl font-bold text-stone-900 mb-12 text-center">Latest Press Releases</h2>
             
             <div className="space-y-8">
-              {pressReleases.map((release, index) => (
-                <article key={index} className="border-b border-stone-200 pb-8 last:border-b-0">
-                  <time className="text-sm text-stone-500 block mb-2">{release.date}</time>
-                  <h3 className="text-xl font-semibold text-stone-900 mb-3 hover:text-rose-600 transition-colors">
-                    <a href={release.link}>{release.title}</a>
-                  </h3>
-                  <p className="text-stone-600 mb-4">{release.excerpt}</p>
-                  <a 
-                    href={release.link} 
-                    className="text-rose-600 hover:text-rose-700 font-medium inline-flex items-center"
-                  >
-                    Read more
-                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </article>
-              ))}
+              {pressReleases.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-stone-600">No press releases available at this time.</p>
+                </div>
+              ) : (
+                pressReleases.map((release) => (
+                  <article key={release.id} className="border-b border-stone-200 pb-8 last:border-b-0">
+                    <time className="text-sm text-stone-500 block mb-2">{formatDate(release.date)}</time>
+                    <h3 className="text-xl font-semibold text-stone-900 mb-3 hover:text-rose-600 transition-colors">
+                      {release.link ? (
+                        <a href={release.link} target="_blank" rel="noopener noreferrer">{release.title}</a>
+                      ) : (
+                        release.title
+                      )}
+                    </h3>
+                    <p className="text-stone-600 mb-4">{release.excerpt}</p>
+                    {release.link && (
+                      <a 
+                        href={release.link} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-rose-600 hover:text-rose-700 font-medium inline-flex items-center"
+                      >
+                        Read more
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    )}
+                  </article>
+                ))
+              )}
             </div>
           </div>
         </section>
@@ -185,17 +178,26 @@ const Press: NextPage = () => {
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
-              {awards.map((award, index) => (
-                <div key={index} className="flex items-center p-6 border border-stone-200 rounded-lg">
-                  <div className="bg-rose-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-rose-600 font-semibold">{award.year}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-stone-900">{award.award}</h3>
-                    <p className="text-stone-600">{award.organization}</p>
-                  </div>
+              {awards.length === 0 ? (
+                <div className="col-span-2 text-center py-12">
+                  <p className="text-stone-600">No awards to display at this time.</p>
                 </div>
-              ))}
+              ) : (
+                awards.map((award) => {
+                  const year = new Date(award.date).getFullYear();
+                  return (
+                    <div key={award.id} className="flex items-center p-6 border border-stone-200 rounded-lg">
+                      <div className="bg-rose-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                        <span className="text-rose-600 font-semibold">{year}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-stone-900">{award.title}</h3>
+                        <p className="text-stone-600">{award.category}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </section>
@@ -246,6 +248,36 @@ const Press: NextPage = () => {
       <Footer />
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const pressItems = await prisma.press.findMany({
+      where: { published: true },
+      orderBy: { date: 'desc' },
+    });
+
+    const pressReleases = pressItems.filter(item => item.type === 'release');
+    const awards = pressItems.filter(item => item.type === 'award');
+    const mediaItems = pressItems.filter(item => item.type === 'media');
+
+    return {
+      props: {
+        pressReleases: JSON.parse(JSON.stringify(pressReleases)),
+        awards: JSON.parse(JSON.stringify(awards)),
+        mediaItems: JSON.parse(JSON.stringify(mediaItems)),
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching press data:', error);
+    return {
+      props: {
+        pressReleases: [],
+        awards: [],
+        mediaItems: [],
+      },
+    };
+  }
 };
 
 export default Press;

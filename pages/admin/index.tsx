@@ -5,6 +5,7 @@ import {
   useAdminBlogPosts,
   useAdminJobPositions,
   useAdminSiteContent,
+  useAdminPress,
 } from '../../lib/use-content';
 
 // API-based authentication hook
@@ -403,6 +404,92 @@ const JobPositionForm = ({ position, onSave, onCancel }: any) => {
   );
 };
 
+// Form for Press Items
+const PressForm = ({ press, onSave, onCancel }: any) => {
+  const [formData, setFormData] = useState({
+    title: press?.title || '',
+    excerpt: press?.excerpt || '',
+    content: press?.content || '',
+    link: press?.link || '',
+    type: press?.type || 'release',
+    category: press?.category || '',
+    date: press?.date ? new Date(press.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+    published: press?.published || false,
+  });
+
+  const handleChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSave({ ...press, ...formData });
+  };
+
+  return (
+    <Modal onClose={onCancel}>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">{press ? 'Edit' : 'Create'} Press Item</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Type</label>
+            <select name="type" value={formData.type} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500">
+              <option value="release">Press Release</option>
+              <option value="award">Award</option>
+              <option value="media">Media Kit</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Date</label>
+            <input type="date" name="date" value={formData.date} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Category/Organization (for awards)</label>
+            <input type="text" name="category" value={formData.category} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Link (optional)</label>
+          <input type="url" name="link" value={formData.link} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" placeholder="https://example.com/press-release" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Excerpt</label>
+          <textarea name="excerpt" value={formData.excerpt} onChange={handleChange} rows={3} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Full Content</label>
+          <textarea name="content" value={formData.content} onChange={handleChange} rows={10} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+        </div>
+        
+        <div className="flex items-center">
+          <input id="published-press" name="published" type="checkbox" checked={formData.published} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+          <label htmlFor="published-press" className="ml-2 block text-sm text-gray-900">Published</label>
+        </div>
+
+        <div className="flex justify-end space-x-4 pt-4">
+          <button type="button" onClick={onCancel} className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">Cancel</button>
+          <button type="submit" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium">Save Press Item</button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
 const SiteContentForm = ({ content, onSave, onCancel }: any) => {
   const [formData, setFormData] = useState({
     section: content?.section || '',
@@ -464,6 +551,7 @@ const AdminDashboard: NextPage = () => {
   const { blogPosts, refresh: refreshPosts, loading: loadingPosts } = useAdminBlogPosts();
   const { jobPositions, refresh: refreshJobs, loading: loadingJobs } = useAdminJobPositions();
   const { siteContent, refresh: refreshContent, loading: loadingContent } = useAdminSiteContent();
+  const { pressItems, refresh: refreshPress, loading: loadingPress } = useAdminPress();
   const [activeTab, setActiveTab] = useState('dashboard');
   const router = useRouter();
   const [modal, setModal] = useState<{ type: string | null; data: any | null }>({ type: null, data: null });
@@ -574,6 +662,39 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
+  const handleSavePress = async (data: any) => {
+    const isNew = !data.id;
+    const url = isNew ? '/api/press/admin' : `/api/press/${data.id}`;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to save press item');
+      setModal({ type: null, data: null });
+      refreshPress();
+    } catch (error) {
+      console.error(error);
+      alert('Error saving press item.');
+    }
+  };
+
+  const handleDeletePress = async (id: any) => {
+    if (window.confirm('Are you sure you want to delete this press item? This action cannot be undone.')) {
+      try {
+        const res = await fetch(`/api/press/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete press item');
+        refreshPress();
+      } catch (error) {
+        console.error(error);
+        alert('Error deleting press item.');
+      }
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -591,6 +712,7 @@ const AdminDashboard: NextPage = () => {
     user?.role === 'ADMIN' ? { id: 'content', name: 'Site Content', icon: '📝' } : null,
     { id: 'blog', name: 'Blog Posts', icon: '📖' },
     { id: 'careers', name: 'Careers', icon: '💼' },
+    { id: 'press', name: 'Press', icon: '📰' },
   ].filter((item): item is { id: string; name: string; icon: string } => item !== null);
 
   return (
@@ -662,6 +784,10 @@ const AdminDashboard: NextPage = () => {
                       <p className="text-3xl font-bold text-blue-600">{siteContent.length}</p>
                     </div>
                   )}
+                  <div className="bg-white p-6 rounded-lg shadow">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Press Items</h3>
+                    <p className="text-3xl font-bold text-purple-600">{pressItems.length}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -839,6 +965,74 @@ const AdminDashboard: NextPage = () => {
                 </div>
               </div>
             )}
+
+            {activeTab === 'press' && (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold text-gray-900">Press Management</h2>
+                  <button
+                    onClick={() => setModal({ type: 'press', data: null })}
+                    className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    New Press Item
+                  </button>
+                </div>
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {pressItems.map((item) => (
+                        <tr key={item.id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">{item.title}</div>
+                            <div className="text-sm text-gray-500 truncate max-w-xs">{item.excerpt}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm capitalize text-gray-900">
+                              {item.type === 'release' ? 'Press Release' : item.type === 'award' ? 'Award' : 'Media'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {new Date(item.date).toLocaleDateString()}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              item.published 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {item.published ? 'Published' : 'Draft'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                            <button
+                              onClick={() => setModal({ type: 'press', data: item })}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeletePress(item.id)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </main>
         </div>
       </div>
@@ -861,6 +1055,13 @@ const AdminDashboard: NextPage = () => {
         <SiteContentForm
           content={modal.data}
           onSave={handleSaveSiteContent}
+          onCancel={() => setModal({ type: null, data: null })}
+        />
+      )}
+      {modal.type === 'press' && (
+        <PressForm
+          press={modal.data}
+          onSave={handleSavePress}
           onCancel={() => setModal({ type: null, data: null })}
         />
       )}

@@ -1,9 +1,20 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import { NextSeo } from 'next-seo';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { prisma } from '../lib/prisma';
 
-const About: NextPage = () => {
+interface AboutContent {
+  story?: string;
+  mission?: string;
+  founderMessage?: string;
+}
+
+interface AboutProps {
+  content: AboutContent;
+}
+
+const About: NextPage<AboutProps> = ({ content }) => {
   return (
     <>
       <NextSeo
@@ -54,13 +65,11 @@ const About: NextPage = () => {
                   Dishaun's Story
                 </h1>
                 
-                <p className="text-xl font-light leading-relaxed mb-7 text-gray-800">
-                  I've always felt like the dating world was stuck on repeat. Endless swipes, small talk that goes nowhere, people asking the same "what do you do?" questions over and over—it all felt like surface-level chatter rather than a real connection.
-                </p>
-                
-                <p className="text-xl font-light leading-relaxed mb-7 text-gray-800">
-                  At the same time, I noticed how much people loved the new "pop the balloon" trend. There's something exciting about the anticipation, the release, and the fun of it. That gave me an idea: what if dating could feel less like an interview and more like popping a balloon—breaking the tension, cutting through the awkwardness, and sparking something real?
-                </p>
+                <div className="prose prose-xl font-light leading-relaxed text-gray-800" dangerouslySetInnerHTML={{ __html: content.story || `
+                  <p className="mb-7">I've always felt like the dating world was stuck on repeat. Endless swipes, small talk that goes nowhere, people asking the same "what do you do?" questions over and over—it all felt like surface-level chatter rather than a real connection.</p>
+                  
+                  <p className="mb-7">At the same time, I noticed how much people loved the new "pop the balloon" trend. There's something exciting about the anticipation, the release, and the fun of it. That gave me an idea: what if dating could feel less like an interview and more like popping a balloon—breaking the tension, cutting through the awkwardness, and sparking something real?</p>
+                ` }} />
                 
                 <blockquote className="text-3xl font-light leading-relaxed py-8 my-7 text-black italic">
                   "That's why I created <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
@@ -68,17 +77,13 @@ const About: NextPage = () => {
                   </span>. It's not about gamification, it's about creating a fresh, fun, and meaningful way to connect."
                 </blockquote>
                 
-                <p className="text-xl font-light leading-relaxed mb-7 text-gray-800">
-                  I designed Balloon'd to break through repetitive patterns in dating and give people a space where conversations flow naturally, personalities shine, and genuine sparks can fly.
-                </p>
-                
-                <p className="text-xl font-light leading-relaxed mb-7 text-gray-800">
-                  Every feature we build is guided by one simple question: <span className="text-rose-600 font-medium">Does this help people pop the awkwardness and get closer to something real?</span>
-                </p>
-                
-                <p className="text-xl font-light leading-relaxed mb-16 text-gray-800">
-                  With Balloon'd, you're always just <em>one pop away</em> from your next great connection.
-                </p>
+                <div className="prose prose-xl font-light leading-relaxed text-gray-800" dangerouslySetInnerHTML={{ __html: content.founderMessage || `
+                  <p className="mb-7">I designed Balloon'd to break through repetitive patterns in dating and give people a space where conversations flow naturally, personalities shine, and genuine sparks can fly.</p>
+                  
+                  <p className="mb-7">Every feature we build is guided by one simple question: <span class="text-rose-600 font-medium">Does this help people pop the awkwardness and get closer to something real?</span></p>
+                  
+                  <p className="mb-16">With Balloon'd, you're always just <em>one pop away</em> from your next great connection.</p>
+                ` }} />
                 
                 {/* Signature area */}
                 <div className="flex flex-col items-end pt-16">
@@ -106,9 +111,7 @@ const About: NextPage = () => {
                 <h2 className="text-5xl font-light mb-6 text-black leading-tight">
                   Our <span className="font-bold bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">Mission</span>
                 </h2>
-                <p className="text-xl font-light text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                  We're building a dating app designed to be deleted—because success means you found your person.
-                </p>
+                <p className="text-xl font-light text-gray-700 max-w-3xl mx-auto leading-relaxed" dangerouslySetInnerHTML={{ __html: content.mission || "We're building a dating app designed to be deleted—because success means you found your person." }} />
               </div>
               
               <div className="grid md:grid-cols-3 gap-12">
@@ -211,6 +214,39 @@ const About: NextPage = () => {
       <Footer />
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    // Fetch about page content from SiteContent table
+    const contentItems = await prisma.siteContent.findMany({
+      where: {
+        section: 'About Page',
+        published: true,
+      },
+    });
+
+    // Transform the content into a structured object
+    const content: AboutContent = {};
+    contentItems.forEach(item => {
+      if (item.id === 'about-story') content.story = item.content;
+      if (item.id === 'about-mission') content.mission = item.content;
+      if (item.id === 'about-founder-message') content.founderMessage = item.content;
+    });
+
+    return {
+      props: {
+        content,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching about page content:', error);
+    return {
+      props: {
+        content: {},
+      },
+    };
+  }
 };
 
 export default About;

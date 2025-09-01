@@ -175,5 +175,26 @@ export function useAdminSiteContent() {
   return { siteContent, loading, refresh };
 }
 
+// All Press Items (for admin panel)
+export function useAdminPress() {
+  const [pressItems, setPressItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await fetchJson('/api/press/admin');
+      setPressItems(data || []);
+    } catch {
+      setPressItems([]);
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { refresh(); }, [refresh]);
+
+  return { pressItems, loading, refresh };
+}
+
 // No-op for DB-backed version (kept for compatibility)
 export function triggerContentUpdate() {}

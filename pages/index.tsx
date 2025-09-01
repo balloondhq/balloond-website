@@ -217,7 +217,7 @@ const Home: NextPage = () => {
       </section>
       
       {/* Success Stories - Hinge-Inspired Minimal Carousel */}
-      <section className="py-16 sm:py-20 lg:py-28 bg-white">
+      <section className="py-16 sm:py-20 lg:py-28 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 lg:mb-20">
             <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-5 tracking-tight">
@@ -295,10 +295,10 @@ const Home: NextPage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <button className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-white/20 transition-colors text-sm sm:text-base">
+            <button className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base">
               Download for iPhone
             </button>
-            <button className="bg-white text-gray-900 px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-gray-100 transition-colors text-sm sm:text-base">
+            <button className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base">
               Download for Android
             </button>
           </div>

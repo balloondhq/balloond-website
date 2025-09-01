@@ -12,8 +12,8 @@ const Footer: React.FC = () => {
       { name: 'Blog', href: '/blog' }
     ],
     support: [
-      { name: 'Help Center', href: '/help' },
-      { name: 'Safety Tips', href: '/safety' },
+      { name: 'Help Center', href: '/help-center' },
+      { name: 'Safety Tips', href: '/safety-tips' },
       { name: 'Community Guidelines', href: '/community-guidelines' },
       { name: 'Contact Us', href: '/contact' }
     ],
