@@ -54,7 +54,10 @@ async function main() {
     await prisma.siteContent.upsert({
       where: { id: content.id },
       update: {},
-      create: content,
+      create: {
+        ...content,
+        createdById: admin.id,
+      },
     });
   }
 

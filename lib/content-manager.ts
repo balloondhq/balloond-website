@@ -1,32 +1,34 @@
 // lib/content-manager.ts
-// All content/data management now uses Prisma and Neon Postgres.
-// All localStorage and default-data logic is removed.
-// CRUD for BlogPost, JobPosition, and SiteContent is now database-backed.
+// Content management functions using Prisma and Neon Postgres
 
 import { prisma } from './prisma';
+import type { BlogPost as PrismaBlogPost, Career as PrismaCareer, SiteContent as PrismaSiteContent } from '@prisma/client';
 
-// --------------- Types ---------------
+// --------------- Types that match our Prisma schema ---------------
 
 export interface BlogPost {
-  id: string;
+  id: number;
   slug: string;
   title: string;
   excerpt: string;
   content: string;
   author: string;
-  authorBio: string;
-  authorAvatar: string;
-  date: string;
-  readTime: string;
+  authorBio?: string;
+  authorAvatar?: string;
   category: string;
   tags: string[];
-  image: string;
+  readTime: string;
+  image?: string;
   featured: boolean;
-  status: 'published' | 'draft';
+  published: boolean;
+  publishedAt?: Date | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  createdById: string;
 }
 
-export interface JobPosition {
-  id: string;
+export interface Career {
+  id: number;
   title: string;
   department: string;
   location: string;
@@ -34,8 +36,12 @@ export interface JobPosition {
   description: string;
   requirements: string[];
   responsibilities: string[];
-  status: 'active' | 'closed';
-  datePosted: string;
+  published: boolean;
+  publishedAt?: Date | string;
+  datePosted: Date | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  createdById: string;
 }
 
 export interface SiteContent {
@@ -43,8 +49,11 @@ export interface SiteContent {
   section: string;
   title: string;
   content: string;
-  lastModified: string;
-  status: 'published' | 'draft';
+  published: boolean;
+  publishedAt?: Date | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  createdById: string;
 }
 
 // --------------- Blog Posts Management ---------------
@@ -52,147 +61,93 @@ export interface SiteContent {
 // Get all published blog posts
 export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
   const posts = await prisma.blogPost.findMany({
-    where: { status: 'published' },
-    orderBy: { date: 'desc' },
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
   });
-  // Prisma will return tags as a string (JSON) if field is Json, so handle that if needed
   return posts.map((post) => ({
     ...post,
-    tags: Array.isArray(post.tags) ? post.tags : JSON.parse(post.tags ?? '[]'),
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+    publishedAt: post.publishedAt?.toISOString(),
   }));
 };
 
 // Get all blog posts (admin)
 export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
   const posts = await prisma.blogPost.findMany({
-    orderBy: { date: 'desc' },
+    orderBy: { createdAt: 'desc' },
   });
   return posts.map((post) => ({
     ...post,
-    tags: Array.isArray(post.tags) ? post.tags : JSON.parse(post.tags ?? '[]'),
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+    publishedAt: post.publishedAt?.toISOString(),
   }));
 };
 
 // Get a single blog post by slug
 export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> => {
   const post = await prisma.blogPost.findUnique({ where: { slug } });
-  return post
-    ? { ...post, tags: Array.isArray(post.tags) ? post.tags : JSON.parse(post.tags ?? '[]') }
-    : null;
+  return post ? {
+    ...post,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+    publishedAt: post.publishedAt?.toISOString(),
+  } : null;
 };
 
-// Create blog post
-export const createBlogPost = async (data: Omit<BlogPost, 'id'>): Promise<BlogPost> => {
-  const created = await prisma.blogPost.create({
-    data: {
-      ...data,
-      tags: JSON.stringify(data.tags),
-    },
-  });
-  return { ...created, tags: Array.isArray(created.tags) ? created.tags : JSON.parse(created.tags ?? '[]') };
+// Get blog post by ID
+export const getBlogPostById = async (id: number): Promise<BlogPost | null> => {
+  const post = await prisma.blogPost.findUnique({ where: { id } });
+  return post ? {
+    ...post,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+    publishedAt: post.publishedAt?.toISOString(),
+  } : null;
 };
 
-// Update blog post
-export const updateBlogPost = async (id: string, updates: Partial<BlogPost>): Promise<BlogPost | null> => {
-  const updated = await prisma.blogPost.update({
-    where: { id },
-    data: {
-      ...updates,
-      tags: updates.tags ? JSON.stringify(updates.tags) : undefined,
-    },
-  });
-  return updated
-    ? { ...updated, tags: Array.isArray(updated.tags) ? updated.tags : JSON.parse(updated.tags ?? '[]') }
-    : null;
-};
+// --------------- Career Positions Management ---------------
 
-// Delete blog post
-export const deleteBlogPost = async (id: string): Promise<boolean> => {
-  await prisma.blogPost.delete({ where: { id } });
-  return true;
-};
-
-// --------------- Job Positions Management ---------------
-
-// Get all active job positions
-export const getActiveJobPositions = async (): Promise<JobPosition[]> => {
-  const jobs = await prisma.jobPosition.findMany({
-    where: { status: 'active' },
+// Get all published career positions
+export const getPublishedCareers = async (): Promise<Career[]> => {
+  const careers = await prisma.career.findMany({
+    where: { published: true },
     orderBy: { datePosted: 'desc' },
   });
-  return jobs.map((job) => ({
-    ...job,
-    requirements: Array.isArray(job.requirements) ? job.requirements : JSON.parse(job.requirements ?? '[]'),
-    responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities : JSON.parse(job.responsibilities ?? '[]'),
+  return careers.map((career) => ({
+    ...career,
+    createdAt: career.createdAt.toISOString(),
+    updatedAt: career.updatedAt.toISOString(),
+    publishedAt: career.publishedAt?.toISOString(),
+    datePosted: career.datePosted.toISOString(),
   }));
 };
 
-// Get all job positions (admin)
-export const getAllJobPositions = async (): Promise<JobPosition[]> => {
-  const jobs = await prisma.jobPosition.findMany({
+// Get all career positions (admin)
+export const getAllCareers = async (): Promise<Career[]> => {
+  const careers = await prisma.career.findMany({
     orderBy: { datePosted: 'desc' },
   });
-  return jobs.map((job) => ({
-    ...job,
-    requirements: Array.isArray(job.requirements) ? job.requirements : JSON.parse(job.requirements ?? '[]'),
-    responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities : JSON.parse(job.responsibilities ?? '[]'),
+  return careers.map((career) => ({
+    ...career,
+    createdAt: career.createdAt.toISOString(),
+    updatedAt: career.updatedAt.toISOString(),
+    publishedAt: career.publishedAt?.toISOString(),
+    datePosted: career.datePosted.toISOString(),
   }));
 };
 
-// Get a single job position by id
-export const getJobPositionById = async (id: string): Promise<JobPosition | null> => {
-  const job = await prisma.jobPosition.findUnique({ where: { id } });
-  return job
-    ? {
-        ...job,
-        requirements: Array.isArray(job.requirements) ? job.requirements : JSON.parse(job.requirements ?? '[]'),
-        responsibilities: Array.isArray(job.responsibilities) ? job.responsibilities : JSON.parse(job.responsibilities ?? '[]'),
-      }
-    : null;
-};
-
-// Create job position
-export const createJobPosition = async (data: Omit<JobPosition, 'id'>): Promise<JobPosition> => {
-  const created = await prisma.jobPosition.create({
-    data: {
-      ...data,
-      requirements: JSON.stringify(data.requirements),
-      responsibilities: JSON.stringify(data.responsibilities),
-    },
-  });
-  return {
-    ...created,
-    requirements: Array.isArray(created.requirements) ? created.requirements : JSON.parse(created.requirements ?? '[]'),
-    responsibilities: Array.isArray(created.responsibilities) ? created.responsibilities : JSON.parse(created.responsibilities ?? '[]'),
-  };
-};
-
-// Update job position
-export const updateJobPosition = async (
-  id: string,
-  updates: Partial<JobPosition>
-): Promise<JobPosition | null> => {
-  const updated = await prisma.jobPosition.update({
-    where: { id },
-    data: {
-      ...updates,
-      requirements: updates.requirements ? JSON.stringify(updates.requirements) : undefined,
-      responsibilities: updates.responsibilities ? JSON.stringify(updates.responsibilities) : undefined,
-    },
-  });
-  return updated
-    ? {
-        ...updated,
-        requirements: Array.isArray(updated.requirements) ? updated.requirements : JSON.parse(updated.requirements ?? '[]'),
-        responsibilities: Array.isArray(updated.responsibilities) ? updated.responsibilities : JSON.parse(updated.responsibilities ?? '[]'),
-      }
-    : null;
-};
-
-// Delete job position
-export const deleteJobPosition = async (id: string): Promise<boolean> => {
-  await prisma.jobPosition.delete({ where: { id } });
-  return true;
+// Get career by ID
+export const getCareerById = async (id: number): Promise<Career | null> => {
+  const career = await prisma.career.findUnique({ where: { id } });
+  return career ? {
+    ...career,
+    createdAt: career.createdAt.toISOString(),
+    updatedAt: career.updatedAt.toISOString(),
+    publishedAt: career.publishedAt?.toISOString(),
+    datePosted: career.datePosted.toISOString(),
+  } : null;
 };
 
 // --------------- Site Content Management ---------------
@@ -200,53 +155,37 @@ export const deleteJobPosition = async (id: string): Promise<boolean> => {
 // Get all published site content
 export const getPublishedSiteContent = async (): Promise<SiteContent[]> => {
   const content = await prisma.siteContent.findMany({
-    where: { status: 'published' },
-    orderBy: { lastModified: 'desc' },
+    where: { published: true },
+    orderBy: { createdAt: 'asc' },
   });
-  return content;
+  return content.map((item) => ({
+    ...item,
+    createdAt: item.createdAt.toISOString(),
+    updatedAt: item.updatedAt.toISOString(),
+    publishedAt: item.publishedAt?.toISOString(),
+  }));
 };
 
 // Get all site content (admin)
 export const getAllSiteContent = async (): Promise<SiteContent[]> => {
   const content = await prisma.siteContent.findMany({
-    orderBy: { lastModified: 'desc' },
+    orderBy: { createdAt: 'asc' },
   });
-  return content;
+  return content.map((item) => ({
+    ...item,
+    createdAt: item.createdAt.toISOString(),
+    updatedAt: item.updatedAt.toISOString(),
+    publishedAt: item.publishedAt?.toISOString(),
+  }));
 };
 
-// Get site content by id
+// Get site content by ID
 export const getSiteContentById = async (id: string): Promise<SiteContent | null> => {
-  return await prisma.siteContent.findUnique({ where: { id } });
-};
-
-// Update site content
-export const updateSiteContent = async (
-  id: string,
-  updates: Partial<SiteContent>
-): Promise<SiteContent | null> => {
-  const updated = await prisma.siteContent.update({
-    where: { id },
-    data: {
-      ...updates,
-      lastModified: new Date().toISOString().split('T')[0],
-    },
-  });
-  return updated;
-};
-
-// Create site content
-export const addSiteContent = async (content: Omit<SiteContent, 'lastModified'>): Promise<SiteContent> => {
-  const created = await prisma.siteContent.create({
-    data: {
-      ...content,
-      lastModified: new Date().toISOString().split('T')[0],
-    },
-  });
-  return created;
-};
-
-// Delete site content
-export const deleteSiteContent = async (id: string): Promise<boolean> => {
-  await prisma.siteContent.delete({ where: { id } });
-  return true;
+  const content = await prisma.siteContent.findUnique({ where: { id } });
+  return content ? {
+    ...content,
+    createdAt: content.createdAt.toISOString(),
+    updatedAt: content.updatedAt.toISOString(),
+    publishedAt: content.publishedAt?.toISOString(),
+  } : null;
 };
