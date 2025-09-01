@@ -57,6 +57,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({ content: updatedContent });
     }
 
+    if (req.method === 'DELETE') {
+      // Delete content item
+      const token = req.cookies['auth-token'];
+      if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const user = await verifyJWT(token);
+      if (!hasPermission(user.role, 'ADMIN')) {
+        return res.status(403).json({ message: 'Admin permission required' });
+      }
+
+      await prisma.siteContent.delete({
+        where: { id: contentId },
+      });
+
+      return res.status(200).json({ message: 'Content item deleted successfully' });
+    }
+
     return res.status(405).json({ message: 'Method not allowed' });
   } catch (error) {
     console.error('Content API error:', error);

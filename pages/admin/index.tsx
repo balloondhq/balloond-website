@@ -226,6 +226,148 @@ const BlogPostForm = ({ post, onSave, onCancel }) => {
   );
 };
 
+const JobPositionForm = ({ position, onSave, onCancel }) => {
+  const [formData, setFormData] = useState({
+    title: position?.title || '',
+    department: position?.department || '',
+    location: position?.location || '',
+    type: position?.type || 'Full-time',
+    description: position?.description || '',
+    requirements: position?.requirements?.join('\n') || '',
+    responsibilities: position?.responsibilities?.join('\n') || '',
+    published: position?.published || false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSave({
+      ...position,
+      ...formData,
+      requirements: formData.requirements.split('\n').filter(r => r.trim() !== ''),
+      responsibilities: formData.responsibilities.split('\n').filter(r => r.trim() !== ''),
+    });
+  };
+
+  return (
+    <Modal onClose={onCancel}>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">{position ? 'Edit' : 'Create'} Job Position</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Department</label>
+            <input type="text" name="department" value={formData.department} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Location</label>
+            <input type="text" name="location" value={formData.location} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Type (e.g., Full-time)</label>
+            <input type="text" name="type" value={formData.type} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+          </div>
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <textarea name="description" value={formData.description} onChange={handleChange} rows={4} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Requirements (one per line)</label>
+            <textarea name="requirements" value={formData.requirements} onChange={handleChange} rows={5} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Responsibilities (one per line)</label>
+            <textarea name="responsibilities" value={formData.responsibilities} onChange={handleChange} rows={5} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+        
+        <div className="flex items-center">
+            <input id="published-job" name="published" type="checkbox" checked={formData.published} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+            <label htmlFor="published-job" className="ml-2 block text-sm text-gray-900">Published</label>
+        </div>
+
+        <div className="flex justify-end space-x-4 pt-4">
+          <button type="button" onClick={onCancel} className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">Cancel</button>
+          <button type="submit" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium">Save Position</button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
+const SiteContentForm = ({ content, onSave, onCancel }) => {
+  const [formData, setFormData] = useState({
+    section: content?.section || '',
+    title: content?.title || '',
+    content: content?.content || '',
+    published: content?.published || false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSave({ ...content, ...formData });
+  };
+
+  return (
+    <Modal onClose={onCancel}>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">{content ? 'Edit' : 'Create'} Site Content</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Section</label>
+            <input type="text" name="section" value={formData.section} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Content</label>
+            <textarea name="content" value={formData.content} onChange={handleChange} rows={10} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+        
+        <div className="flex items-center">
+            <input id="published-content" name="published" type="checkbox" checked={formData.published} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+            <label htmlFor="published-content" className="ml-2 block text-sm text-gray-900">Published</label>
+        </div>
+
+        <div className="flex justify-end space-x-4 pt-4">
+          <button type="button" onClick={onCancel} className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">Cancel</button>
+          <button type="submit" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium">Save Content</button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
 const AdminDashboard: NextPage = () => {
   const { isAuthenticated, isLoading, user, login, logout } = useAuth();
   const { blogPosts, refresh: refreshPosts, loading: loadingPosts } = useAdminBlogPosts();
@@ -264,6 +406,72 @@ const AdminDashboard: NextPage = () => {
       } catch (error) {
         console.error(error);
         alert('Error deleting post.');
+      }
+    }
+  };
+
+  const handleSaveJobPosition = async (data) => {
+    const isNew = !data.id;
+    const url = isNew ? '/api/careers' : `/api/careers/${data.id}`;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to save job position');
+      setModal({ type: null, data: null });
+      refreshJobs();
+    } catch (error) {
+      console.error(error);
+      alert('Error saving job position.');
+    }
+  };
+
+  const handleDeleteJobPosition = async (id) => {
+    if (window.confirm('Are you sure you want to delete this job position? This action cannot be undone.')) {
+      try {
+        const res = await fetch(`/api/careers/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete job position');
+        refreshJobs();
+      } catch (error) {
+        console.error(error);
+        alert('Error deleting job position.');
+      }
+    }
+  };
+
+  const handleSaveSiteContent = async (data) => {
+    const isNew = !data.id;
+    const url = isNew ? '/api/content' : `/api/content/${data.id}`;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to save content');
+      setModal({ type: null, data: null });
+      refreshContent();
+    } catch (error) {
+      console.error(error);
+      alert('Error saving content.');
+    }
+  };
+
+  const handleDeleteSiteContent = async (id) => {
+    if (window.confirm('Are you sure you want to delete this content item? This action is permanent.')) {
+      try {
+        const res = await fetch(`/api/content/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete content');
+        refreshContent();
+      } catch (error) {
+        console.error(error);
+        alert('Error deleting content.');
       }
     }
   };
@@ -358,7 +566,15 @@ const AdminDashboard: NextPage = () => {
 
             {activeTab === 'content' && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900">Site Content</h2>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold text-gray-900">Site Content</h2>
+                  <button
+                    onClick={() => setModal({ type: 'content', data: null })}
+                    className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    New Content
+                  </button>
+                </div>
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -366,6 +582,7 @@ const AdminDashboard: NextPage = () => {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -380,12 +597,26 @@ const AdminDashboard: NextPage = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              item.status === 'published' 
+                              item.published 
                                 ? 'bg-green-100 text-green-800' 
                                 : 'bg-yellow-100 text-yellow-800'
                             }`}>
-                              {item.status}
+                              {item.published ? 'Published' : 'Draft'}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                            <button
+                              onClick={() => setModal({ type: 'content', data: item })}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSiteContent(item.id)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -453,7 +684,15 @@ const AdminDashboard: NextPage = () => {
 
             {activeTab === 'careers' && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900">Careers Management</h2>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold text-gray-900">Careers Management</h2>
+                  <button
+                    onClick={() => setModal({ type: 'career', data: null })}
+                    className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    New Position
+                  </button>
+                </div>
                 <div className="space-y-4">
                   {jobPositions.map((position) => (
                     <div key={position.id} className="bg-white rounded-lg shadow p-6">
@@ -462,11 +701,11 @@ const AdminDashboard: NextPage = () => {
                           <div className="flex items-center space-x-3 mb-2">
                             <h3 className="text-lg font-semibold text-gray-900">{position.title}</h3>
                             <span className={`text-xs px-2 py-1 rounded-full ${
-                              position.status === 'active' 
+                              position.published 
                                 ? 'bg-green-100 text-green-600' 
-                                : 'bg-gray-100 text-gray-600'
+                                : 'bg-yellow-100 text-yellow-600'
                             }`}>
-                              {position.status}
+                              {position.published ? 'Published' : 'Draft'}
                             </span>
                           </div>
                           <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
@@ -476,7 +715,21 @@ const AdminDashboard: NextPage = () => {
                             <span>•</span>
                             <span>{position.type}</span>
                           </div>
-                          <p className="text-gray-600">{position.description}</p>
+                          <p className="text-gray-600 line-clamp-2">{position.description}</p>
+                        </div>
+                        <div className="flex-shrink-0 flex items-center space-x-2 ml-4">
+                          <button
+                            onClick={() => setModal({ type: 'career', data: position })}
+                            className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteJobPosition(position.id)}
+                            className="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded-md"
+                          >
+                            Delete
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -492,6 +745,20 @@ const AdminDashboard: NextPage = () => {
         <BlogPostForm
           post={modal.data}
           onSave={handleSaveBlogPost}
+          onCancel={() => setModal({ type: null, data: null })}
+        />
+      )}
+      {modal.type === 'career' && (
+        <JobPositionForm
+          position={modal.data}
+          onSave={handleSaveJobPosition}
+          onCancel={() => setModal({ type: null, data: null })}
+        />
+      )}
+      {modal.type === 'content' && (
+        <SiteContentForm
+          content={modal.data}
+          onSave={handleSaveSiteContent}
           onCancel={() => setModal({ type: null, data: null })}
         />
       )}

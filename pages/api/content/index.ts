@@ -15,6 +15,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({ content });
     }
 
+    if (req.method === 'POST') {
+      // Protected endpoint - create new site content
+      const token = req.cookies['auth-token'];
+      if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const user = await verifyJWT(token);
+      if (!hasPermission(user.role, 'EDITOR')) {
+        return res.status(403).json({ message: 'Insufficient permissions' });
+      }
+
+      const { section, title, content: contentText, published } = req.body;
+
+      const newContent = await prisma.siteContent.create({
+        data: {
+          section,
+          title,
+          content: contentText,
+          published: published || false,
+          publishedAt: published ? new Date() : null,
+          createdById: user.id,
+        },
+      });
+
+      return res.status(201).json({ content: newContent });
+    }
+
     return res.status(405).json({ message: 'Method not allowed' });
   } catch (error) {
     console.error('Content API error:', error);
