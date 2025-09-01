@@ -13,15 +13,15 @@ export interface BlogPost {
   excerpt: string;
   content: string;
   author: string;
-  authorBio?: string;
-  authorAvatar?: string;
+  authorBio: string | null;
+  authorAvatar: string | null;
   category: string;
   tags: string[];
   readTime: string;
-  image?: string;
+  image: string | null;
   featured: boolean;
   published: boolean;
-  publishedAt?: Date | string;
+  publishedAt: Date | string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
   createdById: string;
@@ -37,7 +37,7 @@ export interface Career {
   requirements: string[];
   responsibilities: string[];
   published: boolean;
-  publishedAt?: Date | string;
+  publishedAt: Date | string | null;
   datePosted: Date | string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -50,7 +50,7 @@ export interface SiteContent {
   title: string;
   content: string;
   published: boolean;
-  publishedAt?: Date | string;
+  publishedAt: Date | string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
   createdById: string;
@@ -68,7 +68,7 @@ export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
     ...post,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
-    publishedAt: post.publishedAt?.toISOString(),
+    publishedAt: post.publishedAt?.toISOString() || null,
   }));
 };
 
@@ -81,7 +81,7 @@ export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
     ...post,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
-    publishedAt: post.publishedAt?.toISOString(),
+    publishedAt: post.publishedAt?.toISOString() || null,
   }));
 };
 
@@ -92,7 +92,7 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
     ...post,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
-    publishedAt: post.publishedAt?.toISOString(),
+    publishedAt: post.publishedAt?.toISOString() || null,
   } : null;
 };
 
@@ -103,7 +103,7 @@ export const getBlogPostById = async (id: number): Promise<BlogPost | null> => {
     ...post,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
-    publishedAt: post.publishedAt?.toISOString(),
+    publishedAt: post.publishedAt?.toISOString() || null,
   } : null;
 };
 
@@ -119,7 +119,7 @@ export const getPublishedCareers = async (): Promise<Career[]> => {
     ...career,
     createdAt: career.createdAt.toISOString(),
     updatedAt: career.updatedAt.toISOString(),
-    publishedAt: career.publishedAt?.toISOString(),
+    publishedAt: career.publishedAt?.toISOString() || null,
     datePosted: career.datePosted.toISOString(),
   }));
 };
@@ -133,7 +133,7 @@ export const getAllCareers = async (): Promise<Career[]> => {
     ...career,
     createdAt: career.createdAt.toISOString(),
     updatedAt: career.updatedAt.toISOString(),
-    publishedAt: career.publishedAt?.toISOString(),
+    publishedAt: career.publishedAt?.toISOString() || null,
     datePosted: career.datePosted.toISOString(),
   }));
 };
@@ -145,7 +145,7 @@ export const getCareerById = async (id: number): Promise<Career | null> => {
     ...career,
     createdAt: career.createdAt.toISOString(),
     updatedAt: career.updatedAt.toISOString(),
-    publishedAt: career.publishedAt?.toISOString(),
+    publishedAt: career.publishedAt?.toISOString() || null,
     datePosted: career.datePosted.toISOString(),
   } : null;
 };
@@ -162,7 +162,7 @@ export const getPublishedSiteContent = async (): Promise<SiteContent[]> => {
     ...item,
     createdAt: item.createdAt.toISOString(),
     updatedAt: item.updatedAt.toISOString(),
-    publishedAt: item.publishedAt?.toISOString(),
+    publishedAt: item.publishedAt?.toISOString() || null,
   }));
 };
 
@@ -175,7 +175,7 @@ export const getAllSiteContent = async (): Promise<SiteContent[]> => {
     ...item,
     createdAt: item.createdAt.toISOString(),
     updatedAt: item.updatedAt.toISOString(),
-    publishedAt: item.publishedAt?.toISOString(),
+    publishedAt: item.publishedAt?.toISOString() || null,
   }));
 };
 
@@ -186,6 +186,6 @@ export const getSiteContentById = async (id: string): Promise<SiteContent | null
     ...content,
     createdAt: content.createdAt.toISOString(),
     updatedAt: content.updatedAt.toISOString(),
-    publishedAt: content.publishedAt?.toISOString(),
+    publishedAt: content.publishedAt?.toISOString() || null,
   } : null;
 };

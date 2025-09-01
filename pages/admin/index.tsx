@@ -62,13 +62,17 @@ function useAuth() {
   return { isAuthenticated, isLoading, user, login, logout };
 }
 
-const LoginForm = ({ onLogin }) => {
+interface LoginFormProps {
+  onLogin: (email: string, password: string) => Promise<boolean>;
+}
+
+const LoginForm = ({ onLogin }: LoginFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogging, setIsLogging] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLogging(true);
     setError('');
@@ -122,7 +126,12 @@ const LoginForm = ({ onLogin }) => {
 };
 
 // Modal component
-const Modal = ({ children, onClose }) => (
+interface ModalProps {
+  children: React.ReactNode;
+  onClose: () => void;
+}
+
+const Modal = ({ children, onClose }: ModalProps) => (
   <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
     <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
       <div className="p-6 relative">
@@ -138,7 +147,7 @@ const Modal = ({ children, onClose }) => (
 );
 
 // Form for Blog Posts
-const BlogPostForm = ({ post, onSave, onCancel }) => {
+const BlogPostForm = ({ post, onSave, onCancel }: any) => {
   const [formData, setFormData] = useState({
     title: post?.title || '',
     slug: post?.slug || '',
@@ -151,7 +160,7 @@ const BlogPostForm = ({ post, onSave, onCancel }) => {
     featured: post?.featured || false,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -226,7 +235,7 @@ const BlogPostForm = ({ post, onSave, onCancel }) => {
   );
 };
 
-const JobPositionForm = ({ position, onSave, onCancel }) => {
+const JobPositionForm = ({ position, onSave, onCancel }: any) => {
   const [formData, setFormData] = useState({
     title: position?.title || '',
     department: position?.department || '',
@@ -238,7 +247,7 @@ const JobPositionForm = ({ position, onSave, onCancel }) => {
     published: position?.published || false,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -251,8 +260,8 @@ const JobPositionForm = ({ position, onSave, onCancel }) => {
     onSave({
       ...position,
       ...formData,
-      requirements: formData.requirements.split('\n').filter(r => r.trim() !== ''),
-      responsibilities: formData.responsibilities.split('\n').filter(r => r.trim() !== ''),
+      requirements: formData.requirements.split('\n').filter((r: string) => r.trim() !== ''),
+      responsibilities: formData.responsibilities.split('\n').filter((r: string) => r.trim() !== ''),
     });
   };
 
@@ -312,7 +321,7 @@ const JobPositionForm = ({ position, onSave, onCancel }) => {
   );
 };
 
-const SiteContentForm = ({ content, onSave, onCancel }) => {
+const SiteContentForm = ({ content, onSave, onCancel }: any) => {
   const [formData, setFormData] = useState({
     section: content?.section || '',
     title: content?.title || '',
@@ -320,7 +329,7 @@ const SiteContentForm = ({ content, onSave, onCancel }) => {
     published: content?.published || false,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -384,7 +393,7 @@ const AdminDashboard: NextPage = () => {
     }
   }, [activeTab, user]);
 
-  const handleSaveBlogPost = async (data) => {
+  const handleSaveBlogPost = async (data: any) => {
     const isNew = !data.id;
     const url = isNew ? '/api/blog' : `/api/blog/${data.id}`;
     const method = isNew ? 'POST' : 'PUT';
@@ -404,7 +413,7 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
-  const handleDeleteBlogPost = async (id) => {
+  const handleDeleteBlogPost = async (id: any) => {
     if (window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
       try {
         const res = await fetch(`/api/blog/${id}`, { method: 'DELETE' });
@@ -417,7 +426,7 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
-  const handleSaveJobPosition = async (data) => {
+  const handleSaveJobPosition = async (data: any) => {
     const isNew = !data.id;
     const url = isNew ? '/api/careers' : `/api/careers/${data.id}`;
     const method = isNew ? 'POST' : 'PUT';
@@ -437,7 +446,7 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
-  const handleDeleteJobPosition = async (id) => {
+  const handleDeleteJobPosition = async (id: any) => {
     if (window.confirm('Are you sure you want to delete this job position? This action cannot be undone.')) {
       try {
         const res = await fetch(`/api/careers/${id}`, { method: 'DELETE' });
@@ -450,7 +459,7 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
-  const handleSaveSiteContent = async (data) => {
+  const handleSaveSiteContent = async (data: any) => {
     const isNew = !data.id;
     const url = isNew ? '/api/content' : `/api/content/${data.id}`;
     const method = isNew ? 'POST' : 'PUT';
@@ -470,7 +479,7 @@ const AdminDashboard: NextPage = () => {
     }
   };
 
-  const handleDeleteSiteContent = async (id) => {
+  const handleDeleteSiteContent = async (id: any) => {
     if (window.confirm('Are you sure you want to delete this content item? This action is permanent.')) {
       try {
         const res = await fetch(`/api/content/${id}`, { method: 'DELETE' });
@@ -497,10 +506,10 @@ const AdminDashboard: NextPage = () => {
 
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', icon: '📊' },
-    user?.role === 'ADMIN' && { id: 'content', name: 'Site Content', icon: '📝' },
+    user?.role === 'ADMIN' ? { id: 'content', name: 'Site Content', icon: '📝' } : null,
     { id: 'blog', name: 'Blog Posts', icon: '📖' },
     { id: 'careers', name: 'Careers', icon: '💼' },
-  ].filter(Boolean); // filter(Boolean) removes false values if user is not ADMIN
+  ].filter((item): item is { id: string; name: string; icon: string } => item !== null);
 
   return (
     <div className="min-h-screen bg-gray-100">

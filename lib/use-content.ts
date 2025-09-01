@@ -1,5 +1,45 @@
 import { useState, useEffect, useCallback } from 'react';
 
+// Types
+type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  content: string;
+  author: string;
+  category?: string;
+  readTime?: string;
+  published: boolean;
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type JobPosition = {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description?: string;
+  requirements: string[];
+  responsibilities: string[];
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SiteContent = {
+  id: string;
+  section: string;
+  title: string;
+  content: string;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 // Helper for fetching JSON from an endpoint
 async function fetchJson(url: string, options = {}) {
   const res = await fetch(url, options);
@@ -9,7 +49,7 @@ async function fetchJson(url: string, options = {}) {
 
 // Blog Posts (published, for public site)
 export function useBlogPosts() {
-  const [blogPosts, setBlogPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -30,7 +70,7 @@ export function useBlogPosts() {
 
 // Job Positions (active, for public site)
 export function useJobPositions() {
-  const [jobPositions, setJobPositions] = useState([]);
+  const [jobPositions, setJobPositions] = useState<JobPosition[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -51,7 +91,7 @@ export function useJobPositions() {
 
 // Site Content (published, for public site)
 export function useSiteContent() {
-  const [siteContent, setSiteContent] = useState([]);
+  const [siteContent, setSiteContent] = useState<SiteContent[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -74,7 +114,7 @@ export function useSiteContent() {
 
 // All Blog Posts (for admin panel)
 export function useAdminBlogPosts() {
-  const [blogPosts, setBlogPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -95,7 +135,7 @@ export function useAdminBlogPosts() {
 
 // All Job Positions (for admin panel)
 export function useAdminJobPositions() {
-  const [jobPositions, setJobPositions] = useState([]);
+  const [jobPositions, setJobPositions] = useState<JobPosition[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -116,7 +156,7 @@ export function useAdminJobPositions() {
 
 // All Site Content (for admin panel)
 export function useAdminSiteContent() {
-  const [siteContent, setSiteContent] = useState([]);
+  const [siteContent, setSiteContent] = useState<SiteContent[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
