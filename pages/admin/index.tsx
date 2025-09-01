@@ -377,6 +377,13 @@ const AdminDashboard: NextPage = () => {
   const router = useRouter();
   const [modal, setModal] = useState<{ type: string | null; data: any | null }>({ type: null, data: null });
 
+  useEffect(() => {
+    // If a user doesn't have permissions for a tab, switch them away.
+    if (user?.role === 'EDITOR' && activeTab === 'content') {
+      setActiveTab('dashboard');
+    }
+  }, [activeTab, user]);
+
   const handleSaveBlogPost = async (data) => {
     const isNew = !data.id;
     const url = isNew ? '/api/blog' : `/api/blog/${data.id}`;
@@ -488,6 +495,13 @@ const AdminDashboard: NextPage = () => {
     return <LoginForm onLogin={login} />;
   }
 
+  const navItems = [
+    { id: 'dashboard', name: 'Dashboard', icon: '📊' },
+    user?.role === 'ADMIN' && { id: 'content', name: 'Site Content', icon: '📝' },
+    { id: 'blog', name: 'Blog Posts', icon: '📖' },
+    { id: 'careers', name: 'Careers', icon: '💼' },
+  ].filter(Boolean); // filter(Boolean) removes false values if user is not ADMIN
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow">
@@ -521,12 +535,7 @@ const AdminDashboard: NextPage = () => {
           <aside className="w-64 flex-shrink-0">
             <nav className="bg-white rounded-lg shadow p-4">
               <ul className="space-y-2">
-                {[
-                  { id: 'dashboard', name: 'Dashboard', icon: '📊' },
-                  { id: 'content', name: 'Site Content', icon: '📝' },
-                  { id: 'blog', name: 'Blog Posts', icon: '📖' },
-                  { id: 'careers', name: 'Careers', icon: '💼' },
-                ].map((item) => (
+                {navItems.map((item) => (
                   <li key={item.id}>
                     <button
                       onClick={() => setActiveTab(item.id)}
@@ -556,15 +565,17 @@ const AdminDashboard: NextPage = () => {
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Job Positions</h3>
                     <p className="text-3xl font-bold text-orange-600">{jobPositions.length}</p>
                   </div>
-                  <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Site Content</h3>
-                    <p className="text-3xl font-bold text-blue-600">{siteContent.length}</p>
-                  </div>
+                  {user?.role === 'ADMIN' && (
+                    <div className="bg-white p-6 rounded-lg shadow">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Site Content</h3>
+                      <p className="text-3xl font-bold text-blue-600">{siteContent.length}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
-            {activeTab === 'content' && (
+            {activeTab === 'content' && user?.role === 'ADMIN' && (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-gray-900">Site Content</h2>
