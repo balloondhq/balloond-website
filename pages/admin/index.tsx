@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import {
   useAdminBlogPosts,
@@ -121,6 +121,111 @@ const LoginForm = ({ onLogin }) => {
   );
 };
 
+// Modal component
+const Modal = ({ children, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="p-6 relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+// Form for Blog Posts
+const BlogPostForm = ({ post, onSave, onCancel }) => {
+  const [formData, setFormData] = useState({
+    title: post?.title || '',
+    slug: post?.slug || '',
+    excerpt: post?.excerpt || '',
+    content: post?.content || '',
+    author: post?.author || '',
+    category: post?.category || '',
+    readTime: post?.readTime || '5 min read',
+    published: post?.published || false,
+    featured: post?.featured || false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSave({ ...post, ...formData });
+  };
+
+  return (
+    <Modal onClose={onCancel}>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800">{post ? 'Edit' : 'Create'} Blog Post</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" name="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Slug</label>
+            <input type="text" name="slug" value={formData.slug} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+          </div>
+        </div>
+        
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Author</label>
+            <input type="text" name="author" value={formData.author} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" required />
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Excerpt</label>
+            <textarea name="excerpt" value={formData.excerpt} onChange={handleChange} rows={3} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Content</label>
+            <textarea name="content" value={formData.content} onChange={handleChange} rows={10} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Category</label>
+              <input type="text" name="category" value={formData.category} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Read Time</label>
+              <input type="text" name="readTime" value={formData.readTime} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500" />
+            </div>
+        </div>
+        
+        <div className="flex items-center space-x-8">
+            <div className="flex items-center">
+                <input id="published" name="published" type="checkbox" checked={formData.published} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+                <label htmlFor="published" className="ml-2 block text-sm text-gray-900">Published</label>
+            </div>
+            <div className="flex items-center">
+                <input id="featured" name="featured" type="checkbox" checked={formData.featured} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+                <label htmlFor="featured" className="ml-2 block text-sm text-gray-900">Featured</label>
+            </div>
+        </div>
+
+        <div className="flex justify-end space-x-4 pt-4">
+          <button type="button" onClick={onCancel} className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">Cancel</button>
+          <button type="submit" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium">Save Post</button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
 const AdminDashboard: NextPage = () => {
   const { isAuthenticated, isLoading, user, login, logout } = useAuth();
   const { blogPosts, refresh: refreshPosts, loading: loadingPosts } = useAdminBlogPosts();
@@ -128,6 +233,40 @@ const AdminDashboard: NextPage = () => {
   const { siteContent, refresh: refreshContent, loading: loadingContent } = useAdminSiteContent();
   const [activeTab, setActiveTab] = useState('dashboard');
   const router = useRouter();
+  const [modal, setModal] = useState<{ type: string | null; data: any | null }>({ type: null, data: null });
+
+  const handleSaveBlogPost = async (data) => {
+    const isNew = !data.id;
+    const url = isNew ? '/api/blog' : `/api/blog/${data.id}`;
+    const method = isNew ? 'POST' : 'PUT';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to save post');
+      setModal({ type: null, data: null });
+      refreshPosts();
+    } catch (error) {
+      console.error(error);
+      alert('Error saving post.');
+    }
+  };
+
+  const handleDeleteBlogPost = async (id) => {
+    if (window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
+      try {
+        const res = await fetch(`/api/blog/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete post');
+        refreshPosts();
+      } catch (error) {
+        console.error(error);
+        alert('Error deleting post.');
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -258,29 +397,53 @@ const AdminDashboard: NextPage = () => {
 
             {activeTab === 'blog' && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900">Blog Management</h2>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold text-gray-900">Blog Management</h2>
+                  <button
+                    onClick={() => setModal({ type: 'blog', data: null })}
+                    className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    New Post
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {blogPosts.map((post) => (
-                    <div key={post.id} className="bg-white rounded-lg shadow p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          post.status === 'published' 
-                            ? 'bg-green-100 text-green-600' 
-                            : 'bg-yellow-100 text-yellow-600'
-                        }`}>
-                          {post.status}
-                        </span>
+                    <div key={post.id} className="bg-white rounded-lg shadow p-6 flex flex-col">
+                      <div className="flex-grow">
+                        <div className="flex justify-between items-start mb-4">
+                           <span className={`text-xs px-2 py-1 rounded-full ${
+                              post.published
+                                ? 'bg-green-100 text-green-600'
+                                : 'bg-yellow-100 text-yellow-600'
+                            }`}>
+                              {post.published ? 'Published' : 'Draft'}
+                            </span>
+                        </div>
+                        <h3 className="font-semibold text-gray-900 mb-2">{post.title}</h3>
+                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+                        <div className="flex justify-between items-center text-xs text-gray-500">
+                          <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                          <span>{post.readTime}</span>
+                        </div>
+                        <div className="mt-2">
+                          <span className="inline-block bg-rose-50 text-rose-600 text-xs px-2 py-1 rounded">
+                            {post.category}
+                          </span>
+                        </div>
                       </div>
-                      <h3 className="font-semibold text-gray-900 mb-2">{post.title}</h3>
-                      <p className="text-sm text-gray-600 mb-4">{post.excerpt}</p>
-                      <div className="flex justify-between items-center text-xs text-gray-500">
-                        <span>{post.date}</span>
-                        <span>{post.readTime}</span>
-                      </div>
-                      <div className="mt-2">
-                        <span className="inline-block bg-rose-50 text-rose-600 text-xs px-2 py-1 rounded">
-                          {post.category}
-                        </span>
+                      <div className="mt-6 flex justify-end space-x-2 border-t pt-4">
+                        <button
+                          onClick={() => setModal({ type: 'blog', data: post })}
+                          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteBlogPost(post.id)}
+                          className="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded-md"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -324,6 +487,14 @@ const AdminDashboard: NextPage = () => {
           </main>
         </div>
       </div>
+      
+      {modal.type === 'blog' && (
+        <BlogPostForm
+          post={modal.data}
+          onSave={handleSaveBlogPost}
+          onCancel={() => setModal({ type: null, data: null })}
+        />
+      )}
     </div>
   );
 };
