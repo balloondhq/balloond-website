@@ -189,87 +189,116 @@ const Home: NextPage = () => {
         </div>
       </section>
       
-      {/* Features Section - Clean Cards */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 px-4">
+      {/* Features Section - Minimal Luxe Style */}
+      <section className="py-16 sm:py-20 lg:py-28 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14 lg:mb-20">
+            <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-5 tracking-tight">
               Designed for real connections
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto font-light tracking-wide">
               Every feature is thoughtfully crafted to help you find meaningful relationships, 
               not just matches.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-14">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-lg transition-shadow mx-4 sm:mx-0">
-                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6`}>
+              <div key={index} className="flex flex-col items-start px-2">
+                <div className="text-2xl sm:text-3xl mb-5 text-gray-900">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{feature.description}</p>
+                <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-500 leading-relaxed text-sm sm:text-base font-light">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
       
-      {/* Success Stories - Testimonial Carousel */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+      {/* Success Stories - Hinge-Inspired Minimal Carousel */}
+      <section className="py-16 sm:py-20 lg:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 px-4">
+          <div className="text-center mb-14 lg:mb-20">
+            <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-5 tracking-tight">
               Real stories, real connections
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 px-4">
+            <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto font-light tracking-wide">
               Join thousands of people who found love through Balloon'd
             </p>
           </div>
           
-          <div className="relative">
-            <div className="bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-6 sm:p-8 lg:p-12 text-center mx-4 sm:mx-0">
-              <div className="text-4xl sm:text-6xl mb-4 sm:mb-6">{testimonials[currentSlide].image}</div>
-              <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 mb-4 sm:mb-6 leading-relaxed px-2">
-                "{testimonials[currentSlide].text}"
-              </blockquote>
-              <cite className="text-base sm:text-lg text-gray-600 font-medium">
-                {testimonials[currentSlide].name}
-              </cite>
+          <div className="relative overflow-hidden">
+            {/* Minimalist Testimonial Card */}
+            <div className="bg-gray-50 border border-gray-100 rounded-lg p-8 sm:p-12 text-left mx-4 sm:mx-0 transition-opacity duration-500">
+              <div className="flex flex-col space-y-6">
+                <div className="text-3xl sm:text-4xl">{testimonials[currentSlide].image}</div>
+                <blockquote className="text-base sm:text-lg text-gray-800 font-light leading-relaxed">
+                  {testimonials[currentSlide].text}
+                </blockquote>
+                <div className="pt-4 border-t border-gray-200">
+                  <cite className="text-sm sm:text-base text-gray-900 font-medium not-italic">
+                    {testimonials[currentSlide].name}
+                  </cite>
+                </div>
+              </div>
             </div>
             
-            {/* Dots Indicator */}
-            <div className="flex justify-center mt-6 sm:mt-8 space-x-3">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentSlide ? 'bg-rose-500' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
+            {/* Carousel Navigation - Hinge Style */}
+            <div className="flex justify-between mt-10">
+              <div className="flex items-center space-x-3">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentSlide 
+                      ? 'bg-rose-500 w-6' 
+                      : 'bg-gray-300 hover:bg-gray-400'}`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+              
+              <div className="flex space-x-3">
+                <button 
+                  onClick={() => setCurrentSlide((currentSlide - 1 + testimonials.length) % testimonials.length)}
+                  className="p-2 text-gray-400 hover:text-gray-900 transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button 
+                  onClick={() => setCurrentSlide((currentSlide + 1) % testimonials.length)}
+                  className="p-2 text-gray-400 hover:text-gray-900 transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
       
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-rose-500 to-orange-500">
+      {/* CTA Section - Minimal Luxury Style */}
+      <section className="py-20 sm:py-24 lg:py-28 bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
+          <h2 className="text-3xl sm:text-4xl font-light text-white mb-5 sm:mb-6 tracking-tight">
             Ready to find something real?
           </h2>
-          <p className="text-lg sm:text-xl text-rose-100 mb-8 sm:mb-10 px-4">
+          <p className="text-base sm:text-lg text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto font-light tracking-wide">
             Join Balloon'd today and start connecting with people who matter.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <button className="bg-white text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base">
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <button className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-white/20 transition-colors text-sm sm:text-base">
               Download for iPhone
             </button>
-            <button className="bg-white text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base">
+            <button className="bg-white text-gray-900 px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-light hover:bg-gray-100 transition-colors text-sm sm:text-base">
               Download for Android
             </button>
           </div>
