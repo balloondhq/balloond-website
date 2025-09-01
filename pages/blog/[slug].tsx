@@ -3,60 +3,32 @@ import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { BlogPost, getBlogPost, getPublishedBlogPosts } from '../../lib/content-manager';
+import { prisma } from '../../lib/prisma';
+
+interface BlogPost {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  authorBio: string | null;
+  createdAt: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+}
 
 interface BlogPostProps {
   post: BlogPost | null;
   relatedPosts: BlogPost[];
 }
 
-const BlogPostPage: NextPage<BlogPostProps> = ({ post: initialPost, relatedPosts: initialRelatedPosts }) => {
+const BlogPostPage: NextPage<BlogPostProps> = ({ post, relatedPosts }) => {
   const router = useRouter();
-  const [post, setPost] = useState<BlogPost | null>(initialPost);
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>(initialRelatedPosts);
-
-  // Update post data when content changes
-  useEffect(() => {
-    if (router.query.slug && typeof window !== 'undefined') {
-      const slug = router.query.slug as string;
-      const updatedPost = getBlogPost(slug);
-      
-      if (updatedPost && updatedPost.status === 'published') {
-        setPost(updatedPost);
-        
-        // Update related posts
-        const allPosts = getPublishedBlogPosts();
-        const related = allPosts
-          .filter((p) => p.category === updatedPost.category && p.id !== updatedPost.id)
-          .slice(0, 3);
-        setRelatedPosts(related);
-      }
-    }
-
-    // Listen for content updates
-    const handleContentUpdate = () => {
-      if (router.query.slug) {
-        const slug = router.query.slug as string;
-        const updatedPost = getBlogPost(slug);
-        
-        if (updatedPost && updatedPost.status === 'published') {
-          setPost(updatedPost);
-          
-          const allPosts = getPublishedBlogPosts();
-          const related = allPosts
-            .filter((p) => p.category === updatedPost.category && p.id !== updatedPost.id)
-            .slice(0, 3);
-          setRelatedPosts(related);
-        }
-      }
-    };
-
-    window.addEventListener('content-updated', handleContentUpdate);
-    return () => window.removeEventListener('content-updated', handleContentUpdate);
-  }, [router.query.slug]);
 
   if (router.isFallback) {
     return (
@@ -100,13 +72,13 @@ const BlogPostPage: NextPage<BlogPostProps> = ({ post: initialPost, relatedPosts
         openGraph={{
           type: 'article',
           article: {
-            publishedTime: post.date,
+            publishedTime: post.createdAt,
             authors: [post.author],
             tags: post.tags,
           },
           images: [
             {
-              url: `https://balloond.com${post.image}`,
+              url: `https://balloond.com/og-image.png`,
               width: 1200,
               height: 630,
               alt: post.title,
@@ -155,7 +127,7 @@ const BlogPostPage: NextPage<BlogPostProps> = ({ post: initialPost, relatedPosts
                 <div className="text-left">
                   <div className="font-medium text-stone-900">{post.author}</div>
                   <div className="text-sm text-stone-500 flex items-center space-x-2">
-                    <span>{post.date}</span>
+                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                     <span>•</span>
                     <span>{post.readTime}</span>
                   </div>
@@ -376,41 +348,98 @@ const BlogPostPage: NextPage<BlogPostProps> = ({ post: initialPost, relatedPosts
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Get all published blog posts
-  const posts = getPublishedBlogPosts();
-  const paths = posts.map((post) => ({
-    params: { slug: post.slug },
-  }));
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true },
+    });
 
-  return {
-    paths,
-    fallback: true,
-  };
+    const paths = posts.map((post) => ({
+      params: { slug: post.slug },
+    }));
+
+    return {
+      paths,
+      fallback: true,
+    };
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error);
+    return {
+      paths: [],
+      fallback: true,
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) => {
-  const slug = params?.slug as string;
-  const post = getBlogPost(slug);
+  try {
+    const slug = params?.slug as string;
+    
+    const post = await prisma.blogPost.findUnique({
+      where: { slug },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        excerpt: true,
+        content: true,
+        author: true,
+        authorBio: true,
+        createdAt: true,
+        readTime: true,
+        category: true,
+        tags: true,
+        featured: true,
+        published: true,
+      },
+    });
 
-  if (!post || post.status !== 'published') {
+    if (!post || !post.published) {
+      return {
+        notFound: true,
+      };
+    }
+
+    // Get related posts (same category, excluding current post)
+    const relatedPosts = await prisma.blogPost.findMany({
+      where: {
+        published: true,
+        category: post.category,
+        id: { not: post.id },
+      },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        excerpt: true,
+        author: true,
+        createdAt: true,
+        readTime: true,
+        category: true,
+        featured: true,
+      },
+      take: 3,
+    });
+
+    return {
+      props: {
+        post: {
+          ...post,
+          createdAt: post.createdAt.toISOString(),
+        },
+        relatedPosts: relatedPosts.map(p => ({
+          ...p,
+          createdAt: p.createdAt.toISOString(),
+        })),
+      },
+      revalidate: 60, // Revalidate every minute
+    };
+  } catch (error) {
+    console.error('Error in getStaticProps:', error);
     return {
       notFound: true,
     };
   }
-
-  // Get related posts (same category, excluding current post)
-  const allPosts = getPublishedBlogPosts();
-  const relatedPosts = allPosts
-    .filter((p) => p.category === post.category && p.id !== post.id)
-    .slice(0, 3);
-
-  return {
-    props: {
-      post,
-      relatedPosts,
-    },
-    revalidate: 60, // Revalidate every minute to pick up changes
-  };
 };
 
 export default BlogPostPage;

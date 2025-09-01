@@ -1,39 +1,39 @@
 // pages/blog.tsx
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { usePublicContent } from '../lib/use-content';
+import { prisma } from '../lib/prisma';
 
-const Blog: NextPage = () => {
-  const { blogPosts, loading } = usePublicContent();
+interface BlogPost {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  createdAt: string;
+  readTime: string;
+  category: string;
+  featured: boolean;
+}
+
+interface BlogProps {
+  posts: BlogPost[];
+}
+
+const Blog: NextPage<BlogProps> = ({ posts }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   
   const categories = ['All', 'Dating Tips', 'Research', 'Technology', 'Success Stories', 'Wellness', 'Dating Safety'];
   
   const filteredPosts = selectedCategory === 'All' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category === selectedCategory);
+    ? posts 
+    : posts.filter(post => post.category === selectedCategory);
   
   const featuredPost = filteredPosts.find(post => post.featured);
   const regularPosts = filteredPosts.filter(post => !post.featured);
-
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center pt-20">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
-            <p className="text-stone-600">Loading blog posts...</p>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
   return (
     <>
@@ -79,7 +79,7 @@ const Blog: NextPage = () => {
                       <div className="flex items-center space-x-4 text-sm text-rose-100">
                         <span>{featuredPost.author}</span>
                         <span>•</span>
-                        <span>{featuredPost.date}</span>
+                        <span>{new Date(featuredPost.createdAt).toLocaleDateString()}</span>
                         <span>•</span>
                         <span>{featuredPost.readTime}</span>
                       </div>
@@ -154,21 +154,14 @@ const Blog: NextPage = () => {
                         <p className="text-stone-600 line-clamp-3">{post.excerpt}</p>
                         <div className="flex items-center justify-between pt-2 border-t border-stone-100">
                           <span className="text-sm text-stone-500">{post.author}</span>
-                          <span className="text-sm text-stone-500">{post.date}</span>
+                          <span className="text-sm text-stone-500">
+                            {new Date(post.createdAt).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
                     </article>
                   </Link>
                 ))}
-              </div>
-            )}
-
-            {/* Load More - Hidden for now since we're showing all posts */}
-            {regularPosts.length > 9 && (
-              <div className="text-center mt-12">
-                <button className="bg-stone-100 hover:bg-stone-200 text-stone-700 px-8 py-3 rounded-full font-medium transition-colors">
-                  Load More Posts
-                </button>
               </div>
             )}
           </div>
@@ -214,6 +207,42 @@ const Blog: NextPage = () => {
       `}</style>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        excerpt: true,
+        author: true,
+        createdAt: true,
+        readTime: true,
+        category: true,
+        featured: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      props: {
+        posts: posts.map(post => ({
+          ...post,
+          createdAt: post.createdAt.toISOString(),
+        })),
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching blog posts:', error);
+    return {
+      props: {
+        posts: [],
+      },
+    };
+  }
 };
 
 export default Blog;

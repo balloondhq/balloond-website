@@ -1,19 +1,25 @@
 // pages/index.tsx
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { usePublicContent } from '../lib/use-content';
+import { prisma } from '../lib/prisma';
 
-const Home: NextPage = () => {
+interface SiteContent {
+  id: string;
+  content: string;
+}
+
+interface HomeProps {
+  siteContent: SiteContent[];
+}
+
+const Home: NextPage<HomeProps> = ({ siteContent }) => {
   // Testimonials carousel state
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [progress, setProgress] = useState(0);
-  
-  // Get dynamic content
-  const { siteContent, getContentById, loading } = usePublicContent();
   
   const testimonials = [
     {
@@ -41,6 +47,11 @@ const Home: NextPage = () => {
   }, [testimonials.length]);
 
   // Get content with fallbacks
+  const getContentById = (id: string) => {
+    const content = siteContent.find(item => item.id === id);
+    return content?.content || '';
+  };
+
   const heroHeadline = getContentById('hero-headline') || 'One pop away from what you\'ve been waiting for';
   const heroSubtitle = getContentById('hero-subtitle') || 'Break through the noise of modern dating. Pop the balloon of small talk and endless swiping with authentic, fun connections.';
   const missionStatement = getContentById('about-mission') || 'Balloon\'d is built on the belief that anyone looking for love should be able to find it. We break through the noise of modern dating by helping people "pop the balloon" of small talk, uncertainty, and endless swiping, creating authentic, fun, and meaningful connections where people can quickly discover if sparks truly fly.';
@@ -50,21 +61,6 @@ const Home: NextPage = () => {
       <path d="M25 11.749C25.4348 6.96234 29.0217 3.91631 35 2.93723V0C24.4565 0.761503 18.6957 7.17991 18.6957 15.8828C18.6957 21.7573 21.7391 26 26.9565 26C31.3043 26 34.6739 23.0628 34.6739 18.6025C34.6739 14.6862 32.1739 12.4017 29.0217 11.749H25ZM6.19565 11.749C6.73913 6.96234 10.2174 3.91631 16.3043 2.93723V0C5.76087 0.761503 0 7.17991 0 15.8828C0 21.7573 3.04348 26 8.26087 26C12.5 26 15.9783 23.0628 15.9783 18.6025C15.9783 14.6862 13.4783 12.4017 10.3261 11.749H6.19565Z" fill="currentColor"/>
     </svg>
   );
-
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
-            <p className="text-stone-600">Loading...</p>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
   return (
     <>
@@ -411,6 +407,31 @@ const Home: NextPage = () => {
       <Footer />
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const siteContent = await prisma.siteContent.findMany({
+      where: { published: true },
+      select: {
+        id: true,
+        content: true,
+      },
+    });
+
+    return {
+      props: {
+        siteContent,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching site content:', error);
+    return {
+      props: {
+        siteContent: [],
+      },
+    };
+  }
 };
 
 export default Home;

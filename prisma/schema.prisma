@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Track who created/updated content
+  createdBlogPosts BlogPost[] @relation("BlogPostAuthor")
+  createdCareers   Career[]   @relation("CareerAuthor")
+
+  @@map("users")
+}
+
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  author      String
+  authorBio   String?
+  authorAvatar String?
+  category    String
+  tags        String[]
+  readTime    String   @default("5 min read")
+  image       String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Track who created this post
+  createdBy   User   @relation("BlogPostAuthor", fields: [createdById], references: [id])
+  createdById String
+
+  @@map("blog_posts")
+}
+
+model Career {
+  id               Int      @id @default(autoincrement())
+  title            String
+  department       String
+  location         String
+  type             String   @default("Full-time")
+  description      String
+  requirements     String[]
+  responsibilities String[]
+  published        Boolean  @default(false)
+  publishedAt      DateTime?
+  datePosted       DateTime @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Track who created this position
+  createdBy   User   @relation("CareerAuthor", fields: [createdById], references: [id])
+  createdById String
+
+  @@map("careers")
+}
+
+model SiteContent {
+  id           String   @id // e.g., "hero-headline", "about-mission"
+  section      String   // e.g., "Homepage Hero", "About Page"
+  title        String   // Human-readable title
+  content      String   // The actual content
+  published    Boolean  @default(true)
+  publishedAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("site_content")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
